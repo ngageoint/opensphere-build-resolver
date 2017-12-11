@@ -1,0 +1,10 @@
+{
+  "name": "should-include-all-files-in-externs-directory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "directories": {
+    "externs": "externs"
+  }
+}

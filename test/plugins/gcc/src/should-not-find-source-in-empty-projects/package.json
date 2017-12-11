@@ -1,0 +1,11 @@
+{
+  "name": "should-not-find-source-in-empty-projects",
+  "version": "1.0.0",
+  "build": {
+    "type": "lib"
+  },
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": ""
+}

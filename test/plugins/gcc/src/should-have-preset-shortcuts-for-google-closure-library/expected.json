@@ -1,0 +1,6 @@
+[
+  ["!third_party", "**test.js"],
+  ["!closure", "goog", "**test.js"],
+  ["third_party", "**.js"],
+  ["closure", "goog", "**.js"]
+]

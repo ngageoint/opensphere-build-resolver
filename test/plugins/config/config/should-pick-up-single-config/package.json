@@ -1,0 +1,11 @@
+{
+  "name": "should-pick-up-single-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "type": "app",
+    "config": "config.json"
+  }
+}

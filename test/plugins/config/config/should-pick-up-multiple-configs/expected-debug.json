@@ -1,0 +1,3 @@
+{
+  "overrides": ["thing1.json", "thing2.json"]
+}

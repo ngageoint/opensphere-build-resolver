@@ -1,0 +1,92 @@
+{
+  "name": "opensphere-build-resolver",
+  "version": "1.0.0",
+  "description": "Resolves projects, their dependencies, plugins, and config to the correct arguments for compilation via the Google Closure Compiler, node-sass, and other tools.",
+  "bin": {
+    "os-resolve": "./resolve.js"
+  },
+  "main": "resolve.js",
+  "scripts": {
+    "test:run": "nyc _mocha -- 'test/**/*.test.js'",
+    "test": "mkdirp .test && npm run test:run && rimraf .test",
+    "lint": "eslint '*.js' 'plugins/**/*.js'",
+    "package:update": "if git diff --name-only ORIG_HEAD HEAD | grep --quiet package.json; then npm update && npm install; fi",
+    "commitmsg": "validate-commit-msg",
+    "postmerge": "npm run package:update",
+    "postrewrite": "npm run package:update"
+  },
+  "keywords": [
+    "opensphere",
+    "build",
+    "closure",
+    "compiler",
+    "resolve"
+  ],
+  "author": "William Wall <wwall@caci.com>",
+  "maintainers": [
+    "William Wall <wwall@caci.com>",
+    "Kevin Schmidt <kschmidt@caci.com>"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngageoint/opensphere-build-resolver.git"
+  },
+  "nyc": {
+    "lines": 1,
+    "statements": 1,
+    "branches": 1,
+    "functions": 1,
+    "exclude": [
+      "plugins/ice/*.js",
+      "plugins/gcc/options-*.js",
+      "plugins/gcc/require-all-template.js"
+    ],
+    "include": [
+      "resolve.js",
+      "plugins/**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "all": true,
+    "check-coverage": true,
+    "report-dir": "test/coverage"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    },
+    "validate-commit-msg": {
+      "helpMessage": "\nPlease fix your commit message (consider using 'npm i -g commitizen'). Well-formatted commit messages allow us to automate our changelog and npm releases.\n\nExamples:\n\"fix(copy-view): Fixed an error when resolving paths for view directories\"\n\"feat(gcc): Added support for defines\"\n\nIf you have installed commitizen, try running 'git cz'."
+    }
+  },
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "concat-files": "^0.1.0",
+    "find": "^0.2.7",
+    "glob": "^7.1.1",
+    "mkdirp": "^0.5.1",
+    "ncp": "^2.0.0",
+    "object.values": "^1.0.3",
+    "require-all": "^2.0.0",
+    "require-glob": "^3.2.0",
+    "rimraf": "^2.5.4",
+    "semver": "^5.3.0",
+    "simple-grep": "0.0.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "conventional-changelog-cli": "^1.2.0",
+    "conventional-recommended-bump": "^0.3.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "eslint": "^3.6.1",
+    "eslint-config-google": "^0.6.0",
+    "husky": "^0.13.3",
+    "mocha": "^3.1.2",
+    "nyc": "^10.0.0",
+    "validate-commit-msg": "^2.8.2"
+  }
+}

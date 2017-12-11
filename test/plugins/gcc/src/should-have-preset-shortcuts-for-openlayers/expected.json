@@ -1,0 +1,5 @@
+[
+  ["!src", "ol", "typedefs.js"],
+  ["src", "**.js"],
+  ["build", "ol.ext", "**.js"]
+]

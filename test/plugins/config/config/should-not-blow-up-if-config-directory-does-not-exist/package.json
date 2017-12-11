@@ -1,0 +1,10 @@
+{
+  "name": "should-pick-up-config-directories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "config": "folder"
+  }
+}

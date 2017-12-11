@@ -1,0 +1,9 @@
+{
+  "name": "should-pick-up-shortcuts-from-config",
+  "version": "1.0.0",
+  "description": "",
+  "build": {
+    "type": "lib",
+    "gcc-src": ["src/**.js", "lib/**.js"]
+  }
+}

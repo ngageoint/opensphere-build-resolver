@@ -1,0 +1,10 @@
+{
+  "name": "should-ignore-binary-grep-results",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "type": "app"
+  }
+}

@@ -1,0 +1,3 @@
+{
+  "overrides": ["folder/thing1.json", "folder/thing2.json"]
+}

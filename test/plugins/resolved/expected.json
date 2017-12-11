@@ -1,0 +1,7 @@
+{
+  "base": "base",
+  "dep": "base/modules/dep",
+  "devDep": "base/modules/devDep",
+  "base-plugin": "base-plugin",
+  "base-config": "base-config"
+}

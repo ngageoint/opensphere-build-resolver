@@ -1,0 +1,13 @@
+{
+  "angular_pass": true,
+  "compilation_level": "simple",
+  "externs": [
+    "externs/thing.js",
+    "original.externs.js"
+  ],
+  "js": [
+    "original.js",
+    "src/class.js"
+  ]
+}
+

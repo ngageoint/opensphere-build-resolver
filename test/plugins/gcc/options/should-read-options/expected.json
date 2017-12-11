@@ -1,0 +1,8 @@
+{
+  "angular_pass": true,
+  "compilation_level": "simple",
+  "js": ["src/**.js"],
+  "externs": ["a.externs.js", "b.externs.js"],
+  "entry_point": ["one", "two"]
+}
+

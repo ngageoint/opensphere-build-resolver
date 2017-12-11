@@ -1,0 +1,13 @@
+{
+  "name": "should-use-explicitly-defined-lib-directory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "type": "app"
+  },
+  "directories": {
+    "lib": "foo"
+  }
+}

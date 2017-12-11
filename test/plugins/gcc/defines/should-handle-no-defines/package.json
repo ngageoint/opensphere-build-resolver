@@ -1,0 +1,10 @@
+{
+  "name": "should-handle-no-defines",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "type": "app"
+  }
+}

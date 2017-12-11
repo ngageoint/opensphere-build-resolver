@@ -1,0 +1,13 @@
+{
+  "name": "should-process-scss-directory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "type": "lib"
+  },
+  "directories": {
+    "scss": "styles"
+  }
+}

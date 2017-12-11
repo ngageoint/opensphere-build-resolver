@@ -1,0 +1,13 @@
+{
+  "name": "should-use-explicitly-defined-src-directory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "type": "app"
+  },
+  "directories": {
+    "src": "foo"
+  }
+}

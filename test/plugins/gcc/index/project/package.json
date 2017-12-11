@@ -1,0 +1,17 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "directories": {
+    "externs": "externs"
+  },
+  "build": {
+    "type": "app",
+    "pluggable": true,
+    "gcc": {
+      "entry_point": "goog:thing"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "batman": {
+    "sidekicks": ["robin"],
+    "city": "gotham",
+    "problems": 99,
+    "sociopath": false
+  },
+  "others": 10
+}

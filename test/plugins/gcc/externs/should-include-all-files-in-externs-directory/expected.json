@@ -1,0 +1,4 @@
+[
+  ["externs", "a.js"],
+  ["externs", "b.js"]
+]

@@ -1,0 +1,10 @@
+{
+  "name": "should-include-externally-referenced-externs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "externs": ["./node_modules/somepackage/thing.js"]
+  }
+}

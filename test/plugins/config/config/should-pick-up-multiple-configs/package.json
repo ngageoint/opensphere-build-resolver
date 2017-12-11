@@ -1,0 +1,10 @@
+{
+  "name": "test-plugin-tada",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "config": ["thing1.json", "thing2.json"]
+  }
+}

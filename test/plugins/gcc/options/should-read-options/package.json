@@ -1,0 +1,16 @@
+{
+  "name": "should-read-options",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "gcc": {
+      "angular_pass": true,
+      "compilation_level": "simple",
+      "js": "src/**.js",
+      "externs": ["a.externs.js", "b.externs.js"],
+      "entry_point": ["one", "two"]
+    }
+  }
+}

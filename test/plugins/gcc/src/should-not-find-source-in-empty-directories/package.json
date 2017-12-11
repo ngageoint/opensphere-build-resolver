@@ -1,0 +1,10 @@
+{
+  "name": "should-not-find-source-in-empty-directories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "build": {
+    "type": "lib"
+  },
+  "author": ""
+}

@@ -1,0 +1,15 @@
+{
+  "name": "should-change-flags-and-single-value-fields",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "gcc": {
+      "angular_pass": true,
+      "compilation_level": "simple",
+      "externs": ["externs/thing.js"],
+      "js": "src/class.js"
+    }
+  }
+}

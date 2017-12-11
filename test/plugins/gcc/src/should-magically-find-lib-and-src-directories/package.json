@@ -1,0 +1,11 @@
+{
+  "name": "should-magically-find-lib-and-src-directories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "build": {
+    "type": "lib"
+  }
+}

@@ -1,0 +1,3 @@
+"images" "dist/thing/1.0.0"
+"vendor/third-party.js" "dist/thing/1.0.0/vendor/third-party/third-party.js"
+"vendor/third-party.css" "dist/thing/1.0.0/vendor/third-party/third-party.css"

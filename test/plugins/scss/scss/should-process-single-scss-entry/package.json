@@ -1,0 +1,14 @@
+{
+  "name": "should-process-single-scss-entry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "directories": {
+    "scss": "styles"
+  },
+  "build": {
+    "type": "app",
+    "scss": "styles/app.scss"
+  }
+}

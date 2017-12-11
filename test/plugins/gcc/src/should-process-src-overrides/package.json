@@ -1,0 +1,13 @@
+{
+  "name": "should-process-src-overrides",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "build": {
+    "gcc-src-overrides": {
+      "should-process-src-overrides": ["*.js", "foo/bar.js"]
+    }
+  }
+}

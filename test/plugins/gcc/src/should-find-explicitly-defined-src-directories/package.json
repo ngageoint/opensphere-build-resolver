@@ -1,0 +1,14 @@
+{
+  "name": "should-find-explicitly-defined-src-directories",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "directories": {
+    "src": "foo",
+    "lib": "bar"
+  },
+  "build": {
+    "type": "app"
+  }
+}

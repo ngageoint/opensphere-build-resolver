@@ -1,0 +1,17 @@
+{
+  "name": "project-plugin-thing",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "directories": {
+  },
+  "build": {
+    "type": "plugin",
+    "gcc": {
+      "entry_point": "goog:plugin"
+    }
+  },
+  "peerDependencies": {
+    "project": "^1.0.0"
+  }
+}
