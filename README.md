@@ -1,6 +1,6 @@
 # opensphere-build-resolver
 
-Resolves source for the Google Closure Compiler, sass for node-sass, template views for angular, and other items through a project's dependency tree.
+Resolves sources and other input for the Google Closure Compiler, sass for node-sass, template views for angular, and other items through a project's dependency tree.
 
 ## Problem
 You want to use npm to manage your project and its dependencies, but you need to resolve source, css, sass, templates, or other resources from those dependencies and pass them as arguments on the command line to tools like the google-closure-compiler, node-sass, and others.
@@ -65,7 +65,7 @@ Any config value not ending in `.json` is assumed to be a directory. Configs wit
 ## Dependency Management
 While we prefer that all actual source dependencies (such as google-closure-library, openlayers, etc.) or sass dependencies be installed and managed as npm dependencies, the resolver does support bower dependencies as long as they are stored in `bower_components` in the root of your project.
 
-## Writing opensphere-build-resolve plugins
+## Writing Plugins
 Want to resolve more stuff? Write an opensphere-build-resolver plugin!
 
 Your plugin should be named `opensphere-build-resolver-<something>` and have a peer dependency on `opensphere-build-resolver`.
