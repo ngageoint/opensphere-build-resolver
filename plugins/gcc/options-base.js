@@ -6,16 +6,16 @@
 This is from the compiler's help output:
 
 Available Error Groups: accessControls, ambiguousFunctionDecl,
-    checkEventfulObjectDisposal, checkRegExp, checkTypes, checkVars,
-    conformanceViolations, const, constantProperty, deprecated,
-    deprecatedAnnotations, duplicateMessage, es3, es5Strict, externsValidation,
-    fileoverviewTags, globalThis, internetExplorerChecks, invalidCasts,
-    misplacedTypeAnnotation, missingGetCssName, missingProperties,
-    missingProvide, missingRequire, missingReturn, msgDescriptions,
-    newCheckTypes, nonStandardJsDocs, reportUnknownTypes, suspiciousCode,
-    strictModuleDepCheck, typeInvalidation, undefinedNames, undefinedVars,
-    unknownDefines, unusedLocalVariables, unusedPrivateMembers, uselessCode,
-    useOfGoogBase, underscore, visibility
+    checkRegExp, checkTypes, checkVars, conformanceViolations, const,
+    constantProperty, deprecated, deprecatedAnnotations, duplicateMessage, es3,
+    es5Strict, externsValidation, fileoverviewTags, functionParams, globalThis,
+    internetExplorerChecks, invalidCasts, misplacedTypeAnnotation,
+    missingGetCssName, missingOverride, missingPolyfill, missingProperties,
+    missingProvide, missingRequire, missingReturn, moduleLoad, msgDescriptions,
+    newCheckTypes, nonStandardJsDocs, missingSourcesWarnings,
+    reportUnknownTypes, suspiciousCode, strictModuleDepCheck, typeInvalidation,
+    undefinedNames, undefinedVars, unknownDefines, unusedLocalVariables,
+    unusedPrivateMembers, uselessCode, useOfGoogBase, underscore, visibility
 
 The docs for jscomp_* state that you can use a wildcard. However, that wildcard
 also enables a lot more undocumented items.
@@ -43,7 +43,6 @@ module.exports = {
   jscomp_error: [
     'accessControls',
     'ambiguousFunctionDecl',
-    'checkEventfulObjectDisposal',
     'checkRegExp',
     'checkTypes',
     'checkVars',
@@ -57,19 +56,22 @@ module.exports = {
     'es5Strict',
     'externsValidation',
     'fileoverviewTags',
+    'functionParams',
     'globalThis',
-    'inferredConstCheck',
     'internetExplorerChecks',
     'invalidCasts',
     'misplacedTypeAnnotation',
     'missingGetCssName',
+    'missingPolyfill',
     'missingProperties',
     // 'missingProvide',
     'missingRequire',
     'missingReturn',
+    'moduleLoad',
     'msgDescriptions',
     // 'newCheckTypes',
     'nonStandardJsDocs',
+    'missingSourcesWarnings',
     // 'reportUnknownTypes',
     'suspiciousCode',
     'strictModuleDepCheck',
@@ -77,10 +79,9 @@ module.exports = {
     'undefinedNames',
     'undefinedVars',
     'unknownDefines',
-    'unnecessaryCasts',
-    // 'unusedLocalVariables',
+    'unusedLocalVariables',
     // 'unusedPrivateMembers',
-    // 'useOfGoogBase',
+    'useOfGoogBase',
     'uselessCode',
     'underscore',
     'visibility'
@@ -89,10 +90,8 @@ module.exports = {
     // If jscomp_error changes to *, you probably want this one
     // 'lintChecks'
     'deprecated',
-    'missingProvide',
-    'unusedLocalVariables',
-    'unusedPrivateMembers',
-    'useOfGoogBase'
+    'missingOverride',
+    'unusedPrivateMembers'
   ],
   // TODO: can we get rid of these too?
   jscomp_off: [
