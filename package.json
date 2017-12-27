@@ -44,7 +44,7 @@
       "plugins/gcc/require-all-template.js"
     ],
     "include": [
-      "resolve.js",
+      "*.js",
       "plugins/**/*.js"
     ],
     "reporter": [
