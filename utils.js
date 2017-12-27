@@ -35,12 +35,6 @@ const isPluginPackage = function(pack) {
  *  base package
  */
 const isPluginOfPackage = function(basePackage, pluginPackage) {
-  if (!basePackage) {
-    console.log('wtf base?');
-  }
-  if (!pluginPackage) {
-    console.log('wtf plugin?');
-  }
   return isPluginPackage(pluginPackage) &&
       pluginPackage.name.indexOf(basePackage.name + '-') === 0;
 };
@@ -83,10 +77,48 @@ const flattenPath = function(filePath) {
   return filePath.replace(/node_modules.*node_modules/, 'node_modules');
 };
 
+/**
+ * @param {Object<string, number>} map The map of files to priorities
+ * @return {function(a: string, b: string):number} compare function for sorting
+ */
+const getPrioritySort = function(map) {
+  /**
+   * @param {string} a First item
+   * @param {string} b Other item
+   * @return {number} per compare functions
+   */
+  return function(a, b) {
+    var pa = map[a] || 0;
+    var pb = map[b] || 0;
+    return pa - pb;
+  };
+};
+
+
+/**
+ * @param {number} depth The depth to indent
+ * @return {string} The indent string
+ */
+const getIndent = function(depth) {
+  var indent = '';
+  for (var i = 1; i < depth; i++) {
+    indent += '  ';
+  }
+
+  if (depth > 0) {
+    indent += ' \u221F ';
+  }
+
+  return indent;
+};
+
+
 module.exports = {
   isAppPackage: isAppPackage,
   isConfigPackage: isConfigPackage,
   isPluginPackage: isPluginPackage,
   isPluginOfPackage: isPluginOfPackage,
-  flattenPath: flattenPath
+  flattenPath: flattenPath,
+  getPrioritySort: getPrioritySort,
+  getIndent: getIndent
 };
