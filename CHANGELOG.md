@@ -1,3 +1,11 @@
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.0.0...v2.0.1) (2018-01-02)
+
+
+### Bug Fixes
+
+* **resolve:** replace missing slash ([96914d4](https://github.com/ngageoint/opensphere-build-resolver/commit/96914d4))
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v1.0.0...v2.0.0) (2017-12-27)
 
