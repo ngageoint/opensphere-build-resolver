@@ -8,7 +8,7 @@ if (!Object.values) {
 
 const Promise = require('bluebird');
 const pluginUtils = require('./plugins');
-const core = require('.core');
+const core = require('./core');
 
 var thisPackage = require(path.resolve(process.cwd(), 'package'));
 
