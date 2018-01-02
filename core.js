@@ -5,6 +5,7 @@ const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const utils = require('./utils');
 const semver = require('semver');
+var plugins = null;
 
 /**
  * Resolves the dependencies of a package
@@ -49,7 +50,7 @@ const resolveDependencies = function(rootProjectPath, alreadyResolved, pack, pro
       });
 
       return Promise.all(deps.map(function(dep) {
-        return resolvePackage(rootProjectPath, alreadyResolve, dep, depth + 1, projectDir);
+        return resolvePackage(rootProjectPath, alreadyResolved, dep, depth + 1, projectDir);
       }));
     }
   }
@@ -76,6 +77,8 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
     path.resolve(projectDir, 'node_modules'),
     path.resolve(rootProjectPath, 'node_modules')
   ];
+
+  var thisPackage = require(path.join(rootProjectPath, 'package'));
 
   if (!pack.build || !pack.build.pluggable ||
       (utils.isAppPackage(thisPackage) && utils.isAppPackage(pack) &&
@@ -117,7 +120,7 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
           return false;
         }
 
-        if (pluginPack.name in resolved) {
+        if (pluginPack.name in alreadyResolved) {
           // don't bother with plugins already resolved
           // this tends to occur in plugin builds
           return false;
@@ -165,7 +168,7 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
         return files;
       })
       .map(function(file) {
-        return resolvePackage(alreadyResolved, path.resolve(p, file), depth + 1);
+        return resolvePackage(rootProjectPath, alreadyResolved, path.resolve(p, file), depth + 1);
       })
       .catch(TypeError, function() {
         Promise.resolve();
@@ -180,13 +183,19 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
  * @param {string} name The package name to resolve
  * @param {number} depth The tree depth
  * @param {string} optDependent The dependent path from which to resolve
+ * @param {Object<string, Array<Function>>=} optPlugins optional set of plugin functions
  * @return {Promise} resolving all the things
  */
-const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, optDependent) {
+const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, optDependent, optPlugins) {
   var indent = utils.getIndent(depth);
   optDependent = optDependent || '';
+  alreadyResolved = alreadyResolved || {};
 
-  if (name in resolved) {
+  if (optPlugins) {
+    plugins = optPlugins;
+  }
+
+  if (name in alreadyResolved) {
     console.log(indent + name + ' already resolved');
     return Promise.resolve();
   }
@@ -249,13 +258,13 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
     rootProjectPath = projectDir;
   }
 
-  resolved[pack.name] = pack.version;
+  alreadyResolved[pack.name] = pack.version;
   return Promise.map(plugins.resolvers, function(resolver) {
     return resolver(pack, projectDir, depth);
   })
-  .then(resolveDependencies.bind(null, alreadyResolved, pack, projectDir, depth))
-  .then(resolvePlugins.bind(null, alreadyResolved, pack, projectDir, '-plugin-', depth))
-  .then(resolvePlugins.bind(null, alreadyResolved, pack, projectDir, '-config-', depth));
+  .then(resolveDependencies.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, depth))
+  .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-plugin-', depth))
+  .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-config-', depth));
 };
 
 module.exports = {

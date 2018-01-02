@@ -9,6 +9,7 @@ if (!Object.values) {
 const Promise = require('bluebird');
 const pluginUtils = require('./plugins');
 const core = require('./core');
+const path = require('path');
 
 var thisPackage = require(path.resolve(process.cwd(), 'package'));
 
@@ -26,7 +27,7 @@ if (process.argv.length < 3 || !process.argv[2]) {
 var plugins = pluginUtils.load();
 var outputDir = path.resolve(process.cwd(), process.argv[2]);
 
-core.resolvePackage(null, null, process.cwd(), 0)
+core.resolvePackage(null, null, process.cwd(), 0, undefined, plugins)
   .then(function() {
     console.log();
 
