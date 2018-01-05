@@ -2,6 +2,7 @@
 
 const utils = require('../utils');
 const expect = require('chai').expect;
+const path = require('path');
 
 describe('utils', () => {
   it('should detect app packages', () => {
@@ -124,5 +125,23 @@ describe('utils', () => {
     expect(utils.getIndent(1)).to.equal(' \u221F ');
     expect(utils.getIndent(2)).to.equal('   \u221F ');
     expect(utils.getIndent(3)).to.equal('     \u221F ');
+  });
+
+  it('should get the package for a module', () => {
+    expect(utils.getPackage('not-a-real-package')).to.be.undefined;
+
+    var pack = utils.getPackage('chai');
+    expect(pack).not.to.be.undefined;
+    expect(pack.name).to.equal('chai');
+  });
+
+  it('should get the path for a module', () => {
+    expect(utils.resolveModulePath('not-a-real-package')).to.be.undefined;
+
+    var chaiPath = utils.resolveModulePath('chai');
+    expect(chaiPath).to.equal(path.join(__dirname, '..', 'node_modules', 'chai'));
+
+    var chaiJsPath = utils.resolveModulePath(path.join('chai', 'lib', 'chai.js'));
+    expect(chaiJsPath).to.equal(path.join(chaiPath, 'lib', 'chai.js'));
   });
 });
