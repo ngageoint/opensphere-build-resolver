@@ -31,6 +31,13 @@ const resolver = function(pack, projectDir) {
         item = item.substring(1);
       }
 
+      // try to resolve the item by walking node_modules
+      var packagePath = utils.resolveModulePath(item, projectDir);
+      if (packagePath) {
+        return (exclusion ? '!' : '') + packagePath;
+      }
+
+      // resolve the path from the project directory if not found in node_modules
       return (exclusion ? '!' : '') +
         utils.flattenPath(path.resolve(projectDir, item));
     };

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const resolve = require('resolve');
 
 /**
  * If a package is designated as an app.
@@ -94,7 +95,6 @@ const getPrioritySort = function(map) {
   };
 };
 
-
 /**
  * @param {number} depth The depth to indent
  * @return {string} The indent string
@@ -112,6 +112,40 @@ const getIndent = function(depth) {
   return indent;
 };
 
+/**
+ * Get the `package.json` as a JSON object for a package.
+ * @param {string} packageName The package name.
+ * @return {Object|undefined} The resolved `package.json`, or undefined if not found.
+ */
+const getPackage = function(packageName) {
+  try {
+    return require(path.join(packageName, 'package.json'));
+  } catch (e) {
+  }
+
+  return undefined;
+};
+
+/**
+ * Resolve the absolute path for a file/directory under `node_modules`.
+ * @param {string} modulePath The relative path. Should begin with the module name.
+ * @param {string=} optBasedir Optional paths to resolve module location from.
+ * @return {string|undefined} The resolved path, or undefined if the module could not be found.
+ */
+const resolveModulePath = function(modulePath, optBasedir) {
+  try {
+    var match = modulePath.match(/([^/]+)\/?(.*)/);
+    if (match && match[1]) {
+      var basePath = path.dirname(resolve.sync(path.join(match[1], 'package.json'), {
+        basedir: optBasedir
+      }));
+      return path.join(basePath, match[2]);
+    }
+  } catch (e) {
+  }
+
+  return undefined;
+};
 
 module.exports = {
   isAppPackage: isAppPackage,
@@ -120,5 +154,7 @@ module.exports = {
   isPluginOfPackage: isPluginOfPackage,
   flattenPath: flattenPath,
   getPrioritySort: getPrioritySort,
-  getIndent: getIndent
+  getIndent: getIndent,
+  getPackage: getPackage,
+  resolveModulePath: resolveModulePath
 };

@@ -25,8 +25,14 @@ const resolver = function(pack, projectDir, depth) {
 
   if (!compassPath && pack.dependencies &&
       pack.dependencies['compass-mixins']) {
-    compassPath = utils.flattenPath(path.resolve(
+    // try to resolve compass by walking node_modules
+    compassPath = utils.resolveModulePath('compass-mixins/lib', projectDir);
+
+    if (!compassPath) {
+      // resolve the path from the project directory if not found in node_modules
+      compassPath = utils.flattenPath(path.resolve(
           projectDir, 'node_modules/compass-mixins/lib'));
+    }
 
     console.log('Compass resolved to ' + compassPath);
     scssPaths.push(compassPath);

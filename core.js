@@ -99,8 +99,8 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
         }
 
         // check the peerDependencies semver
-        var pluginPackPath = null;
-        var pluginPack = null;
+        var pluginPackPath;
+        var pluginPack;
 
         try {
           var pluginPath = path.resolve(p, file);
@@ -206,7 +206,8 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
     path.resolve(optDependent, 'node_modules', name),
     path.resolve(optDependent, 'bower_components', name),
     path.resolve(rootProjectPath, 'node_modules', name),
-    path.resolve(rootProjectPath, 'bower_components', name)
+    path.resolve(rootProjectPath, 'bower_components', name),
+    path.resolve(rootProjectPath, '../../node_modules', name)
   ];
 
   var pack = null;
