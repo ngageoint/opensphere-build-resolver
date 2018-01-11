@@ -1,6 +1,6 @@
 {
   "name": "opensphere-build-resolver",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Resolves projects, their dependencies, plugins, and config to the correct arguments for compilation via the Google Closure Compiler, node-sass, and other tools.",
   "bin": {
     "os-resolve": "./resolve.js"
