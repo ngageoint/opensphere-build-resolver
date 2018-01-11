@@ -139,7 +139,7 @@ describe('utils', () => {
     expect(utils.resolveModulePath('not-a-real-package')).to.be.undefined;
 
     var chaiPath = utils.resolveModulePath('chai');
-    expect(chaiPath).to.equal(path.join(__dirname, '..', 'node_modules', 'chai'));
+    expect(chaiPath).to.exist;
 
     var chaiJsPath = utils.resolveModulePath(path.join('chai', 'lib', 'chai.js'));
     expect(chaiJsPath).to.equal(path.join(chaiPath, 'lib', 'chai.js'));
