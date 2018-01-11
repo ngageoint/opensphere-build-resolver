@@ -103,12 +103,7 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
         var pluginPack;
 
         try {
-          var pluginPath = path.resolve(p, file);
-          if (fs.lstatSync(pluginPath).isSymbolicLink()) {
-            return false;
-          }
-
-          pluginPackPath = path.resolve(pluginPath, 'package.json');
+          pluginPackPath = path.resolve(p, file, 'package.json');
           pluginPack = require(pluginPackPath);
           // see if the plugin provides a flag to override the app version
           var overrideVersion = pluginPack.overrideVersion;
