@@ -1,3 +1,11 @@
+<a name="2.1.2"></a>
+## [2.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.1.1...v2.1.2) (2018-01-24)
+
+
+### Bug Fixes
+
+* **gcc:** conformance_configs should be a path ([b41cbd3](https://github.com/ngageoint/opensphere-build-resolver/commit/b41cbd3))
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.1.0...v2.1.1) (2018-01-11)
 
