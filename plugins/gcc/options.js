@@ -4,9 +4,8 @@ const utils = require('../../utils');
 
 var optionsFound = [];
 
-var pathKeys = ['js', 'externs', 'output_wrapper_file'];
+var pathKeys = ['conformance_configs', 'js', 'externs', 'output_wrapper_file'];
 var multiValueKeys = [
-  'conformance_configs',
   'define',
   'externs',
   'extra_annotation_name',
