@@ -1,3 +1,11 @@
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.1.2...v2.2.0) (2018-03-05)
+
+
+### Features
+
+* **core:** Display resolved package version in output. ([c6bf25d](https://github.com/ngageoint/opensphere-build-resolver/commit/c6bf25d))
+
 <a name="2.1.2"></a>
 ## [2.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.1.1...v2.1.2) (2018-01-24)
 
