@@ -249,7 +249,7 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
   while (!projectDir.endsWith(name)) {
     projectDir = path.resolve(projectDir, '../');
   }
-  console.log(indent + 'Resolved ' + pack.name + ' to ' + projectDir);
+  console.log(indent + 'Resolved ' + pack.name + '@' + pack.version + ' to ' + projectDir);
   if (!rootProjectPath) {
     rootProjectPath = projectDir;
   }
