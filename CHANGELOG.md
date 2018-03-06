@@ -1,3 +1,11 @@
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.2.0...v2.3.0) (2018-03-06)
+
+
+### Features
+
+* **define:** Resolve module path defines for uncompiled builds. ([98f905f](https://github.com/ngageoint/opensphere-build-resolver/commit/98f905f))
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.1.2...v2.2.0) (2018-03-05)
 
