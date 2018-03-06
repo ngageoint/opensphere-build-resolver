@@ -25,6 +25,7 @@ const utils = require('../../utils');
 
 var defines = {};
 var ignore = {};
+var modules = {};
 
 const resolver = function(pack, projectDir, depth) {
   if (pack.build) {
@@ -42,12 +43,24 @@ const resolver = function(pack, projectDir, depth) {
       srcDir = pack.directories.src || srcDir;
     }
 
-    if (pack.build && pack.build.defineRoots) {
+    if (pack.build.defineRoots) {
       defines = Object.assign(defines, pack.build.defineRoots);
     }
 
-    if (pack.build && pack.build.ignoreUncompiled) {
+    if (pack.build.ignoreUncompiled) {
       ignore = Object.assign(ignore, pack.build.ignoreUncompiled);
+    }
+
+    if (pack.build.moduleDefines) {
+      for (var key in pack.build.moduleDefines) {
+        var value = pack.build.moduleDefines[key];
+        var modulePath = utils.resolveModulePath(value);
+        if (modulePath) {
+          modules[key] = path.relative(projectDir, modulePath);
+        } else {
+          throw new Error('Unable to resolve module path for define ' + key + ' with path ' + value + '.');
+        }
+      };
     }
 
     return new Promise(function(resolve, reject) {
@@ -150,6 +163,9 @@ const writer = function(thisPackage, outputDir) {
       }
     }
 
+    // add resolved module defines
+    Object.assign(defs, modules);
+
     // write out the debug file
     var file = '// This file overrides goog.defines() calls for ' +
         '<project>.*.ROOT defines in the debug html\nvar ' +
@@ -167,6 +183,8 @@ const writer = function(thisPackage, outputDir) {
 
 const clear = function() {
   defines = {};
+  ignore = {};
+  modules = {};
 };
 
 module.exports = {

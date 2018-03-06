@@ -3,6 +3,7 @@
 const Promise = require('bluebird');
 const expect = require('chai').expect;
 const defines = require('../../../plugins/gcc/defines');
+const utils = require('../../../utils');
 const fs = Promise.promisifyAll(require('fs'));
 const rimraf = require('rimraf');
 const path = require('path');
@@ -19,14 +20,35 @@ describe('gcc defines resolver', () => {
   var baseDir = path.join(__dirname, 'defines');
   var dirs = fs.readdirSync(baseDir);
 
-  var mapExpected = p => {
-    return p.replace(/'$/, path.sep + "'");
+  var mapExpected = (p) => {
+    return p.replace(/'$/, path.sep + '\'');
+  };
+
+  var verifyWriter = function(options, expectedOptions, expectedUncompiled) {
+    if (expectedOptions) {
+      expect(options).to.deep.equal(expectedOptions);
+    } else {
+      expect(options).to.be.empty;
+    }
+
+    var file = fs.readFileSync(path.join(outputDir, 'gcc-defines-debug.js'), 'utf8');
+
+    // strip the JS file down to just the JSON
+    expect(file).to.exist;
+    file = file.substring(file.indexOf('= ') + 2, file.length - 1);
+
+    var json = JSON.parse(file);
+    if (expectedUncompiled) {
+      expect(json).to.deep.equal(expectedUncompiled);
+    } else {
+      expect(json).to.be.empty;
+    }
   };
 
   process.argv.push('--defineRoots');
   process.argv.push('test');
 
-  dirs.forEach(d => {
+  dirs.forEach((d) => {
     var dir = path.join(baseDir, d);
 
     try {
@@ -51,7 +73,7 @@ describe('gcc defines resolver', () => {
 
           expect(options.define).to.exist;
           expect(options.define.length).to.equal(expected.length);
-          expected.forEach(x => {
+          expected.forEach((x) => {
             expect(options.define).to.contain(x);
           });
         });
@@ -74,7 +96,7 @@ describe('gcc defines resolver', () => {
 
       expect(options.define).to.exist;
       expect(options.define.length).to.equal(expected.length);
-      expected.forEach(x => {
+      expected.forEach((x) => {
         expect(options.define).to.contain(x);
       });
 
@@ -95,7 +117,7 @@ describe('gcc defines resolver', () => {
       var expected = require(dir + '/expected').map(mapExpected);
       expect(options.define).to.exist;
       expect(options.define).to.contain('existing=true');
-      expected.forEach(x => {
+      expected.forEach((x) => {
         expect(options.define).to.contain(x);
       });
     });
@@ -129,7 +151,7 @@ describe('gcc defines resolver', () => {
         expect(fs.existsSync(file)).to.be.true;
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         dir = path.relative(process.cwd(), dir) + path.sep;
         expect(content).to.contain('"foo.ROOT": "' + dir + '"');
       });
@@ -137,7 +159,7 @@ describe('gcc defines resolver', () => {
 
   it('should handle ignore list', () => {
     var options = {
-      define: ["PROPERTY=''"]
+      define: ['PROPERTY=""']
     };
 
     var pack = {
@@ -159,21 +181,13 @@ describe('gcc defines resolver', () => {
         return defines.writer(pack, outputDir);
       })
       .then(() => {
-        var file = fs.readFileSync(
-            path.join(outputDir, 'gcc-defines-debug.js'), 'utf8');
-
-        // strip the JS file down to just the JSON
-        expect(file).to.exist;
-        file = file.substring(file.indexOf('= ') + 2, file.length - 1);
-
-        var json = JSON.parse(file);
-        expect(json).to.deep.equal({});
+        verifyWriter(options, options, undefined);
       });
   });
 
   it('should parse booleans and numbers', () => {
     var options = {
-      define: ["SOMETHING=123", "FLAG=true", "OTHER_FLAG=false"]
+      define: ['SOMETHING=123', 'FLAG=true', 'OTHER_FLAG=false']
     };
 
     var pack = {
@@ -192,15 +206,7 @@ describe('gcc defines resolver', () => {
         return defines.writer(pack, outputDir);
       })
       .then(() => {
-        var file = fs.readFileSync(
-            path.join(outputDir, 'gcc-defines-debug.js'), 'utf8');
-
-        // strip the JS file down to just the JSON
-        expect(file).to.exist;
-        file = file.substring(file.indexOf('= ') + 2, file.length - 1);
-
-        var json = JSON.parse(file);
-        expect(json).to.deep.equal({
+        verifyWriter(options, options, {
           'SOMETHING': 123,
           'FLAG': true,
           'OTHER_FLAG': false
@@ -230,19 +236,13 @@ describe('gcc defines resolver', () => {
         return defines.writer(pack, outputDir);
       })
       .then(() => {
-        expect(options).to.deep.equal({"define":["other.ROOT='test/'"]});
-
-        var file = fs.readFileSync(
-            path.join(outputDir, 'gcc-defines-debug.js'), 'utf8');
-
-        // strip the JS file down to just the JSON
-        expect(file).to.exist;
-        file = file.substring(file.indexOf('= ') + 2, file.length - 1);
-
-        var json = JSON.parse(file);
-        expect(json).to.deep.equal({
+        var expectedOptions = {
+          'define': ['other.ROOT=\'test/\'']
+        };
+        var expectedUncompiled = {
           'other.ROOT': '../other/'
-        });
+        };
+        verifyWriter(options, expectedOptions, expectedUncompiled);
       });
   });
 
@@ -258,5 +258,37 @@ describe('gcc defines resolver', () => {
       defines.adder(pack, options);
       expect(options.define).not.to.exist;
     });
+  });
+
+  it('should resolve module defines', function() {
+    var options = {};
+
+    var basePath = 'resolve/index.js';
+    var pack = {
+      name: 'test',
+      build: {
+        type: 'app',
+        moduleDefines: {
+          'my.DEFINE': basePath
+        }
+      }
+    };
+
+    var dir = path.resolve(baseDir, 'test');
+    return defines.resolver(pack, dir, 0)
+      .then(() => {
+        return defines.adder(pack, options);
+      })
+      .then(() => {
+        return defines.writer(pack, outputDir);
+      })
+      .then(() => {
+        var expectedPath = path.relative(dir, utils.resolveModulePath(basePath));
+        var expectedUncompiled = {
+          'my.DEFINE': expectedPath
+        };
+
+        verifyWriter(options, undefined, expectedUncompiled);
+      });
   });
 });
