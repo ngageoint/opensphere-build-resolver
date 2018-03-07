@@ -1,3 +1,11 @@
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.3.0...v2.4.0) (2018-03-07)
+
+
+### Features
+
+* **utils:** Resolve paths for scoped node modules. ([d669cfd](https://github.com/ngageoint/opensphere-build-resolver/commit/d669cfd))
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.2.0...v2.3.0) (2018-03-06)
 
