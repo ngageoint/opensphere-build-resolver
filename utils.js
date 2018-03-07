@@ -134,12 +134,16 @@ const getPackage = function(packageName) {
  */
 const resolveModulePath = function(modulePath, optBasedir) {
   try {
-    var match = modulePath.match(/([^/]+)\/?(.*)/);
-    if (match && match[1]) {
-      var basePath = path.dirname(resolve.sync(path.join(match[1], 'package.json'), {
+    var parts = modulePath.split(path.sep);
+    if (parts && parts.length) {
+      // if the package is scoped, use the first two parts of the path. ie, @scope/package.
+      var packageName = parts[0].startsWith('@') ? path.join(parts.shift(), parts.shift()) : parts.shift();
+      var basePath = path.dirname(resolve.sync(path.join(packageName, 'package.json'), {
         basedir: optBasedir
       }));
-      return path.join(basePath, match[2]);
+
+      // join the remaining path to the resource (if any)
+      return path.join(basePath, parts.join(path.sep));
     }
   } catch (e) {
   }

@@ -144,4 +144,14 @@ describe('utils', () => {
     var chaiJsPath = utils.resolveModulePath(path.join('chai', 'lib', 'chai.js'));
     expect(chaiJsPath).to.equal(path.join(chaiPath, 'lib', 'chai.js'));
   });
+
+  it('should get the path for a scoped module', () => {
+    expect(utils.resolveModulePath('@some-scope/not-a-real-package')).to.be.undefined;
+
+    var modulePath = utils.resolveModulePath('@semantic-release/changelog');
+    expect(modulePath).to.exist;
+
+    var indexPath = utils.resolveModulePath('@semantic-release/changelog/index.js');
+    expect(indexPath).to.equal(path.join(modulePath, 'index.js'));
+  });
 });
