@@ -1,3 +1,11 @@
+<a name="2.4.1"></a>
+## [2.4.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.4.0...v2.4.1) (2018-03-21)
+
+
+### Bug Fixes
+
+* **onboarding:** Resolve onboarding directories as for views. ([8b760bd](https://github.com/ngageoint/opensphere-build-resolver/commit/8b760bd))
+
 <a name="2.4.0"></a>
 # [2.4.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.3.0...v2.4.0) (2018-03-07)
 
