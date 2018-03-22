@@ -5,8 +5,8 @@
 const path = require('path');
 
 module.exports = {
-  appVersion: "1.0.0",
-  packageVersion: "1.0.0",
+  appVersion: '1.0.0',
+  packageVersion: '1.0.0',
   basePath: __dirname,
   distPath: path.join('dist', 'thing'),
   templates: [

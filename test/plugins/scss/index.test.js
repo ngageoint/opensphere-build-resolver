@@ -17,7 +17,7 @@ describe('scss resolver', () => {
   var baseDir = path.join(__dirname, 'scss');
   var dirs = fs.readdirSync(baseDir);
 
-  dirs.forEach(d => {
+  dirs.forEach((d) => {
     var dir = path.join(baseDir, d);
 
     try {

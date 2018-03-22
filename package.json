@@ -9,7 +9,7 @@
   "scripts": {
     "test:run": "nyc _mocha -- 'test/**/*.test.js'",
     "test": "mkdirp .test && npm run test:run && rimraf .test",
-    "lint": "eslint '*.js' 'plugins/**/*.js'",
+    "lint": "eslint '**/*.js'",
     "package:update": "if git diff --name-only ORIG_HEAD HEAD | grep --quiet package.json; then echo 'UPDATE: package.json changed, consider running yarn in your workspace root'; fi",
     "commitmsg": "validate-commit-msg",
     "postmerge": "npm run package:update",

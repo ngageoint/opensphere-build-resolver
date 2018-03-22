@@ -24,7 +24,7 @@ describe('gcc java writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         expect(content).to.equal('--js_output_file ' + path.join(outputDir, pack.name + '.min.js'));
       });
   });
@@ -41,15 +41,15 @@ describe('gcc java writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
-        expect(content).to.contain("--angular_pass");
-        expect(content).not.to.contain("--angular_pass true");
-        expect(content).to.contain("--compilation_level simple");
-        expect(content).to.contain("--js='a.js'");
-        expect(content).to.contain("--js='b.js'");
-        expect(content).to.contain("--jscomp_error='accessControls'");
-        expect(content).to.contain("--jscomp_off='es6'");
-        expect(content).to.contain("--jscomp_warning='useOfGoogBase'");
+      .then((content) => {
+        expect(content).to.contain('--angular_pass');
+        expect(content).not.to.contain('--angular_pass true');
+        expect(content).to.contain('--compilation_level simple');
+        expect(content).to.contain('--js=\'a.js\'');
+        expect(content).to.contain('--js=\'b.js\'');
+        expect(content).to.contain('--jscomp_error=\'accessControls\'');
+        expect(content).to.contain('--jscomp_off=\'es6\'');
+        expect(content).to.contain('--jscomp_warning=\'useOfGoogBase\'');
       });
   });
 });
