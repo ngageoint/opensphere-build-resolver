@@ -181,7 +181,7 @@ const createRequireAll = function(basePackage, dir) {
       .then(function(list) {
         list = list.filter(function(item) {
           return Boolean(item);
-        });
+        }).sort();
 
         return fs.readFileAsync(
           path.resolve(__dirname, 'require-all-template.js'), 'utf8')

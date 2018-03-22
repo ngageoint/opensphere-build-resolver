@@ -93,8 +93,12 @@ describe('gcc src resolver', function() {
         return fs.readFileAsync(file, 'utf-8');
       })
       .then((content) => {
+        // both files are required
         expect(content).to.contain('goog.require(\'app\')');
         expect(content).to.contain('goog.require(\'util\')');
+
+        // and they are sorted
+        expect(content.indexOf('goog.require(\'app\')')).to.be.lessThan(content.indexOf('goog.require(\'util\')'));
       });
   });
 });
