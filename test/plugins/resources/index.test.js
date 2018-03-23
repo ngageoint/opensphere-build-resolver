@@ -17,7 +17,7 @@ describe('resources resolver', () => {
   var baseDir = path.join(__dirname, 'resources');
   var dirs = fs.readdirSync(baseDir);
 
-  var check = dir => {
+  var check = (dir) => {
     var expectedDir = path.join(dir, 'expected');
     var files = [
       'resources-copy-dirs',
@@ -28,7 +28,7 @@ describe('resources resolver', () => {
       'resources-js-dist-index',
       'resources-pages'];
 
-    files.forEach(file => {
+    files.forEach((file) => {
       var expectedPath = path.join(expectedDir, file);
 
       if (fs.existsSync(expectedPath)) {
@@ -53,7 +53,7 @@ describe('resources resolver', () => {
     });
   };
 
-  dirs.forEach(d => {
+  dirs.forEach((d) => {
     var dir = path.join(baseDir, d);
     var pack = null;
 

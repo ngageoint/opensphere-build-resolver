@@ -36,14 +36,14 @@ describe('gcc test writer', function() {
   it('should handle undefined test directories', () => {
     var p = Object.assign(pack, {directories: {}});
     var expected = getExpected();
-    expected.js = ['test/**.js']
+    expected.js = ['test/**.js'];
     expect(test._getOptions(p, outputDir, {})).to.deep.equal(expected);
   });
 
   it('should handle explicit test directories', () => {
     var p = Object.assign(pack, {directories: {test: 'foo'}});
     var expected = getExpected();
-    expected.js = ['foo/**.js']
+    expected.js = ['foo/**.js'];
     expect(test._getOptions(p, outputDir, {})).to.deep.equal(expected);
   });
 
@@ -73,7 +73,7 @@ describe('gcc test writer', function() {
         expect(test._getOptions(p, outputDir, {})).to.deep.equal(expected);
       });
   });
- 
+
   it('should not resolve mocks for non-build project dependencies', () => {
     var p = Object.assign(pack, {build: {}});
     var p2 = {

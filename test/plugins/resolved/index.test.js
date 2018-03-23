@@ -1,7 +1,6 @@
 'use strict';
 
 const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const expect = require('chai').expect;
 const resolved = require('../../../plugins/resolved');
@@ -14,7 +13,6 @@ describe('resolved resolver', () => {
   });
 
   var outputDir = path.join(process.cwd(), '.test');
-  var baseDir = __dirname;
   var expected = require('./expected');
 
   it('should keep track of resolved locations', () => {
@@ -33,7 +31,7 @@ describe('resolved resolver', () => {
     }).then(() => {
       return resolved.writer({}, outputDir);
     }).then(() => {
-      var fixPaths = thing => {
+      var fixPaths = (thing) => {
         for (var key in thing) {
           thing[key] = thing[key].replace(__dirname, '');
         }

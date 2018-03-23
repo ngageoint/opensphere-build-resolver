@@ -15,7 +15,7 @@ describe('copy onboarding resolver', () => {
 
   var outputDir = path.join(process.cwd(), '.test');
 
-  var run = pack => {
+  var run = (pack) => {
     return copy.resolver(pack, '.', 0).then(() => {
       return copy.writer(pack, outputDir);
     });

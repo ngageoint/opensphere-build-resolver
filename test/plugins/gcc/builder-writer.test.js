@@ -24,7 +24,7 @@ describe('gcc builder writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         expect(content).to.equal('');
       });
   });
@@ -34,7 +34,7 @@ describe('gcc builder writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         expect(content).to.equal('');
       });
   });
@@ -50,7 +50,7 @@ describe('gcc builder writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         expect(content).to.equal('--root=src --root=lib');
       });
   });
@@ -65,7 +65,7 @@ describe('gcc builder writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         expect(content).to.equal('--namespace=libcomp --namespace=main');
       });
   });
@@ -77,7 +77,7 @@ describe('gcc builder writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         expect(content).to.equal('--namespace=libcomp');
       });
   });
@@ -90,7 +90,7 @@ describe('gcc builder writer', function() {
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })
-      .then(content => {
+      .then((content) => {
         expect(content).to.equal('');
       });
   });

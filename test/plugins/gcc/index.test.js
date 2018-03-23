@@ -55,7 +55,7 @@ describe('gcc resolver', function() {
       .then(() => {
         return fs.readdirAsync(outputDir);
       })
-      .then(files => {
+      .then((files) => {
         expect(files.length).to.equal(0);
       });
   });
@@ -116,7 +116,7 @@ describe('gcc resolver', function() {
   it('should run the defines resolver', () => {
     return fullRun(pack, dir).then(() => {
       var opts = getOptions(pack, outputDir);
-      expect(opts.define).to.contain("project.ROOT='test" + path.sep + "'");
+      expect(opts.define).to.contain('project.ROOT=\'test' + path.sep + '\'');
     });
   });
 
@@ -138,7 +138,7 @@ describe('gcc resolver', function() {
       expect(fs.existsSync(path.join(outputDir, 'gcc-java-args'))).to.be.true;
     });
   });
-  
+
   it('should write the defines debug file', () => {
     return fullRun(pack, dir, true).then(() => {
       expect(fs.existsSync(path.join(outputDir, 'gcc-defines-debug.js'))).to.be.true;

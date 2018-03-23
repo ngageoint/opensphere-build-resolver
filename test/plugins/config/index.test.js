@@ -17,14 +17,14 @@ describe('config resolver', () => {
   var baseDir = path.join(__dirname, 'config');
   var dirs = fs.readdirSync(baseDir);
 
-  var getMapLocalPath = dir => {
-    return d => {
+  var getMapLocalPath = (dir) => {
+    return (d) => {
       d = d.replace(new RegExp('.*' + dir + path.sep), '');
       return d.replace(/\//g, path.sep);
-    }
+    };
   };
 
-  dirs.forEach(d => {
+  dirs.forEach((d) => {
     var dir = path.join(baseDir, d);
 
     try {

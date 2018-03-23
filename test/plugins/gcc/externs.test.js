@@ -9,21 +9,20 @@ const externs = require('../../../plugins/gcc/externs');
 describe('gcc externs resolver', function() {
   afterEach(externs.clear);
 
-  var outputDir = path.join(process.cwd(), '.test');
   var baseDir = path.join(__dirname, 'externs');
   var dirs = fs.readdirSync(baseDir);
 
-  var getMapLocalPath = dir => {
-    return d => {
+  var getMapLocalPath = (dir) => {
+    return (d) => {
       return d.replace(dir + path.sep, '');
-    }
+    };
   };
 
-  var mapExpected = p => {
+  var mapExpected = (p) => {
     return p.join(path.sep);
   };
 
-  dirs.forEach(d => {
+  dirs.forEach((d) => {
     var dir = path.join(baseDir, d);
 
     try {
@@ -41,7 +40,7 @@ describe('gcc externs resolver', function() {
 
           var result = options.externs.map(getMapLocalPath(dir));
           expect(result.length).to.equal(expected.length);
-          expected.forEach(x => {
+          expected.forEach((x) => {
             expect(result).to.contain(x);
           });
         });
