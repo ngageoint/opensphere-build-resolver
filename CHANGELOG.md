@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.4.1...v2.4.2) (2018-03-27)
+
+
+### Bug Fixes
+
+* **gcc:** Sort goog.require statements in GCC require-all.js. ([eb392d2](https://github.com/ngageoint/opensphere-build-resolver/commit/eb392d2)), closes [#13](https://github.com/ngageoint/opensphere-build-resolver/issues/13)
+
 <a name="2.4.1"></a>
 ## [2.4.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.4.0...v2.4.1) (2018-03-21)
 
