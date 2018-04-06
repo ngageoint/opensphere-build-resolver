@@ -1,3 +1,11 @@
+<a name="2.5.0"></a>
+# [2.5.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.4.2...v2.5.0) (2018-04-06)
+
+
+### Features
+
+* **bootstrap:** adds support for resolving bootstrap scss ([61bddbd](https://github.com/ngageoint/opensphere-build-resolver/commit/61bddbd))
+
 ## [2.4.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.4.1...v2.4.2) (2018-03-27)
 
 
