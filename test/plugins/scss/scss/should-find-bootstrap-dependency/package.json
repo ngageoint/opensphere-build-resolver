@@ -1,0 +1,10 @@
+{
+  "name": "should-find-bootstrap-dependency",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "dependencies": {
+    "bootstrap": "=4.0.0"
+  }
+}

@@ -10,8 +10,12 @@ const utils = require('../../utils');
 var directories = {};
 var scssPaths = [];
 var scssEntries = [];
-var compassPath = null;
 var basePackage = null;
+
+var scssShortcuts = {
+  'compass-mixins': 'compass-mixins/lib',
+  'bootstrap': 'bootstrap/scss'
+};
 
 const resolver = function(pack, projectDir, depth) {
   basePackage = basePackage || pack;
@@ -23,19 +27,24 @@ const resolver = function(pack, projectDir, depth) {
 
   directories[pack.name] = projectDir;
 
-  if (!compassPath && pack.dependencies &&
-      pack.dependencies['compass-mixins']) {
-    // try to resolve compass by walking node_modules
-    compassPath = utils.resolveModulePath('compass-mixins/lib', projectDir);
+  if (pack.dependencies) {
+    for (var dep in pack.dependencies) {
+      var shortcut = scssShortcuts[dep];
+      if (shortcut) {
+        // try to resolve the path by walking node_modules
+        var scssPath = utils.resolveModulePath(shortcut, projectDir);
 
-    if (!compassPath) {
-      // resolve the path from the project directory if not found in node_modules
-      compassPath = utils.flattenPath(path.resolve(
-          projectDir, 'node_modules/compass-mixins/lib'));
+        if (!scssPath) {
+          // resolve the path from the project directory if not found in node_modules
+          scssPath = utils.flattenPath(path.resolve(projectDir, 'node_modules/' + shortcut));
+        }
+
+        if (scssPath) {
+          console.log(dep + ' resolved to ' + scssPath);
+          scssPaths.push(scssPath);
+        }
+      }
     }
-
-    console.log('Compass resolved to ' + compassPath);
-    scssPaths.push(compassPath);
   }
 
   if (pack.directories && pack.directories.scss) {
@@ -162,7 +171,6 @@ const clear = function() {
   directories = {};
   scssPaths = [];
   scssEntries = [];
-  compassPath = null;
 };
 
 module.exports = {
