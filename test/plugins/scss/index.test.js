@@ -10,6 +10,7 @@ const rimraf = require('rimraf');
 describe('scss resolver', () => {
   afterEach(() => {
     scss.clear();
+    rimraf.sync(path.join(outputDir, '/themes', '*'));
     rimraf.sync(path.join(outputDir, '*'));
   });
 

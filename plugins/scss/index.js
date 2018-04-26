@@ -4,8 +4,12 @@ const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const find = require('find');
 const path = require('path');
-const concat = Promise.promisifyAll(require('concat-files'));
+const concat = Promise.promisifyAll({
+  concat: require('concat-files')
+});
+
 const utils = require('../../utils');
+const mkdirp = require('mkdirp');
 
 var directories = {};
 var scssPaths = [];
@@ -14,7 +18,8 @@ var basePackage = null;
 
 var scssShortcuts = {
   'compass-mixins': 'compass-mixins/lib',
-  'bootstrap': 'bootstrap/scss'
+  'bootstrap': 'bootstrap/scss',
+  'bootswatch': 'bootswatch/dist'
 };
 
 const resolver = function(pack, projectDir, depth) {
@@ -154,14 +159,51 @@ const writer = function(thisPackage, outputDir) {
       file = path.resolve(outputDir, 'combined.scss');
       args.push(file);
       console.log('Writing ' + file);
-      promises.push(concat(scssEntries, file));
+      promises.push(concat.concatAsync(scssEntries, file));
     }
 
     file = path.resolve(outputDir, 'node-sass-args');
     console.log('Writing ' + file);
     promises.push(fs.writeFileAsync(file, args.join(' ')));
 
-    return Promise.all(promises);
+    return Promise.all(promises)
+      .then(function() {
+        var promises = [];
+        // Write a file for each theme also
+        if (utils.isAppPackage(thisPackage) &&
+            thisPackage.build.scss &&
+            thisPackage.build.themes &&
+            thisPackage.build.themes.length) {
+          // Take off the combined.scss generic file
+          args.pop();
+
+          var themeDir = outputDir + '/themes';
+          mkdirp.sync(themeDir);
+
+          thisPackage.build.themes.push('default');
+
+          // For all the themes, create a combined.scss and a node-sass-args file
+          thisPackage.build.themes.forEach(function(theme) {
+            var themeOutput = path.resolve(themeDir, theme + '.combined.scss');
+            var themeArgs = path.resolve(themeDir, theme + '.node-sass-args');
+            promises.push(fs.writeFileAsync(themeArgs, args.join(' ') + ' ' + themeOutput));
+            promises.push(fs.readFileAsync(path.resolve(outputDir, 'combined.scss'), 'utf8')
+              .then(function(fileContents) {
+                console.log('Creating combined.scss for ' + theme + ' theme');
+                // Prepend and Append our theme around the bootstrap entry
+                var bootstrapEntry = '@import \'bootstrap\';';
+                if (theme != 'default') {
+                  fileContents = fileContents.replace(bootstrapEntry,
+                      '@import \'' + theme + '/_variables\';' +
+                      '\n' + bootstrapEntry + '\n' +
+                      '@import \'' + theme + '/_bootswatch\';');
+                }
+                return fs.writeFileAsync(themeOutput, fileContents);
+              }));
+          });
+        }
+        return Promise.all(promises);
+      });
   }
 
   return Promise.resolve();
