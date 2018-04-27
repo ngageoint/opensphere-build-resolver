@@ -198,8 +198,8 @@ const writer = function(thisPackage, outputDir) {
                   }
                   return fs.writeFileAsync(themeOutput, fileContents);
                 }));
-              return Promise.all(promises);
             });
+            return Promise.all(promises);
           });
         } else {
           return Promise.resolve();
