@@ -1,0 +1,19 @@
+{
+  "name": "should-process-multiple-scss-entries-themes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "directories": {
+    "scss": "styles"
+  },
+  "build": {
+    "type": "app",
+    "scss": ["styles/page1.scss", "styles/page2.scss"],
+    "themes": ["cerulean", "cosmo"]
+  },
+  "dependencies": {
+    "bootstrap": "=4.0.0",
+    "bootswatch": "=4.0.0"
+  }
+}

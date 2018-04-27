@@ -1,0 +1,10 @@
+{
+  "name": "should-find-bootswatch-dependency",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "dependencies": {
+    "bootswatch": "=4.0.0"
+  }
+}
