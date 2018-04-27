@@ -9,7 +9,6 @@ const concat = Promise.promisifyAll({
 });
 
 const utils = require('../../utils');
-const mkdirp = require('mkdirp');
 
 var directories = {};
 var scssPaths = [];
@@ -177,7 +176,7 @@ const writer = function(thisPackage, outputDir) {
           args.pop();
 
           var themeDir = outputDir + '/themes';
-          return mkdirp(themeDir, function() {
+          return fs.mkdirAsync(themeDir).then(function() {
             var promises = [];
             thisPackage.build.themes.push('default');
 
