@@ -1,3 +1,11 @@
+<a name="2.6.0"></a>
+# [2.6.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.5.0...v2.6.0) (2018-04-27)
+
+
+### Features
+
+* **theming:** Added support to generate theme files ([#21](https://github.com/ngageoint/opensphere-build-resolver/issues/21)) ([50fcdbb](https://github.com/ngageoint/opensphere-build-resolver/commit/50fcdbb))
+
 <a name="2.5.0"></a>
 # [2.5.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.4.2...v2.5.0) (2018-04-06)
 
