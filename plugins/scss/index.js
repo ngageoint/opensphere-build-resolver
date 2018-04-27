@@ -177,7 +177,7 @@ const writer = function(thisPackage, outputDir) {
           args.pop();
 
           var themeDir = outputDir + '/themes';
-          return mkdirp.sync(themeDir, function() {
+          return mkdirp(themeDir, function() {
             var promises = [];
             thisPackage.build.themes.push('default');
 
