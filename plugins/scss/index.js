@@ -7,6 +7,9 @@ const path = require('path');
 const concat = Promise.promisifyAll({
   concat: require('concat-files')
 });
+const mkdirp = Promise.promisifyAll({
+  mkdirp: require('mkdirp')
+});
 
 const utils = require('../../utils');
 
@@ -176,7 +179,7 @@ const writer = function(thisPackage, outputDir) {
           args.pop();
 
           var themeDir = outputDir + '/themes';
-          return fs.mkdirAsync(themeDir)
+          return mkdirp.mkdirpAsync(themeDir)
             .then(function() {
               var promises = [];
               thisPackage.build.themes.push('default');
