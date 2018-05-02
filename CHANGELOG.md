@@ -1,3 +1,11 @@
+<a name="2.6.1"></a>
+## [2.6.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.6.0...v2.6.1) (2018-05-02)
+
+
+### Bug Fixes
+
+* **scss:** continue if directory already exists ([b8e792e](https://github.com/ngageoint/opensphere-build-resolver/commit/b8e792e))
+
 <a name="2.6.0"></a>
 # [2.6.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.5.0...v2.6.0) (2018-04-27)
 
