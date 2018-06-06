@@ -56,6 +56,21 @@ describe('scss resolver', () => {
               expect(args).to.equal(expectedArgs);
               expect(requireAll).to.equal(expectedRequireAll);
             }
+
+            if (pack && pack.build && pack.build.themes) {
+              pack.build.themes.forEach((theme) => {
+                var themeCombinedFile = path.join(outputDir, 'themes', theme + '.combined.scss');
+                var themeArgsFile = path.join(outputDir, 'themes', theme + '.node-sass-args');
+
+                // theme files were written
+                expect(fs.existsSync(themeCombinedFile)).to.be.true;
+                expect(fs.existsSync(themeArgsFile)).to.be.true;
+
+                // theme detection class was added
+                var themeCombined = fs.readFileSync(themeCombinedFile, 'utf-8');
+                expect(themeCombined.startsWith('.u-loaded-theme { content: "' + theme + '"; }')).to.be.true;
+              });
+            }
           });
       });
     }

@@ -192,6 +192,10 @@ const writer = function(thisPackage, outputDir) {
                 promises.push(fs.readFileAsync(path.resolve(outputDir, 'combined.scss'), 'utf8')
                   .then(function(fileContents) {
                     console.log('Creating combined.scss for ' + theme + ' theme');
+
+                    // Add the theme name to a class for stylesheet load detection.
+                    fileContents = '.u-loaded-theme { content: "' + theme + '"; }\n' + fileContents;
+
                     // Prepend and Append our theme around the bootstrap entry
                     var bootstrapEntry = '@import \'bootstrap\';';
                     if (theme != 'default') {
