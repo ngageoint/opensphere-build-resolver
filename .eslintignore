@@ -1,2 +1,2 @@
 test/coverage
-test/plugins/resources/resources/should-gracefully-handle-malformed-index-file/malformed.js
+test/plugins/resources/should-error-on-malformed-index/malformed.js
