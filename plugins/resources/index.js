@@ -71,14 +71,12 @@ const resolver = function(pack, projectDir, depth) {
     index = require(indexFile);
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND') {
-      console.log('Unable to load index file ' + indexFile +
-          '. Skipping resource resolution.');
+      console.log('Unable to load index file ' + indexFile);
     } else {
       console.error('ERROR: failed parsing index file');
-      console.error(e);
     }
 
-    index = undefined;
+    throw e;
   }
 
   if (!index) {
@@ -122,7 +120,12 @@ const resolver = function(pack, projectDir, depth) {
       var getDebugPath = function(filePath) {
         // get the real path for the debug build. this resolves symlinks to
         // prevent permissions errors caused by linked dependencies.
-        var realPath = fs.realpathSync(filePath);
+        try {
+          var realPath = fs.realpathSync(filePath);
+        } catch (e) {
+          throw new Error('resource resolver unable to find ' + filePath +
+              '. Please ensure it exists or check your template config.');
+        }
 
         // get the path to the resource, relative to the base directory
         return path.relative(debugPath, realPath);
@@ -192,10 +195,15 @@ const resolver = function(pack, projectDir, depth) {
             // if the source is a directory, change the target to the
             // containing directory
             const targetDir = path.dirname(target);
-            copyData.push({
-              src: file,
-              target: fs.statSync(file).isDirectory() ? targetDir : target
-            });
+            try {
+              copyData.push({
+                src: file,
+                target: fs.statSync(file).isDirectory() ? targetDir : target
+              });
+            } catch (e) {
+              throw new Error('resource resolver unable to find ' + file +
+                  '. Please ensure it exists or check your template config.');
+            }
 
             // make sure the target directory exists so the copy doesn't fail
             if (copyDirs.indexOf(targetDir) === -1) {
@@ -207,10 +215,6 @@ const resolver = function(pack, projectDir, depth) {
 
       return Promise.resolve();
     });
-  })
-  .catch(function(e) {
-    console.error('ERROR: failed resolving resources');
-    console.error(e);
   });
 };
 

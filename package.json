@@ -99,7 +99,8 @@
     "rimraf": "^2.5.4",
     "semver": "^5.3.0",
     "simple-grep": "0.0.1",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^1.0.0",

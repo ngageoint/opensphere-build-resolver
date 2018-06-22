@@ -6,6 +6,11 @@ if (!Object.values) {
   require('object.values').shim();
 }
 
+const argv = require('yargs')
+  .array('include')
+  .array('exclude')
+  .argv;
+
 const Promise = require('bluebird');
 const pluginUtils = require('./plugins');
 const core = require('./core');
@@ -19,13 +24,13 @@ if (!thisPackage.build) {
   process.exit(1);
 }
 
-if (process.argv.length < 3 || !process.argv[2]) {
+if (!argv.outputDir) {
   console.error('Please provide the output directory as an argument');
   process.exit(1);
 }
 
-var plugins = pluginUtils.load();
-var outputDir = path.resolve(process.cwd(), process.argv[2]);
+var plugins = pluginUtils.load(argv.include, argv.exclude);
+var outputDir = path.resolve(process.cwd(), argv.outputDir);
 
 core.resolvePackage(undefined, undefined, process.cwd(), 0, undefined, plugins)
   .then(function() {

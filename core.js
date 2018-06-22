@@ -105,11 +105,6 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
         try {
           pluginPackPath = path.resolve(p, file, 'package.json');
           pluginPack = require(pluginPackPath);
-          // see if the plugin provides a flag to override the app version
-          var overrideVersion = pluginPack.overrideVersion;
-          if (overrideVersion) {
-            fs.writeFileAsync(projectDir + '/.build/overrideVersion', pluginPack.version);
-          }
         } catch (e) {
           console.error(pluginPackPath + ' does not exist');
           return false;
@@ -164,9 +159,6 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
       })
       .map(function(file) {
         return resolvePackage(rootProjectPath, alreadyResolved, path.resolve(p, file), depth + 1);
-      })
-      .catch(TypeError, function() {
-        Promise.resolve();
       });
   });
 };

@@ -1,0 +1,19 @@
+{
+  "name": "should-avoid-plugins-not-from-base-package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "build": {
+    "index": "thing.js",
+    "type": "app",
+    "gcc": {
+      "entry_point": "goog:yermom"
+    }
+  }
+}

@@ -53,8 +53,7 @@ describe('resources resolver', () => {
     });
   };
 
-  dirs.forEach((d) => {
-    var dir = path.join(baseDir, d);
+  var runDir = (dir) => {
     var pack = null;
 
     try {
@@ -64,16 +63,28 @@ describe('resources resolver', () => {
     }
 
     if (pack) {
-      it(d.replace(/-/g, ' '), () => {
-        return resources.resolver(pack, dir, pack.depth || 0)
-          .then(() => {
-            return resources.writer(pack, outputDir);
-          })
-          .then(() => {
-            check(dir);
-          });
-      });
+      return resources.resolver(pack, dir, pack.depth || 0)
+        .then(() => {
+          return resources.writer(pack, outputDir);
+        })
+        .then(() => {
+          check(dir);
+        });
     }
+  };
+
+  dirs.forEach((d) => {
+    it(d.replace(/-/g, ' '), () => {
+      return runDir(path.join(baseDir, d));
+    });
+  });
+
+  it('should throw errors for malformed items', () => {
+    expect(runDir.bind(undefined, path.join(__dirname, 'should-error-on-malformed-index'))).to.throw();
+  });
+
+  it('should throw errors for missing items', () => {
+    expect(runDir.bind(undefined, path.join(__dirname, 'should-error-on-missing-index'))).to.throw();
   });
 
   it('should not resolve plugins of packages other than the base package', () => {
@@ -92,7 +103,7 @@ describe('resources resolver', () => {
       }
     };
 
-    return resources.resolver(base, path.join(baseDir, 'should-gracefuly-handle-missing-index'), 1)
+    return resources.resolver(base, path.join(baseDir, 'should-avoid-plugins-not-from-base-package'), 1)
       .then(() => {
         resources.resolver(other, path.join(baseDir, 'should-find-and-parse-index-files'), 2);
       })
