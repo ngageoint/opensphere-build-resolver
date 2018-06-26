@@ -1,3 +1,21 @@
+# [3.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.7.0...v3.0.0) (2018-06-26)
+
+
+### Features
+
+* **core:** Errors in resolver should return a failing error code ([597a83a](https://github.com/ngageoint/opensphere-build-resolver/commit/597a83a)), closes [#24](https://github.com/ngageoint/opensphere-build-resolver/issues/24)
+
+
+### BREAKING CHANGES
+
+* **core:** Most errors now fail the resolver script. This will require any template files that
+
+make calls such as fs.whatever() to be more robust with their own error handling. Also, it is now
+
+required to pass the output directory via --outputDir rather than the simple method it was passed
+
+before.
+
 # [2.7.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.6.1...v2.7.0) (2018-06-06)
 
 
