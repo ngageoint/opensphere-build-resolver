@@ -194,7 +194,7 @@ const writer = function(thisPackage, outputDir) {
                     console.log('Creating combined.scss for ' + theme + ' theme');
 
                     // Add the theme name to a class for stylesheet load detection.
-                    fileContents = '.u-loaded-theme { content: "' + theme + '"; }\n' + fileContents;
+                    fileContents = '.u-loaded-theme::before { content: "' + theme + '"; }\n' + fileContents;
 
                     // Prepend and Append our theme around the bootstrap entry
                     var bootstrapEntry = '@import \'bootstrap\';';
