@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v3.0.0...v3.0.1) (2018-06-28)
+
+
+### Bug Fixes
+
+* **bootstrap4:** fixed theme selector for bootstrap 4 css check ([c6a2f4e](https://github.com/ngageoint/opensphere-build-resolver/commit/c6a2f4e))
+
 # [3.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v2.7.0...v3.0.0) (2018-06-26)
 
 
