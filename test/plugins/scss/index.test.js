@@ -68,7 +68,7 @@ describe('scss resolver', () => {
 
                 // theme detection class was added
                 var themeCombined = fs.readFileSync(themeCombinedFile, 'utf-8');
-                expect(themeCombined.startsWith('.u-loaded-theme { content: "' + theme + '"; }')).to.be.true;
+                expect(themeCombined.startsWith('.u-loaded-theme::before { content: "' + theme + '"; }')).to.be.true;
               });
             }
           });
