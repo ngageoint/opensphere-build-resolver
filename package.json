@@ -87,6 +87,7 @@
   },
   "dependencies": {
     "bluebird": "^3.4.6",
+    "clone": "^2.1.2",
     "concat-files": "^0.1.0",
     "find": "^0.2.7",
     "glob": "^7.1.1",
