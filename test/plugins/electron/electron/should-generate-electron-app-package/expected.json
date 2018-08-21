@@ -1,0 +1,13 @@
+{
+  "name": "opensphere-electron",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "productName": "Test App",
+  "main": "src/main.js",
+  "dependencies": {
+    "electron-is-dev": "3.0.0",
+    "electron-updater": "10.8.1",
+    "some-package": "1.0.0"
+  }
+}

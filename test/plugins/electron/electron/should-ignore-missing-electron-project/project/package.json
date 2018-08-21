@@ -1,0 +1,12 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "build": {
+    "electron": ["some-package"]
+  },
+  "dependencies": {
+    "some-package": "1.0.0"
+  }
+}
