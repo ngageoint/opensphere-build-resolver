@@ -14,7 +14,8 @@
     "commitmsg": "validate-commit-msg",
     "postmerge": "npm run package:update",
     "postrewrite": "npm run package:update",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "keywords": [
     "opensphere",
@@ -118,7 +119,8 @@
     "husky": "^0.13.3",
     "mocha": "^3.1.2",
     "nyc": "^10.0.0",
-    "semantic-release": "^11.2.0",
-    "validate-commit-msg": "^2.8.2"
+    "semantic-release": "^15.9.9",
+    "validate-commit-msg": "^2.8.2",
+    "travis-deploy-once": "^5.0.2"
   }
 }
