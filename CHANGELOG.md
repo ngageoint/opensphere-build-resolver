@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v3.0.1...v3.1.0) (2018-08-21)
+
+
+### Features
+
+* **electron:** Add resolver for packaged electron deps ([68f2775](https://github.com/ngageoint/opensphere-build-resolver/commit/68f2775))
+
 ## [3.0.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v3.0.0...v3.0.1) (2018-06-28)
 
 
