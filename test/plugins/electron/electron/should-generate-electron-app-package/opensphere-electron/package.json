@@ -8,5 +8,10 @@
   "dependencies": {
     "electron-is-dev": "3.0.0",
     "electron-updater": "10.8.1"
+  },
+  "devDependencies": {
+    "electron": "2.0.7",
+    "electron-builder": "20.27.1",
+    "something-else": "1.0.0"
   }
 }
