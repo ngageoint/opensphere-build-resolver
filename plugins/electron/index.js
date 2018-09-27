@@ -52,8 +52,15 @@ const writer = function(thisPackage, outputDir) {
       // copy from base package
       var appPack = clone(pack);
 
+      // ditch devDeps other than electron
+      var devDeps = appPack.devDependencies;
+      for (var dep in devDeps) {
+        if (!dep.startsWith('electron')) {
+          delete devDeps[dep];
+        }
+      }
+
       // ditch other deps
-      delete appPack.devDependencies;
       delete appPack.peerDependencies;
       delete appPack.optionalDependencies;
 
