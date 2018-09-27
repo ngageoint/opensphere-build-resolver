@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v3.1.0...v3.1.1) (2018-09-27)
+
+
+### Bug Fixes
+
+* **electron:** keep electron dev dependencies ([5e0d96e](https://github.com/ngageoint/opensphere-build-resolver/commit/5e0d96e))
+
 # [3.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v3.0.1...v3.1.0) (2018-08-21)
 
 
