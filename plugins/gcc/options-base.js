@@ -62,6 +62,7 @@ module.exports = {
     'invalidCasts',
     'misplacedTypeAnnotation',
     'missingGetCssName',
+    'missingOverride',
     'missingPolyfill',
     'missingProperties',
     // 'missingProvide',
@@ -80,7 +81,7 @@ module.exports = {
     'undefinedVars',
     'unknownDefines',
     'unusedLocalVariables',
-    // 'unusedPrivateMembers',
+    'unusedPrivateMembers',
     'useOfGoogBase',
     'uselessCode',
     'underscore',
@@ -89,9 +90,7 @@ module.exports = {
   jscomp_warning: [
     // If jscomp_error changes to *, you probably want this one
     // 'lintChecks'
-    'deprecated',
-    'missingOverride',
-    'unusedPrivateMembers'
+    'deprecated'
   ],
   // TODO: can we get rid of these too?
   jscomp_off: [
