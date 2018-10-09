@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v3.1.1...v4.0.0) (2018-10-09)
+
+
+### Features
+
+* **gcc:** Move missingOverride and unusedPrivateMembers to errors. ([eb2f581](https://github.com/ngageoint/opensphere-build-resolver/commit/eb2f581))
+
+
+### BREAKING CHANGES
+
+* **gcc:** Projects with Closure Compiler warnings for missingOverride or unusedPrivateMembers will need to fix those warnings before upgrading. They are now flagged as errors.
+
 ## [3.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v3.1.0...v3.1.1) (2018-09-27)
 
 
