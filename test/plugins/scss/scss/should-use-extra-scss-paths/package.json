@@ -1,0 +1,13 @@
+{
+  "name": "should-use-extra-scss-paths",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "scssPaths": ["some-scss-lib/scss"]
+  },
+  "dependencies": {
+    "some-scss-lib": "1.0.0"
+  }
+}
