@@ -63,6 +63,13 @@ const resolver = function(pack, projectDir, depth) {
     }));
   }
 
+  if (pack.build && pack.build.scssPaths && Array.isArray(pack.build.scssPaths)) {
+    scssPaths = scssPaths.concat(pack.build.scssPaths.map(function(dir) {
+      var p = utils.resolveModulePath(dir, projectDir);
+      return p ? p : path.resolve(projectDir, dir);
+    }));
+  }
+
   // don't include scss entries for app packages other than the root level
   if (pack.build && pack.build.scss && ((!utils.isAppPackage(pack) &&
       utils.isPluginOfPackage(basePackage, pack)) || depth === 0)) {
