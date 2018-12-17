@@ -92,7 +92,6 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
   return Promise.map(pathsToTry, function(p) {
     var priorityMap = {};
     return fs.readdirAsync(p)
-      .catch({code: 'ENOENT'}, function() {})
       .filter(function(file) {
         if (!file.startsWith(pack.name + prefix)) {
           return false;
@@ -159,7 +158,8 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
       })
       .map(function(file) {
         return resolvePackage(rootProjectPath, alreadyResolved, path.resolve(p, file), depth + 1);
-      });
+      })
+      .catch({code: 'ENOENT'}, function() {});
   });
 };
 
