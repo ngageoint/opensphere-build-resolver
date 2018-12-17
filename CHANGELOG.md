@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v4.1.0...v4.1.1) (2018-12-17)
+
+
+### Bug Fixes
+
+* **core:** Ignore paths that do not exist. ([f174bff](https://github.com/ngageoint/opensphere-build-resolver/commit/f174bff))
+
 # [4.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v4.0.0...v4.1.0) (2018-11-15)
 
 
