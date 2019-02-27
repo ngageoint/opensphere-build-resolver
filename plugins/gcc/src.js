@@ -2,8 +2,8 @@
 
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
-const grep = require('simple-grep');
 const path = require('path');
+const utils = require('../../utils');
 
 var srcPaths = [];
 
@@ -100,46 +100,37 @@ const resolveSrc = function(pack, projectDir) {
     .map(function(filename) {
       filename = path.resolve(projectDir, filename);
 
-      return new Promise(function(resolve, reject) {
-        // grep the filename for goog.provide's
-        grep('goog.provide', filename, function(list) {
-          var srcSet = list.reduce(function(p, c) {
-            if (c.file.indexOf('Binary') > -1) {
-              // ignore binary files
-              return p;
-            }
+      // find all JS files with goog.provide's
+      return utils.findLines(/^goog\.provide\(/, filename, /\.js$/).then(function(list) {
+        var srcSet = list.reduce(function(p, c) {
+          var itemPath = path.dirname(c.file) + path.sep;
 
-            var itemPath = path.dirname(c.file) + path.sep;
-
-            // see if a parent path is already in the set
-            var keys = Object.keys(p);
-            var found = false;
-            for (var i = 0, n = keys.length; i < n; i++) {
-              var key = keys[i];
-              if (itemPath.indexOf(key) === 0) {
-                found = true;
-              } else if (key.indexOf(itemPath) === 0) {
-                // our current filename is shorter, so replace the key
-                delete p[key];
-                p[itemPath] = true;
-                found = true;
-              }
-            }
-
-            // otherwise add it
-            if (!found) {
+          // see if a parent path is already in the set
+          var keys = Object.keys(p);
+          var found = false;
+          for (var i = 0, n = keys.length; i < n; i++) {
+            var key = keys[i];
+            if (itemPath.indexOf(key) === 0) {
+              found = true;
+            } else if (key.indexOf(itemPath) === 0) {
+              // our current filename is shorter, so replace the key
+              delete p[key];
               p[itemPath] = true;
+              found = true;
             }
+          }
 
-            return p;
-          }, {});
+          // otherwise add it
+          if (!found) {
+            p[itemPath] = true;
+          }
 
-          srcPaths = srcPaths.concat(Object.keys(srcSet).map(function(p) {
-            return path.resolve(p, '**.js');
-          }));
+          return p;
+        }, {});
 
-          resolve();
-        });
+        srcPaths = srcPaths.concat(Object.keys(srcSet).map(function(p) {
+          return path.resolve(p, '**.js');
+        }));
       });
     });
 };
@@ -155,22 +146,22 @@ const createRequireAll = function(basePackage, dir) {
     var requireAllFile = dir + '/require-all.js';
     srcPaths.push(requireAllFile);
 
-    // start by grepping out all goog.provides and changing them to a list of goog.require's
+    // start by locating all goog.provides and changing them to a list of goog.require's
     return getSourcePaths(basePackage, process.cwd())
       .map(function(dir) {
-        return new Promise(function(resolve, reject) {
-          dir = path.resolve(process.cwd(), dir);
-          grep('goog.provide', dir, function(list) {
-            resolve(list.reduce(function(prev, curr) {
-              return prev.concat(curr.results.map(function(result) {
-                if (curr.file.endsWith('.js') && result && result.line) {
-                  return result.line.replace('goog.provide', 'goog.require');
-                }
+        dir = path.resolve(process.cwd(), dir);
 
-                return undefined;
+        return utils.findLines(/^goog\.provide\(/, dir, /\.js$/).then(function(list) {
+          var results = [];
+
+          list.forEach(function(item) {
+            if (item.lines) {
+              results = results.concat(item.lines.map(function(line) {
+                return line.replace('goog.provide', 'goog.require');
               }));
-            }, []));
+            }
           });
+          return results;
         });
       })
       .then(function(listOfLists) {

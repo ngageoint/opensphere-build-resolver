@@ -1,4 +1,6 @@
-const fs = require('fs');
+const Promise = require('bluebird');
+const find = require('find');
+const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const resolve = require('resolve');
 
@@ -151,7 +153,54 @@ const resolveModulePath = function(modulePath, optBasedir) {
   return undefined;
 };
 
+/**
+ * Search a list of files for lines matching a pattern.
+ * @param {!RegExp} pattern The pattern.
+ * @param {!Array<string>} files The file paths to search.
+ * @return {Promise<Array<Object>>} A promise that resolves to the matched files.
+ */
+const getMatchingLines = function(pattern, files) {
+  return Promise.reduce(files, function(matches, file) {
+    return fs.readFileAsync(file, 'utf8').then(function(content) {
+      var lines = content.split(/[\r\n]+/).filter(function(line) {
+        return pattern.test(line);
+      });
+
+      if (lines.length) {
+        matches.push({
+          file: file,
+          lines: lines
+        });
+      }
+
+      return matches;
+    });
+  }, []);
+};
+
+/**
+ * Search files in a directory and return lines matching a pattern.
+ * @param {RegExp} pattern The pattern to match.
+ * @param {string} directory The directory to search.
+ * @param {RegExp|undefined} filePattern Pattern to filter the list of files to search.
+ * @return {Promise<Array<Object>>} A promise that resolves to the matched files.
+ */
+const findLines = function(pattern, directory, filePattern) {
+  filePattern = filePattern || /./;
+
+  return new Promise(function(resolve, reject) {
+    // recursively find all files in the directory matching the file pattern
+    find.file(filePattern, directory, function(files) {
+      return getMatchingLines(pattern, files).then(resolve);
+    }).error(function(err) {
+      // directory not found
+      resolve([]);
+    });
+  });
+};
+
 module.exports = {
+  findLines: findLines,
   isAppPackage: isAppPackage,
   isConfigPackage: isConfigPackage,
   isPluginPackage: isPluginPackage,
