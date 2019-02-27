@@ -1,3 +1,10 @@
+## [4.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v4.1.1...v4.1.2) (2019-02-27)
+
+
+### Bug Fixes
+
+* **grep:** Add a function to find lines in files matching a pattern. ([7bc5aec](https://github.com/ngageoint/opensphere-build-resolver/commit/7bc5aec)), closes [#32](https://github.com/ngageoint/opensphere-build-resolver/issues/32)
+
 ## [4.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v4.1.0...v4.1.1) (2018-12-17)
 
 
