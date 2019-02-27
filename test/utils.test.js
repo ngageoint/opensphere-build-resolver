@@ -154,4 +154,20 @@ describe('utils', () => {
     var indexPath = utils.resolveModulePath('@semantic-release/changelog/index.js');
     expect(indexPath).to.equal(path.join(modulePath, 'index.js'));
   });
+
+  it('should find matching lines in a directory', () => {
+    var directory = path.join(__dirname, 'utils-find-lines');
+    return utils.findLines(/^goog\.provide\(/, directory).then((matches) => {
+      expect(matches.length).to.equal(2);
+      expect(matches.reduce((total, match) => total + match.lines.length, 0)).to.equal(4);
+    });
+  });
+
+  it('should find matching lines in a directory with a file pattern', () => {
+    var directory = path.join(__dirname, 'utils-find-lines');
+    return utils.findLines(/^goog\.provide\(/, directory, /\.js$/).then((matches) => {
+      expect(matches.length).to.equal(1);
+      expect(matches.reduce((total, match) => total + match.lines.length, 0)).to.equal(2);
+    });
+  });
 });

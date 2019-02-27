@@ -3,7 +3,6 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
-const grep = require('simple-grep');
 const utils = require('../../utils');
 
 /**
@@ -63,36 +62,30 @@ const resolver = function(pack, projectDir, depth) {
       };
     }
 
-    return new Promise(function(resolve, reject) {
-      var dir = path.resolve(projectDir, srcDir);
+    var dir = path.resolve(projectDir, srcDir);
 
-      var processDefine = function(result) {
-        var results = regex.exec(result.line);
+    var processDefine = function(line) {
+      var results = regex.exec(line);
 
-        if (results && results.length > 2) {
-          // normalize the expected path with respect to the relative base path
-          var origPath = results[2].replace(/[\\/]+$/, '');
-          var definePath = path.normalize(path.join(relPath, origPath));
+      if (results && results.length > 2) {
+        // normalize the expected path with respect to the relative base path
+        var origPath = results[2].replace(/[\\/]+$/, '');
+        var definePath = path.normalize(path.join(relPath, origPath));
 
-          defines[results[1]] = definePath + path.sep;
-        }
+        defines[results[1]] = definePath + path.sep;
+      }
 
-        regex.lastIndex = 0;
-      };
+      regex.lastIndex = 0;
+    };
 
-      var forEachItem = function(item) {
-        // ignore binary files
-        if (item.file.indexOf('Binary') > -1) {
-          return;
-        }
+    var processItem = function(item) {
+      if (item && item.lines) {
+        item.lines.forEach(processDefine);
+      }
+    };
 
-        item.results.forEach(processDefine);
-      };
-
-      grep('goog.define', dir, function(list) {
-        list.forEach(forEachItem);
-        resolve();
-      });
+    return utils.findLines(/^goog\.define\(/, dir, /\.js$/).then(function(list) {
+      list.forEach(processItem);
     });
   }
 
