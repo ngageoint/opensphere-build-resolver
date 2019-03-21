@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "build": {
-    "electron": ["some-package"]
+    "electron": {
+      "packages": ["some-package"]
+    }
   },
   "dependencies": {
     "some-package": "1.0.0"
