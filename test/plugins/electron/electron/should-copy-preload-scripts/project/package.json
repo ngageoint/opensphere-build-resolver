@@ -5,7 +5,10 @@
   "license": "MIT",
   "build": {
     "electron": {
-      "packages": ["some-package"]
+      "preload": [
+        "./src/preload.js",
+        "./src/preload-more.js"
+      ]
     }
   },
   "dependencies": {

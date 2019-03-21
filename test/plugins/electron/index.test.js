@@ -57,6 +57,12 @@ describe('electron resolver', () => {
             }
 
             expect(generatedAppPack).to.deep.equal(expected);
+
+            if (pack.build && pack.build.electron && pack.build.electron.preload) {
+              var scriptDir = path.join(baseDir, d, 'opensphere-electron', 'app', 'src', 'preload');
+              var scripts = fs.readdirSync(scriptDir);
+              expect(scripts.length).to.equal(pack.build.electron.preload.length);
+            }
           });
       });
     }
