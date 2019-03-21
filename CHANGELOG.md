@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v4.1.2...v5.0.0) (2019-03-21)
+
+
+### Features
+
+* **electron:** Copy preload scripts for opensphere-electron. ([1cbf381](https://github.com/ngageoint/opensphere-build-resolver/commit/1cbf381))
+
+
+### BREAKING CHANGES
+
+* **electron:** This changes the format of the build.electron config.
+
 ## [4.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v4.1.1...v4.1.2) (2019-02-27)
 
 
