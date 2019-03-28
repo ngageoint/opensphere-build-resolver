@@ -2,6 +2,7 @@
 const path = require('path');
 const utils = require('../../utils');
 
+var basePackage = null;
 var optionsFound = [];
 
 var pathKeys = ['conformance_configs', 'js', 'externs', 'output_wrapper_file'];
@@ -18,7 +19,9 @@ var multiValueKeys = [
   'module'
 ];
 
-const resolver = function(pack, projectDir) {
+const resolver = function(pack, projectDir, depth) {
+  basePackage = basePackage || pack;
+
   var options = pack.build ? pack.build.gcc : null;
   if (options) {
     // resolve paths for path keys
@@ -53,6 +56,9 @@ const resolver = function(pack, projectDir) {
       }
     }
 
+    // assign a priority so options can be added in the appropriate order
+    options.priority = utils.getPackagePriority(pack, depth, basePackage);
+
     optionsFound.unshift(options);
   }
 
@@ -64,8 +70,22 @@ const toArray = function(item) {
   return !(item instanceof Array) ? [item] : item;
 };
 
+/**
+ * Sort options objects in ascending order.
+ * @param {Object} a First object
+ * @param {Object} b Second object
+ * @return {number} The sort order
+ */
+const sort = function(a, b) {
+  return a.priority - b.priority;
+};
+
 const adder = function(pack, options) {
+  optionsFound.sort(sort);
   optionsFound.reduce(function(options, curr) {
+    // remove the priority so it isn't included as an option
+    delete curr.priority;
+
     for (var key in curr) {
       var value = curr[key];
 

@@ -1,0 +1,15 @@
+{
+  "name": "should-combine-packages-correctly-after",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "gcc": {
+      "define": ["after"],
+      "entry_point": ["after"],
+      "js": "src/after/**.js"
+    },
+    "priority": 100
+  }
+}
