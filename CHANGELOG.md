@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.0.0...v5.0.1) (2019-03-28)
+
+
+### Bug Fixes
+
+* **gcc:** Sort GCC options in ascending package priority. ([1467d4c](https://github.com/ngageoint/opensphere-build-resolver/commit/1467d4c))
+
 # [5.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v4.1.2...v5.0.0) (2019-03-21)
 
 
