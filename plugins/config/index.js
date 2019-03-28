@@ -24,26 +24,9 @@ const resolver = function(pack, projectDir, depth) {
       var readFile = function(file) {
         return fs.readFileAsync(file, 'utf8')
           .then(function(content) {
-            //
-            // use priority if specified, so the config load order can be
-            // controlled by the package. if no priority is present, use the
-            // resolved depth. configs at the root depth will be loaded first.
-            //
-            var configDepth;
-            if (pack.build && pack.build.priority !== undefined) {
-              configDepth = pack.build.priority;
-            } else {
-              configDepth = -depth;
-
-              if (utils.isConfigPackage(pack) || (utils.isPluginPackage(pack) &&
-                  utils.isPluginOfPackage(basePackage, pack))) {
-                configDepth++;
-              }
-            }
-
             configs.push({
               path: file,
-              depth: configDepth || 0,
+              depth: utils.getPackagePriority(pack, depth, basePackage),
               content: JSON.parse(content)
             });
           });

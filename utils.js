@@ -199,6 +199,37 @@ const findLines = function(pattern, directory, filePattern) {
   });
 };
 
+/**
+ * Get the sort priority for a package.
+ * @param {Object} pack The package.
+ * @param {number} depth The package depth.
+ * @param {Object} basePackage The base package.
+ * @return {number} The sort priority.
+ */
+const getPackagePriority = function(pack, depth, basePackage) {
+  //
+  // use priority if specified, so the load order can be controlled by the package.
+  // if no priority is present, use the resolved depth.
+  //
+
+  var priority = 0;
+
+  if (pack) {
+    if (pack.build && pack.build.priority !== undefined) {
+      priority = pack.build.priority;
+    } else {
+      priority = -depth;
+
+      if (isConfigPackage(pack) ||
+          (isPluginPackage(pack) && isPluginOfPackage(basePackage, pack))) {
+        priority++;
+      }
+    }
+  }
+
+  return priority;
+};
+
 module.exports = {
   findLines: findLines,
   isAppPackage: isAppPackage,
@@ -209,5 +240,6 @@ module.exports = {
   getPrioritySort: getPrioritySort,
   getIndent: getIndent,
   getPackage: getPackage,
+  getPackagePriority: getPackagePriority,
   resolveModulePath: resolveModulePath
 };

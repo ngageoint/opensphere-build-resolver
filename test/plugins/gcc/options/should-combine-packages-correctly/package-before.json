@@ -1,0 +1,15 @@
+{
+  "name": "should-combine-packages-correctly-before",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "gcc": {
+      "define": ["before"],
+      "entry_point": ["before"],
+      "js": "src/before/**.js"
+    },
+    "priority": -100
+  }
+}
