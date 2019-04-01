@@ -6,7 +6,7 @@
   "keywords": [],
   "build": {
     "gcc": {
-      "define": ["after"],
+      "define": ["after=true","override=after"],
       "entry_point": ["after"],
       "js": "src/after/**.js"
     },

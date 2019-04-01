@@ -2,7 +2,7 @@
   "angular_pass": true,
   "compilation_level": "simple",
   "js": ["src/**.js", "src/after/**.js", "src/before/**.js"],
-  "define": ["before", "main", "after"],
+  "define": ["before=true", "override=after", "main=true", "after=true"],
   "externs": ["a.externs.js", "b.externs.js"],
   "entry_point": ["before", "one", "two", "after"]
 }
