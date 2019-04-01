@@ -6,7 +6,7 @@
   "keywords": [],
   "build": {
     "gcc": {
-      "define": ["before"],
+      "define": ["before=true","override=before"],
       "entry_point": ["before"],
       "js": "src/before/**.js"
     },

@@ -9,7 +9,7 @@
       "angular_pass": true,
       "compilation_level": "simple",
       "js": "src/**.js",
-      "define": ["main"],
+      "define": ["main=true","override=main"],
       "externs": ["a.externs.js", "b.externs.js"],
       "entry_point": ["one", "two"]
     }
