@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.0.1...v5.0.2) (2019-04-01)
+
+
+### Bug Fixes
+
+* **gcc:** Deduplicate GCC defines. ([ae9c4ce](https://github.com/ngageoint/opensphere-build-resolver/commit/ae9c4ce))
+
 ## [5.0.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.0.0...v5.0.1) (2019-03-28)
 
 
