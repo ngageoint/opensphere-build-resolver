@@ -84,6 +84,7 @@ const getOptions = function(pack, outputDir) {
     opts = Object.assign(opts, require('./options-lib'));
   }
 
+  opts.js_output_file = path.join(outputDir, pack.name + '.min.js');
   opts.output_manifest = path.join(outputDir, 'gcc-manifest');
   opts.create_source_map = path.join(outputDir, pack.name + '.min.map');
 

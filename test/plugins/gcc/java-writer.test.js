@@ -25,7 +25,7 @@ describe('gcc java writer', function() {
         return fs.readFileAsync(file, 'utf-8');
       })
       .then((content) => {
-        expect(content).to.equal('--js_output_file ' + path.join(outputDir, pack.name + '.min.js'));
+        expect(content).to.equal('');
       });
   });
 
