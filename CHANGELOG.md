@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.0.2...v5.1.0) (2019-06-18)
+
+
+### Features
+
+* **gcc:** Add js_output_file to JSON compiler options. ([5098842](https://github.com/ngageoint/opensphere-build-resolver/commit/5098842))
+
 ## [5.0.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.0.1...v5.0.2) (2019-04-01)
 
 
