@@ -1,3 +1,11 @@
+## [5.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.1.0...v5.1.1) (2019-06-18)
+
+
+### Bug Fixes
+
+* **gcc:** check for undefined value ([51c04bf](https://github.com/ngageoint/opensphere-build-resolver/commit/51c04bf))
+* **gcc:** test writer should copy in js_output_file ([0477783](https://github.com/ngageoint/opensphere-build-resolver/commit/0477783))
+
 # [5.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.0.2...v5.1.0) (2019-06-18)
 
 
