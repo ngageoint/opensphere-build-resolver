@@ -70,6 +70,7 @@ describe('gcc resolver', function() {
 
     var expected = Object.assign({}, require('../../../plugins/gcc/options-base'));
     expected = Object.assign(expected, require('../../../plugins/gcc/options-lib'));
+    expected.js_output_file = path.join(outputDir, pack.name + '.min.js');
     expected.output_manifest = path.join(outputDir, 'gcc-manifest');
     expected.create_source_map = path.join(outputDir, pack.name + '.min.map');
     expected.js = [];

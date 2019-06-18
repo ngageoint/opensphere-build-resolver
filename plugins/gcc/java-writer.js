@@ -11,6 +11,10 @@ const genericWriter = function(basePackage, dir, options, file, test) {
   for (var key in options) {
     var value = options[key];
 
+    if (test && key === 'js_output_file') {
+      value = value.replace(basePackage.name + '.min.js', basePackage.name + '-test.min.js');
+    }
+
     if (!(value instanceof Array)) {
       value = [value];
     }
@@ -27,10 +31,6 @@ const genericWriter = function(basePackage, dir, options, file, test) {
       }
     }
   }
-
-  javaArgs.push('--js_output_file');
-  javaArgs.push(path.join(dir, basePackage.name + (test ? '-test' : '') +
-    '.min.js'));
 
   var outputfile = path.join(dir, file);
   console.log('Writing ' + outputfile);
