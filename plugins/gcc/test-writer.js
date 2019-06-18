@@ -30,6 +30,7 @@ const _getOptions = function(pack, dir, options) {
   var opts = require('./options-test');
   opts.js = options.js ? options.js.slice() : [];
   opts.output_manifest = path.join(dir, 'gcc-test-manifest');
+  opts.js_output_file = options.js_output_file;
 
   for (var key in mocks) {
     opts.js.push(mocks[key]);
