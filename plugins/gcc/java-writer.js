@@ -11,7 +11,7 @@ const genericWriter = function(basePackage, dir, options, file, test) {
   for (var key in options) {
     var value = options[key];
 
-    if (test && key === 'js_output_file') {
+    if (test && key === 'js_output_file' && value) {
       value = value.replace(basePackage.name + '.min.js', basePackage.name + '-test.min.js');
     }
 
