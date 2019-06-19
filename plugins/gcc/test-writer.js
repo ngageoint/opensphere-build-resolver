@@ -2,6 +2,7 @@
 
 const java = require('./java-writer');
 const path = require('path');
+const fs = require('fs');
 
 const getTestDir = function(pack) {
   var testDir = 'test';
@@ -44,8 +45,12 @@ const _getOptions = function(pack, dir, options) {
 };
 
 const writer = function(pack, dir, options) {
-  return java.genericWriter(pack, dir,
-      _getOptions(pack, dir, options), 'gcc-test-args', true);
+  var options = _getOptions(pack, dir, options);
+  var jsonOutput = path.join(dir, 'gcc-test-args.json');
+  return Promise.all([
+    fs.writeFileAsync(jsonOutput, JSON.stringify(options, null, 2)),
+    java.genericWriter(pack, dir, options, 'gcc-test-args', true)
+  ]);
 };
 
 const clear = function() {
