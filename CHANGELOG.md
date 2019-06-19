@@ -1,3 +1,15 @@
+# [5.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.1.1...v5.2.0) (2019-06-19)
+
+
+### Bug Fixes
+
+* **gcc:** Write test output separately from build. ([a40167a](https://github.com/ngageoint/opensphere-build-resolver/commit/a40167a))
+
+
+### Features
+
+* **gcc:** Write test options to JSON. ([1a808af](https://github.com/ngageoint/opensphere-build-resolver/commit/1a808af))
+
 ## [5.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.1.0...v5.1.1) (2019-06-18)
 
 
