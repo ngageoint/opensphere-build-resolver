@@ -80,8 +80,7 @@ const resolver = function(pack, projectDir, depth) {
     }
 
     value = value.map(function(item) {
-      return path.relative(process.cwd(),
-          path.join(projectDir, item));
+      return path.relative(process.cwd(), path.join(projectDir, item));
     });
 
     scssEntries = scssEntries.concat(value);
@@ -126,8 +125,7 @@ const addScssRequires = function(pack, dir) {
 
         files = colors.concat(mixins).concat(rest);
 
-        resolve(fs.readFileAsync(
-            path.resolve(__dirname, 'require-all.scss'), 'utf8')
+        resolve(fs.readFileAsync(path.resolve(__dirname, 'require-all.scss'), 'utf8')
           .then(function(template) {
             console.log('Writing ' + file + ' for library scss compilation');
             template += '\n@import "' + files.join('";\n@import "') + '";';
@@ -207,15 +205,15 @@ const writer = function(thisPackage, outputDir) {
                     var bootstrapEntry = '@import \'bootstrap\';';
                     if (theme != 'default') {
                       fileContents = fileContents.replace(bootstrapEntry,
-                          '@import \'' + theme + '/_variables\';' +
-                          '\n' + bootstrapEntry + '\n' +
-                          '@import \'' + theme + '/_bootswatch\';');
+                        '@import \'' + theme + '/_variables\';' +
+                        '\n' + bootstrapEntry + '\n' +
+                        '@import \'' + theme + '/_bootswatch\';');
                     }
                     return fs.writeFileAsync(themeOutput, fileContents);
                   }));
               });
               return Promise.all(promises);
-          });
+            });
         } else {
           return Promise.resolve();
         }

@@ -31,13 +31,13 @@ describe('gcc java writer', function() {
 
   it('should handle keys properly', function() {
     return java.writer(pack, outputDir, {
-        angular_pass: true,
-        compilation_level: 'simple',
-        js: ['a.js', 'b.js'],
-        jscomp_error: 'accessControls',
-        jscomp_off: 'es6',
-        jscomp_warning: 'useOfGoogBase'
-      })
+      angular_pass: true,
+      compilation_level: 'simple',
+      js: ['a.js', 'b.js'],
+      jscomp_error: 'accessControls',
+      jscomp_off: 'es6',
+      jscomp_warning: 'useOfGoogBase'
+    })
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
       })

@@ -87,7 +87,7 @@ describe('gcc defines resolver', () => {
     process.chdir(dir);
 
     var pack = require(dir + '/package');
-   var expected = require(dir + '/expected');
+    var expected = require(dir + '/expected');
     return defines.resolver(pack, '.').then(() => {
       var options = {};
       defines.adder(pack, options);
