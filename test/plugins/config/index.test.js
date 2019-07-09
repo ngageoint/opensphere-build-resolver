@@ -38,26 +38,26 @@ describe('config resolver', () => {
     if (pack) {
       it(d.replace(/-/g, ' '), () => {
         return config.resolver(pack, dir, 0)
-          .then(() => {
-            return config.writer(pack, outputDir);
-          })
-          .then(() => {
-            var file1 = path.join(outputDir, 'settings.json');
-            var file2 = path.join(outputDir, 'settings-debug.json');
+            .then(() => {
+              return config.writer(pack, outputDir);
+            })
+            .then(() => {
+              var file1 = path.join(outputDir, 'settings.json');
+              var file2 = path.join(outputDir, 'settings-debug.json');
 
-            expect(fs.existsSync(file1)).to.equal(Boolean(expected));
-            expect(fs.existsSync(file2)).to.equal(Boolean(expectedDebug));
+              expect(fs.existsSync(file1)).to.equal(Boolean(expected));
+              expect(fs.existsSync(file2)).to.equal(Boolean(expectedDebug));
 
-            if (expected && expectedDebug) {
-              var settings = JSON.parse(fs.readFileSync(file1, 'utf-8'));
-              var debug = JSON.parse(fs.readFileSync(file2, 'utf-8'));
+              if (expected && expectedDebug) {
+                var settings = JSON.parse(fs.readFileSync(file1, 'utf-8'));
+                var debug = JSON.parse(fs.readFileSync(file2, 'utf-8'));
 
-              expect(settings).to.deep.equal(expected);
+                expect(settings).to.deep.equal(expected);
 
-              debug.overrides = debug.overrides.map(getMapLocalPath(d));
-              expect(debug).to.deep.equal(expectedDebug);
-            }
-          });
+                debug.overrides = debug.overrides.map(getMapLocalPath(d));
+                expect(debug).to.deep.equal(expectedDebug);
+              }
+            });
       });
     }
   });

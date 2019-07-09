@@ -30,48 +30,48 @@ describe('scss resolver', () => {
     if (pack) {
       it(d.replace(/-/g, ' '), () => {
         return scss.resolver(pack, dir, 0)
-          .then(() => {
-            return scss.postResolver(pack, outputDir);
-          })
-          .then(() => {
-            return scss.writer(pack, outputDir);
-          })
-          .then(() => {
-            var file1 = path.join(outputDir, 'node-sass-args');
-            var file2 = path.join(outputDir, 'require-all.scss');
+            .then(() => {
+              return scss.postResolver(pack, outputDir);
+            })
+            .then(() => {
+              return scss.writer(pack, outputDir);
+            })
+            .then(() => {
+              var file1 = path.join(outputDir, 'node-sass-args');
+              var file2 = path.join(outputDir, 'require-all.scss');
 
-            var expectedArgs = fs.readFileSync(path.join(dir, 'node-sass-args'), 'utf-8').trim();
-            var expectedRequireAll = fs.readFileSync(path.join(dir, 'require-all.scss'), 'utf-8').trim();
+              var expectedArgs = fs.readFileSync(path.join(dir, 'node-sass-args'), 'utf-8').trim();
+              var expectedRequireAll = fs.readFileSync(path.join(dir, 'require-all.scss'), 'utf-8').trim();
 
-            expect(fs.existsSync(file1)).to.equal(Boolean(expectedArgs));
-            expect(fs.existsSync(file2)).to.equal(Boolean(expectedRequireAll));
+              expect(fs.existsSync(file1)).to.equal(Boolean(expectedArgs));
+              expect(fs.existsSync(file2)).to.equal(Boolean(expectedRequireAll));
 
-            if (expectedArgs && expectedRequireAll) {
-              var args = fs.readFileSync(file1, 'utf-8');
-              args = args.replace(new RegExp(outputDir + path.sep, 'g'), '');
-              args = args.replace(new RegExp(dir + path.sep, 'g'), '');
+              if (expectedArgs && expectedRequireAll) {
+                var args = fs.readFileSync(file1, 'utf-8');
+                args = args.replace(new RegExp(outputDir + path.sep, 'g'), '');
+                args = args.replace(new RegExp(dir + path.sep, 'g'), '');
 
-              var requireAll = fs.readFileSync(file2, 'utf-8');
+                var requireAll = fs.readFileSync(file2, 'utf-8');
 
-              expect(args).to.equal(expectedArgs);
-              expect(requireAll).to.equal(expectedRequireAll);
-            }
+                expect(args).to.equal(expectedArgs);
+                expect(requireAll).to.equal(expectedRequireAll);
+              }
 
-            if (pack && pack.build && pack.build.themes) {
-              pack.build.themes.forEach((theme) => {
-                var themeCombinedFile = path.join(outputDir, 'themes', theme + '.combined.scss');
-                var themeArgsFile = path.join(outputDir, 'themes', theme + '.node-sass-args');
+              if (pack && pack.build && pack.build.themes) {
+                pack.build.themes.forEach((theme) => {
+                  var themeCombinedFile = path.join(outputDir, 'themes', theme + '.combined.scss');
+                  var themeArgsFile = path.join(outputDir, 'themes', theme + '.node-sass-args');
 
-                // theme files were written
-                expect(fs.existsSync(themeCombinedFile)).to.be.true;
-                expect(fs.existsSync(themeArgsFile)).to.be.true;
+                  // theme files were written
+                  expect(fs.existsSync(themeCombinedFile)).to.be.true;
+                  expect(fs.existsSync(themeArgsFile)).to.be.true;
 
-                // theme detection class was added
-                var themeCombined = fs.readFileSync(themeCombinedFile, 'utf-8');
-                expect(themeCombined.startsWith('.u-loaded-theme::before { content: "' + theme + '"; }')).to.be.true;
-              });
-            }
-          });
+                  // theme detection class was added
+                  var themeCombined = fs.readFileSync(themeCombinedFile, 'utf-8');
+                  expect(themeCombined.startsWith('.u-loaded-theme::before { content: "' + theme + '"; }')).to.be.true;
+                });
+              }
+            });
       });
     }
   });

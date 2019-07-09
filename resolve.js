@@ -7,9 +7,9 @@ if (!Object.values) {
 }
 
 const argv = require('yargs')
-  .array('include')
-  .array('exclude')
-  .argv;
+    .array('include')
+    .array('exclude')
+    .argv;
 
 const Promise = require('bluebird');
 const pluginUtils = require('./plugins');
@@ -33,20 +33,20 @@ var plugins = pluginUtils.load(argv.include, argv.exclude);
 var outputDir = path.resolve(process.cwd(), argv.outputDir);
 
 core.resolvePackage(undefined, undefined, process.cwd(), 0, undefined, plugins)
-  .then(function() {
-    console.log();
+    .then(function() {
+      console.log();
 
-    return Promise.map(plugins.postResolvers, function(post) {
-      return post(thisPackage, outputDir);
+      return Promise.map(plugins.postResolvers, function(post) {
+        return post(thisPackage, outputDir);
+      });
+    })
+    .then(function() {
+      return Promise.map(plugins.writers, function(writer) {
+        return writer(thisPackage, outputDir);
+      });
+    })
+    .catch(function(e) {
+      console.error('There was an error resolving');
+      console.error(e);
+      process.exit(1);
     });
-  })
-  .then(function() {
-    return Promise.map(plugins.writers, function(writer) {
-      return writer(thisPackage, outputDir);
-    });
-  })
-  .catch(function(e) {
-    console.error('There was an error resolving');
-    console.error(e);
-    process.exit(1);
-  });

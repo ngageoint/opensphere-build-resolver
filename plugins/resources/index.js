@@ -173,9 +173,9 @@ const resolver = function(pack, projectDir, depth) {
       if (resource.files) {
         // resolve the glob patterns for required resources
         filesToCopy = filesToCopy.concat(_.flatten(resource.files.map(
-          function(includePattern) {
-            return glob.sync(path.join(resource.source, includePattern));
-          })));
+            function(includePattern) {
+              return glob.sync(path.join(resource.source, includePattern));
+            })));
       }
 
       if (filesToCopy.length > 0) {
@@ -246,20 +246,20 @@ const writer = function(thisPackage, dir) {
   return Promise.map(fileMaps, function(fileMap) {
     return writeFiles(fileMap.obj, dir, fileMap.baseName);
   }, {concurrency: 1})
-  .then(function() {
-    const filename = path.join(dir, 'resources-copy-dirs');
-    console.log('Writing ' + filename);
-    return fs.writeFileAsync(filename, copyDirs.join('\n'));
-  })
-  .then(function() {
-    const content = copyData.map(function(data) {
-      return '"' + data.src + '" "' + data.target + '"';
-    });
+      .then(function() {
+        const filename = path.join(dir, 'resources-copy-dirs');
+        console.log('Writing ' + filename);
+        return fs.writeFileAsync(filename, copyDirs.join('\n'));
+      })
+      .then(function() {
+        const content = copyData.map(function(data) {
+          return '"' + data.src + '" "' + data.target + '"';
+        });
 
-    const filename = path.join(dir, 'resources-copy-files');
-    console.log('Writing ' + filename);
-    return fs.writeFileAsync(filename, content.join('\n'));
-  });
+        const filename = path.join(dir, 'resources-copy-files');
+        console.log('Writing ' + filename);
+        return fs.writeFileAsync(filename, content.join('\n'));
+      });
 };
 
 const clear = function() {

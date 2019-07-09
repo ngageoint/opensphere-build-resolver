@@ -20,15 +20,15 @@ describe('gcc resolver', function() {
     process.argv.push('test');
 
     return gcc.resolver(pack, dir)
-      .then(() => {
-        return gcc.postResolver(pack, outputDir);
-      })
-      .then(() => {
-        return optDoWrite ? gcc.writer(pack, outputDir) : null;
-      }).then(() => {
-        process.argv.pop();
-        process.argv.pop();
-      });
+        .then(() => {
+          return gcc.postResolver(pack, outputDir);
+        })
+        .then(() => {
+          return optDoWrite ? gcc.writer(pack, outputDir) : null;
+        }).then(() => {
+          process.argv.pop();
+          process.argv.pop();
+        });
   };
 
   var getOptions = (pack, outputDir) => {
@@ -52,12 +52,12 @@ describe('gcc resolver', function() {
     };
 
     return fullRun(pack, '', true)
-      .then(() => {
-        return fs.readdirAsync(outputDir);
-      })
-      .then((files) => {
-        expect(files.length).to.equal(0);
-      });
+        .then(() => {
+          return fs.readdirAsync(outputDir);
+        })
+        .then((files) => {
+          expect(files.length).to.equal(0);
+        });
   });
 
   it('should have the correct base options for libraries', () => {
@@ -167,19 +167,19 @@ describe('gcc resolver', function() {
     pack.build.type = 'app';
 
     return gcc.resolver(pluginPack, pluginDir, 0)
-      .then(() => {
-        return gcc.resolver(pack, dir, 1);
-      })
-      .then(() => {
-        return gcc.postResolver(pluginPack, outputDir);
-      })
-      .then(() => {
-        var opts = getOptions(pluginPack, outputDir);
-        console.log(opts.entry_point);
-        expect(opts.entry_point.length).to.equal(2);
-        expect(opts.entry_point).to.contain('goog:libcomp');
-        expect(opts.entry_point).to.contain('goog:plugin');
-      });
+        .then(() => {
+          return gcc.resolver(pack, dir, 1);
+        })
+        .then(() => {
+          return gcc.postResolver(pluginPack, outputDir);
+        })
+        .then(() => {
+          var opts = getOptions(pluginPack, outputDir);
+          console.log(opts.entry_point);
+          expect(opts.entry_point.length).to.equal(2);
+          expect(opts.entry_point).to.contain('goog:libcomp');
+          expect(opts.entry_point).to.contain('goog:plugin');
+        });
   });
 
   it('should not die if gcc config does not exist', () => {
@@ -190,15 +190,15 @@ describe('gcc resolver', function() {
     delete pluginPack.build.gcc;
 
     return gcc.resolver(pluginPack, pluginDir, 0)
-      .then(() => {
-        return gcc.resolver(pack, dir, 1);
-      })
-      .then(() => {
-        return gcc.postResolver(pluginPack, outputDir);
-      })
-      .then(() => {
-        var opts = getOptions(pluginPack, outputDir);
-        expect(opts.entry_point).to.equal('goog:libcomp');
-      });
+        .then(() => {
+          return gcc.resolver(pack, dir, 1);
+        })
+        .then(() => {
+          return gcc.postResolver(pluginPack, outputDir);
+        })
+        .then(() => {
+          var opts = getOptions(pluginPack, outputDir);
+          expect(opts.entry_point).to.equal('goog:libcomp');
+        });
   });
 });

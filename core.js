@@ -92,74 +92,74 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
   return Promise.map(pathsToTry, function(p) {
     var priorityMap = {};
     return fs.readdirAsync(p)
-      .filter(function(file) {
-        if (!file.startsWith(pack.name + prefix)) {
-          return false;
-        }
+        .filter(function(file) {
+          if (!file.startsWith(pack.name + prefix)) {
+            return false;
+          }
 
-        // check the peerDependencies semver
-        var pluginPackPath;
-        var pluginPack;
+          // check the peerDependencies semver
+          var pluginPackPath;
+          var pluginPack;
 
-        try {
-          pluginPackPath = path.resolve(p, file, 'package.json');
-          pluginPack = require(pluginPackPath);
-        } catch (e) {
-          console.error(pluginPackPath + ' does not exist');
-          return false;
-        }
+          try {
+            pluginPackPath = path.resolve(p, file, 'package.json');
+            pluginPack = require(pluginPackPath);
+          } catch (e) {
+            console.error(pluginPackPath + ' does not exist');
+            return false;
+          }
 
-        if (pluginPack.name in alreadyResolved) {
+          if (pluginPack.name in alreadyResolved) {
           // don't bother with plugins already resolved
           // this tends to occur in plugin builds
-          return false;
-        }
+            return false;
+          }
 
-        if (pluginPack.build && pluginPack.build.type === 'config') {
+          if (pluginPack.build && pluginPack.build.type === 'config') {
           // don't enforce dependency checking for config packages
-          return true;
-        }
+            return true;
+          }
 
-        // ensure it's a plugin
-        if (!pluginPack.build || !pluginPack.build.type === 'plugin') {
-          return false;
-        }
+          // ensure it's a plugin
+          if (!pluginPack.build || !pluginPack.build.type === 'plugin') {
+            return false;
+          }
 
-        priorityMap[file] = pluginPack.build.priority || 0;
+          priorityMap[file] = pluginPack.build.priority || 0;
 
-        // must have a dependency on the current package
-        if (!pluginPack.dependencies ||
+          // must have a dependency on the current package
+          if (!pluginPack.dependencies ||
             !pluginPack.dependencies[pack.name]) {
-          console.log('WARNING: The ' + pack.name + ' plugin ' + file +
+            console.log('WARNING: The ' + pack.name + ' plugin ' + file +
             ' should have a dependency definition for ' + pack.name);
-          return false;
-        }
+            return false;
+          }
 
-        // check that the required semver matches
-        var required = pluginPack.dependencies[pack.name];
-        if (!/^[=~^]?[\d.]+/.test(required)) {
+          // check that the required semver matches
+          var required = pluginPack.dependencies[pack.name];
+          if (!/^[=~^]?[\d.]+/.test(required)) {
           // the version was some other sort of dependency (e.g. git) and
           // we'll just take their word that it is going to work
-          return true;
-        }
+            return true;
+          }
 
-        var value = semver.satisfies(pack.version, required);
+          var value = semver.satisfies(pack.version, required);
 
-        if (!value) {
-          console.error('WARNING: ' + pluginPack.name + ' requires ' +
+          if (!value) {
+            console.error('WARNING: ' + pluginPack.name + ' requires ' +
             pack.name + ' version ' + required +
             ' but the version is ' + pack.version);
-        }
+          }
 
-        return value;
-      }).then(function(files) {
-        files.sort(utils.getPrioritySort(priorityMap));
-        return files;
-      })
-      .map(function(file) {
-        return resolvePackage(rootProjectPath, alreadyResolved, path.resolve(p, file), depth + 1);
-      })
-      .catch({code: 'ENOENT'}, function() {});
+          return value;
+        }).then(function(files) {
+          files.sort(utils.getPrioritySort(priorityMap));
+          return files;
+        })
+        .map(function(file) {
+          return resolvePackage(rootProjectPath, alreadyResolved, path.resolve(p, file), depth + 1);
+        })
+        .catch({code: 'ENOENT'}, function() {});
   });
 };
 
@@ -250,9 +250,9 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
   return Promise.map(plugins.resolvers, function(resolver) {
     return resolver(pack, projectDir, depth);
   })
-  .then(resolveDependencies.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, depth))
-  .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-plugin-', depth))
-  .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-config-', depth));
+      .then(resolveDependencies.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, depth))
+      .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-plugin-', depth))
+      .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-config-', depth));
 };
 
 module.exports = {

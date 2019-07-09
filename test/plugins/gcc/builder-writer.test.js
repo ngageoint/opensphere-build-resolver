@@ -21,22 +21,22 @@ describe('gcc builder writer', function() {
 
   it('should handle undefined options', () => {
     return builder.writer(pack, outputDir)
-      .then(() => {
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
-        expect(content).to.equal('');
-      });
+        .then(() => {
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
+          expect(content).to.equal('');
+        });
   });
 
   it('should handle empty options', () => {
     return builder.writer(pack, outputDir, {})
-      .then(() => {
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
-        expect(content).to.equal('');
-      });
+        .then(() => {
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
+          expect(content).to.equal('');
+        });
   });
 
   it('should handle source files', () => {
@@ -47,12 +47,12 @@ describe('gcc builder writer', function() {
         '!src/notme.js'
       ]
     })
-      .then(() => {
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
-        expect(content).to.equal('--root=src --root=lib');
-      });
+        .then(() => {
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
+          expect(content).to.equal('--root=src --root=lib');
+        });
   });
 
   it('should handle entry points', () => {
@@ -62,24 +62,24 @@ describe('gcc builder writer', function() {
         'goog:main'
       ]
     })
-      .then(() => {
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
-        expect(content).to.equal('--namespace=libcomp --namespace=main');
-      });
+        .then(() => {
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
+          expect(content).to.equal('--namespace=libcomp --namespace=main');
+        });
   });
 
   it('should handle a single entry point', () => {
     return builder.writer(pack, outputDir, {
       entry_point: 'goog:libcomp'
     })
-      .then(() => {
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
-        expect(content).to.equal('--namespace=libcomp');
-      });
+        .then(() => {
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
+          expect(content).to.equal('--namespace=libcomp');
+        });
   });
 
   it('should ignore other options', () => {
@@ -87,11 +87,11 @@ describe('gcc builder writer', function() {
       compilation_level: 'simple',
       jscomp_warning: 'yermom'
     })
-      .then(() => {
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
-        expect(content).to.equal('');
-      });
+        .then(() => {
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
+          expect(content).to.equal('');
+        });
   });
 });

@@ -62,9 +62,9 @@ describe('gcc src resolver', function() {
     var pack = require(dir + '/package');
 
     return src.postResolver(pack, outputDir)
-      .then(() => {
-        expect(fs.existsSync(path.join(outputDir, 'require-all.js'))).to.be.false;
-      });
+        .then(() => {
+          expect(fs.existsSync(path.join(outputDir, 'require-all.js'))).to.be.false;
+        });
   });
 
   it('should create a require-all.js file for libs', function() {
@@ -75,30 +75,30 @@ describe('gcc src resolver', function() {
     process.chdir(dir);
 
     return src.resolver(pack, dir)
-      .then(() => {
-        return src.postResolver(pack, outputDir);
-      })
-      .then(() => {
-        process.chdir(lastDir);
+        .then(() => {
+          return src.postResolver(pack, outputDir);
+        })
+        .then(() => {
+          process.chdir(lastDir);
 
-        var file = path.join(outputDir, 'require-all.js');
-        expect(fs.existsSync(file)).to.be.true;
+          var file = path.join(outputDir, 'require-all.js');
+          expect(fs.existsSync(file)).to.be.true;
 
-        // if the require-all file was written, then it should also be added to the src paths
-        var options = {};
-        src.adder(null, options);
-        expect(options.js.length).to.equal(3);
-        expect(options.js).to.contain(file);
+          // if the require-all file was written, then it should also be added to the src paths
+          var options = {};
+          src.adder(null, options);
+          expect(options.js.length).to.equal(3);
+          expect(options.js).to.contain(file);
 
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
         // both files are required
-        expect(content).to.contain('goog.require(\'app\')');
-        expect(content).to.contain('goog.require(\'util\')');
+          expect(content).to.contain('goog.require(\'app\')');
+          expect(content).to.contain('goog.require(\'util\')');
 
-        // and they are sorted
-        expect(content.indexOf('goog.require(\'app\')')).to.be.lessThan(content.indexOf('goog.require(\'util\')'));
-      });
+          // and they are sorted
+          expect(content.indexOf('goog.require(\'app\')')).to.be.lessThan(content.indexOf('goog.require(\'util\')'));
+        });
   });
 });

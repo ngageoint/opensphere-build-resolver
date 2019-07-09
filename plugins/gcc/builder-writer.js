@@ -54,9 +54,9 @@ const writer = function(basePackage, dir, options) {
   if (options) {
     if (options.js) {
       args = args.concat(options.js
-        .filter(notExclude)
-        .map(getDir)
-        .map(createRoot));
+          .filter(notExclude)
+          .map(getDir)
+          .map(createRoot));
     }
 
     if (options.entry_point) {

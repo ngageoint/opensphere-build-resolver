@@ -78,44 +78,44 @@ const writer = function(thisPackage, outputDir) {
   // recreate the preload script directory. scripts will be copied each time the resolver runs.
   return rimraf(preloadDir).then(function() {
     return mkdirp.mkdirpAsync(preloadDir)
-      .then(function() {
-        console.log('Writing ' + file);
+        .then(function() {
+          console.log('Writing ' + file);
 
-        // copy from base package
-        var appPack = clone(pack);
+          // copy from base package
+          var appPack = clone(pack);
 
-        // ditch devDeps other than electron
-        var devDeps = appPack.devDependencies;
-        for (var dep in devDeps) {
-          if (!dep.startsWith('electron')) {
-            delete devDeps[dep];
+          // ditch devDeps other than electron
+          var devDeps = appPack.devDependencies;
+          for (var dep in devDeps) {
+            if (!dep.startsWith('electron')) {
+              delete devDeps[dep];
+            }
           }
-        }
 
-        // ditch other deps
-        delete appPack.peerDependencies;
-        delete appPack.optionalDependencies;
+          // ditch other deps
+          delete appPack.peerDependencies;
+          delete appPack.optionalDependencies;
 
-        // set dependencies to resolved versions
-        appPack.dependencies = Object.assign(appPack.dependencies, electronDeps);
-        appPack.main = appPack.main.replace(/^app\//, '');
+          // set dependencies to resolved versions
+          appPack.dependencies = Object.assign(appPack.dependencies, electronDeps);
+          appPack.main = appPack.main.replace(/^app\//, '');
 
-        return fs.writeFileAsync(file, JSON.stringify(appPack, null, 2));
-      })
-      .then(function() {
+          return fs.writeFileAsync(file, JSON.stringify(appPack, null, 2));
+        })
+        .then(function() {
         // get the real path to avoid symlink issues
-        preloadDir = fs.realpathSync(preloadDir);
+          preloadDir = fs.realpathSync(preloadDir);
 
-        // copy each preload script to the target directory
-        return Promise.map(preloadScripts, function(script, idx, arr) {
+          // copy each preload script to the target directory
+          return Promise.map(preloadScripts, function(script, idx, arr) {
           // increment preload file names. Electron will load everything in the directory.
-          var dest = path.join(preloadDir, 'preload' + idx + '.js');
+            var dest = path.join(preloadDir, 'preload' + idx + '.js');
 
-          console.log('Writing Electron preload script: ' + dest);
+            console.log('Writing Electron preload script: ' + dest);
 
-          return fs.copyFileAsync(script, dest, fs.constants.COPYFILE_EXCL);
+            return fs.copyFileAsync(script, dest, fs.constants.COPYFILE_EXCL);
+          });
         });
-      });
   });
 };
 

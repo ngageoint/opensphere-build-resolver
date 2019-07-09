@@ -8,11 +8,11 @@ const path = require('path');
 
 const getAdditionalPackages = function(dir) {
   return fs.readdirSync(dir)
-    .filter(function(file) {
-      return /^package-.*\.json$/.test(file);
-    }).map(function(file) {
-      return require(path.join(dir, file));
-    });
+      .filter(function(file) {
+        return /^package-.*\.json$/.test(file);
+      }).map(function(file) {
+        return require(path.join(dir, file));
+      });
 };
 
 describe('gcc options resolver', function() {

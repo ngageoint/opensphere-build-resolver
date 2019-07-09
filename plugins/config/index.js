@@ -19,28 +19,28 @@ const resolver = function(pack, projectDir, depth) {
 
     return Promise.mapSeries(list, function(item) {
       var file = path.relative(process.cwd(), path.join(
-            projectDir, item));
+          projectDir, item));
 
       var readFile = function(file) {
         return fs.readFileAsync(file, 'utf8')
-          .then(function(content) {
-            configs.push({
-              path: file,
-              depth: utils.getPackagePriority(pack, depth, basePackage),
-              content: JSON.parse(content)
+            .then(function(content) {
+              configs.push({
+                path: file,
+                depth: utils.getPackagePriority(pack, depth, basePackage),
+                content: JSON.parse(content)
+              });
             });
-          });
       };
 
       var readDir = function(dir) {
         return fs.readdirAsync(dir)
-          .catch({code: 'ENOENT'}, function() {
-            return Promise.resolve([]);
-          })
-          .map(function(file) {
-            return path.join(dir, file);
-          })
-          .mapSeries(readFile);
+            .catch({code: 'ENOENT'}, function() {
+              return Promise.resolve([]);
+            })
+            .map(function(file) {
+              return path.join(dir, file);
+            })
+            .mapSeries(readFile);
       };
 
       return file.endsWith('.json') ? readFile(file) :
@@ -135,8 +135,8 @@ const writer = function(thisPackage, outputDir) {
     configs.sort(sort);
 
     return Promise.join(
-      writeDist(outputDir),
-      writeDebug(thisPackage, outputDir));
+        writeDist(outputDir),
+        writeDebug(thisPackage, outputDir));
   }
 
   return Promise.resolve();

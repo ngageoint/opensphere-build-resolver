@@ -23,16 +23,16 @@ const resolveExterns = function(pack, projectDir) {
     dir = path.resolve(projectDir, dir);
 
     return fs.readdirAsync(path.resolve(projectDir, dir))
-      .then(function(files) {
-        files = files.filter(function(file) {
-          return file.endsWith('.js');
-        });
+        .then(function(files) {
+          files = files.filter(function(file) {
+            return file.endsWith('.js');
+          });
 
-        externs = externs.concat(files.map(function(file) {
-          return path.resolve(projectDir, dir, file);
-        }));
-      })
-      .catch({code: 'ENOENT'}, function() {});
+          externs = externs.concat(files.map(function(file) {
+            return path.resolve(projectDir, dir, file);
+          }));
+        })
+        .catch({code: 'ENOENT'}, function() {});
   }
 
   return Promise.resolve();

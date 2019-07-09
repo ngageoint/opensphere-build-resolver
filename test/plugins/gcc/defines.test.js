@@ -87,7 +87,7 @@ describe('gcc defines resolver', () => {
     process.chdir(dir);
 
     var pack = require(dir + '/package');
-   var expected = require(dir + '/expected');
+    var expected = require(dir + '/expected');
     return defines.resolver(pack, '.').then(() => {
       var options = {};
       defines.adder(pack, options);
@@ -128,14 +128,14 @@ describe('gcc defines resolver', () => {
     var pack = require(dir + '/package');
 
     return defines.resolver(pack, dir)
-      .then(() => {
-        pack.build.type = 'lib';
-        return defines.writer(pack, outputDir);
-      })
-      .then(() => {
-        expect(fs.existsSync(path.join(outputDir, 'gcc-defines-debug.js'))).to.be.false;
-        pack.build.type = 'app';
-      });
+        .then(() => {
+          pack.build.type = 'lib';
+          return defines.writer(pack, outputDir);
+        })
+        .then(() => {
+          expect(fs.existsSync(path.join(outputDir, 'gcc-defines-debug.js'))).to.be.false;
+          pack.build.type = 'app';
+        });
   });
 
   it('should create a debug defines file for apps', () => {
@@ -143,18 +143,18 @@ describe('gcc defines resolver', () => {
     var pack = require(dir + '/package');
 
     return defines.resolver(pack, dir)
-      .then(() => {
-        return defines.writer(pack, outputDir);
-      })
-      .then(() => {
-        var file = path.join(outputDir, 'gcc-defines-debug.js');
-        expect(fs.existsSync(file)).to.be.true;
-        return fs.readFileAsync(file, 'utf-8');
-      })
-      .then((content) => {
-        dir = path.relative(process.cwd(), dir) + path.sep;
-        expect(content).to.contain('"foo.ROOT": "' + dir + '"');
-      });
+        .then(() => {
+          return defines.writer(pack, outputDir);
+        })
+        .then(() => {
+          var file = path.join(outputDir, 'gcc-defines-debug.js');
+          expect(fs.existsSync(file)).to.be.true;
+          return fs.readFileAsync(file, 'utf-8');
+        })
+        .then((content) => {
+          dir = path.relative(process.cwd(), dir) + path.sep;
+          expect(content).to.contain('"foo.ROOT": "' + dir + '"');
+        });
   });
 
   it('should handle ignore list', () => {
@@ -174,15 +174,15 @@ describe('gcc defines resolver', () => {
 
     var dir = path.resolve(baseDir, 'should-use-explicitly-defined-src-directory');
     return defines.resolver(pack, dir, 0)
-      .then(() => {
-        return defines.adder(pack, options);
-      })
-      .then(() => {
-        return defines.writer(pack, outputDir);
-      })
-      .then(() => {
-        verifyWriter(options, options, undefined);
-      });
+        .then(() => {
+          return defines.adder(pack, options);
+        })
+        .then(() => {
+          return defines.writer(pack, outputDir);
+        })
+        .then(() => {
+          verifyWriter(options, options, undefined);
+        });
   });
 
   it('should parse booleans and numbers', () => {
@@ -199,19 +199,19 @@ describe('gcc defines resolver', () => {
 
     var dir = path.resolve(baseDir, 'should-use-explicitly-defined-src-directory');
     return defines.resolver(pack, dir, 0)
-      .then(() => {
-        return defines.adder(pack, options);
-      })
-      .then(() => {
-        return defines.writer(pack, outputDir);
-      })
-      .then(() => {
-        verifyWriter(options, options, {
-          'SOMETHING': 123,
-          'FLAG': true,
-          'OTHER_FLAG': false
+        .then(() => {
+          return defines.adder(pack, options);
+        })
+        .then(() => {
+          return defines.writer(pack, outputDir);
+        })
+        .then(() => {
+          verifyWriter(options, options, {
+            'SOMETHING': 123,
+            'FLAG': true,
+            'OTHER_FLAG': false
+          });
         });
-      });
   });
 
   it('should handle pre-defined roots', () => {
@@ -229,21 +229,21 @@ describe('gcc defines resolver', () => {
 
     var dir = path.resolve(baseDir, 'test');
     return defines.resolver(pack, dir, 0)
-      .then(() => {
-        return defines.adder(pack, options);
-      })
-      .then(() => {
-        return defines.writer(pack, outputDir);
-      })
-      .then(() => {
-        var expectedOptions = {
-          'define': ['other.ROOT=\'test/\'']
-        };
-        var expectedUncompiled = {
-          'other.ROOT': '../other/'
-        };
-        verifyWriter(options, expectedOptions, expectedUncompiled);
-      });
+        .then(() => {
+          return defines.adder(pack, options);
+        })
+        .then(() => {
+          return defines.writer(pack, outputDir);
+        })
+        .then(() => {
+          var expectedOptions = {
+            'define': ['other.ROOT=\'test/\'']
+          };
+          var expectedUncompiled = {
+            'other.ROOT': '../other/'
+          };
+          verifyWriter(options, expectedOptions, expectedUncompiled);
+        });
   });
 
   it('should not redefine any roots unless the proper arguments were passed', () => {
@@ -276,19 +276,19 @@ describe('gcc defines resolver', () => {
 
     var dir = path.resolve(baseDir, 'test');
     return defines.resolver(pack, dir, 0)
-      .then(() => {
-        return defines.adder(pack, options);
-      })
-      .then(() => {
-        return defines.writer(pack, outputDir);
-      })
-      .then(() => {
-        var expectedPath = path.relative(dir, utils.resolveModulePath(basePath));
-        var expectedUncompiled = {
-          'my.DEFINE': expectedPath
-        };
+        .then(() => {
+          return defines.adder(pack, options);
+        })
+        .then(() => {
+          return defines.writer(pack, outputDir);
+        })
+        .then(() => {
+          var expectedPath = path.relative(dir, utils.resolveModulePath(basePath));
+          var expectedUncompiled = {
+            'my.DEFINE': expectedPath
+          };
 
-        verifyWriter(options, undefined, expectedUncompiled);
-      });
+          verifyWriter(options, undefined, expectedUncompiled);
+        });
   });
 });

@@ -102,17 +102,17 @@ describe('copy onboarding resolver', () => {
     };
 
     return Promise.join(
-      copy.resolver(pack1, pack1.name, 0),
-      copy.resolver(pack2, pack2.name, 1))
-      .then(() => {
-        return copy.writer(pack1, outputDir);
-      })
-      .then(() => {
-        var expected = [
-          path.join(pack1.name, 'foo', '*'),
-          path.join(pack2.name, 'bar', '*')];
+        copy.resolver(pack1, pack1.name, 0),
+        copy.resolver(pack2, pack2.name, 1))
+        .then(() => {
+          return copy.writer(pack1, outputDir);
+        })
+        .then(() => {
+          var expected = [
+            path.join(pack1.name, 'foo', '*'),
+            path.join(pack2.name, 'bar', '*')];
 
-        expect(fs.readFileSync(file, 'utf-8')).to.equal(expected.join('\n'));
-      });
-    });
+          expect(fs.readFileSync(file, 'utf-8')).to.equal(expected.join('\n'));
+        });
+  });
 });

@@ -30,40 +30,40 @@ describe('electron resolver', () => {
     if (pack) {
       it(d.replace(/-/g, ' '), () => {
         return electron.resolver(pack, dir, 0)
-          .then(() => {
+            .then(() => {
             // mock this to just find the sibling directories
-            var old = utils.resolveModulePath;
-            utils.resolveModulePath = (p) => {
-              return path.join(baseDir, d, p);
-            };
+              var old = utils.resolveModulePath;
+              utils.resolveModulePath = (p) => {
+                return path.join(baseDir, d, p);
+              };
 
-            var promise = electron.writer(pack, outputDir);
+              var promise = electron.writer(pack, outputDir);
 
-            // put it back
-            utils.resolveModulePath = old;
-            return promise;
-          })
-          .finally(() => {
-            try {
-              var expected = require(path.join(baseDir, d, 'expected'));
-            } catch (e) {
-              expected = false;
-            }
+              // put it back
+              utils.resolveModulePath = old;
+              return promise;
+            })
+            .finally(() => {
+              try {
+                var expected = require(path.join(baseDir, d, 'expected'));
+              } catch (e) {
+                expected = false;
+              }
 
-            try {
-              var generatedAppPack = require(path.join(baseDir, d, 'opensphere-electron', 'app', 'package'));
-            } catch (e) {
-              generatedAppPack = false;
-            }
+              try {
+                var generatedAppPack = require(path.join(baseDir, d, 'opensphere-electron', 'app', 'package'));
+              } catch (e) {
+                generatedAppPack = false;
+              }
 
-            expect(generatedAppPack).to.deep.equal(expected);
+              expect(generatedAppPack).to.deep.equal(expected);
 
-            if (pack.build && pack.build.electron && pack.build.electron.preload) {
-              var scriptDir = path.join(baseDir, d, 'opensphere-electron', 'app', 'src', 'preload');
-              var scripts = fs.readdirSync(scriptDir);
-              expect(scripts.length).to.equal(pack.build.electron.preload.length);
-            }
-          });
+              if (pack.build && pack.build.electron && pack.build.electron.preload) {
+                var scriptDir = path.join(baseDir, d, 'opensphere-electron', 'app', 'src', 'preload');
+                var scripts = fs.readdirSync(scriptDir);
+                expect(scripts.length).to.equal(pack.build.electron.preload.length);
+              }
+            });
       });
     }
   });

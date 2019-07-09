@@ -64,12 +64,12 @@ describe('resources resolver', () => {
 
     if (pack) {
       return resources.resolver(pack, dir, pack.depth || 0)
-        .then(() => {
-          return resources.writer(pack, outputDir);
-        })
-        .then(() => {
-          check(dir);
-        });
+          .then(() => {
+            return resources.writer(pack, outputDir);
+          })
+          .then(() => {
+            check(dir);
+          });
     }
   };
 
@@ -104,14 +104,14 @@ describe('resources resolver', () => {
     };
 
     return resources.resolver(base, path.join(baseDir, 'should-avoid-plugins-not-from-base-package'), 1)
-      .then(() => {
-        resources.resolver(other, path.join(baseDir, 'should-find-and-parse-index-files'), 2);
-      })
-      .then(() => {
-        resources.writer(base, outputDir);
-      }).then(() => {
-        var files = fs.readdirSync(outputDir);
-        expect(files.length).to.equal(0);
-      });
+        .then(() => {
+          resources.resolver(other, path.join(baseDir, 'should-find-and-parse-index-files'), 2);
+        })
+        .then(() => {
+          resources.writer(base, outputDir);
+        }).then(() => {
+          var files = fs.readdirSync(outputDir);
+          expect(files.length).to.equal(0);
+        });
   });
 });

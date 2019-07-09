@@ -117,7 +117,7 @@ const addScssRequires = function(pack, dir) {
       find.file(/\.scss$/, scssDir, function(files) {
         files = files.map(function(file) {
           return file.replace(scssDir + path.sep, '')
-            .replace(/_(.*)\.scss$/, '$1');
+              .replace(/_(.*)\.scss$/, '$1');
         });
 
         var colors = files.filter(isColor);
@@ -128,11 +128,11 @@ const addScssRequires = function(pack, dir) {
 
         resolve(fs.readFileAsync(
             path.resolve(__dirname, 'require-all.scss'), 'utf8')
-          .then(function(template) {
-            console.log('Writing ' + file + ' for library scss compilation');
-            template += '\n@import "' + files.join('";\n@import "') + '";';
-            return fs.writeFileAsync(file, template);
-          }));
+            .then(function(template) {
+              console.log('Writing ' + file + ' for library scss compilation');
+              template += '\n@import "' + files.join('";\n@import "') + '";';
+              return fs.writeFileAsync(file, template);
+            }));
       });
     });
   }
@@ -176,50 +176,50 @@ const writer = function(thisPackage, outputDir) {
     promises.push(fs.writeFileAsync(file, args.join(' ')));
 
     return Promise.all(promises)
-      .then(function() {
+        .then(function() {
         // Write a file for each theme also
-        if (utils.isAppPackage(thisPackage) &&
+          if (utils.isAppPackage(thisPackage) &&
             thisPackage.build.scss &&
             thisPackage.build.themes &&
             thisPackage.build.themes.length) {
           // Take off the combined.scss generic file
-          args.pop();
+            args.pop();
 
-          var themeDir = outputDir + '/themes';
-          return mkdirp.mkdirpAsync(themeDir)
-            .then(function() {
-              var promises = [];
-              thisPackage.build.themes.push('default');
+            var themeDir = outputDir + '/themes';
+            return mkdirp.mkdirpAsync(themeDir)
+                .then(function() {
+                  var promises = [];
+                  thisPackage.build.themes.push('default');
 
-              // For all the themes, create a combined.scss and a node-sass-args file
-              thisPackage.build.themes.forEach(function(theme) {
-                var themeOutput = path.resolve(themeDir, theme + '.combined.scss');
-                var themeArgs = path.resolve(themeDir, theme + '.node-sass-args');
-                promises.push(fs.writeFileAsync(themeArgs, args.join(' ') + ' ' + themeOutput));
-                promises.push(fs.readFileAsync(path.resolve(outputDir, 'combined.scss'), 'utf8')
-                  .then(function(fileContents) {
-                    console.log('Creating combined.scss for ' + theme + ' theme');
+                  // For all the themes, create a combined.scss and a node-sass-args file
+                  thisPackage.build.themes.forEach(function(theme) {
+                    var themeOutput = path.resolve(themeDir, theme + '.combined.scss');
+                    var themeArgs = path.resolve(themeDir, theme + '.node-sass-args');
+                    promises.push(fs.writeFileAsync(themeArgs, args.join(' ') + ' ' + themeOutput));
+                    promises.push(fs.readFileAsync(path.resolve(outputDir, 'combined.scss'), 'utf8')
+                        .then(function(fileContents) {
+                          console.log('Creating combined.scss for ' + theme + ' theme');
 
-                    // Add the theme name to a class for stylesheet load detection.
-                    fileContents = '.u-loaded-theme::before { content: "' + theme + '"; }\n' + fileContents;
+                          // Add the theme name to a class for stylesheet load detection.
+                          fileContents = '.u-loaded-theme::before { content: "' + theme + '"; }\n' + fileContents;
 
-                    // Prepend and Append our theme around the bootstrap entry
-                    var bootstrapEntry = '@import \'bootstrap\';';
-                    if (theme != 'default') {
-                      fileContents = fileContents.replace(bootstrapEntry,
-                          '@import \'' + theme + '/_variables\';' +
+                          // Prepend and Append our theme around the bootstrap entry
+                          var bootstrapEntry = '@import \'bootstrap\';';
+                          if (theme != 'default') {
+                            fileContents = fileContents.replace(bootstrapEntry,
+                                '@import \'' + theme + '/_variables\';' +
                           '\n' + bootstrapEntry + '\n' +
                           '@import \'' + theme + '/_bootswatch\';');
-                    }
-                    return fs.writeFileAsync(themeOutput, fileContents);
-                  }));
-              });
-              return Promise.all(promises);
-          });
-        } else {
-          return Promise.resolve();
-        }
-      });
+                          }
+                          return fs.writeFileAsync(themeOutput, fileContents);
+                        }));
+                  });
+                  return Promise.all(promises);
+                });
+          } else {
+            return Promise.resolve();
+          }
+        });
   }
 
   return Promise.resolve();

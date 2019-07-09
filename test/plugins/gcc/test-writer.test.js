@@ -64,14 +64,14 @@ describe('gcc test writer', function() {
     };
 
     return test.resolver(p, '')
-      .then(() => {
-        return test.resolver(p2, '../dependency');
-      })
-      .then(() => {
-        var expected = getExpected();
-        expected.js = ['test/**.js', 'test/**.mock.js', '../dependency/test/**mock.js'];
-        expect(test._getOptions(p, outputDir, {})).to.deep.equal(expected);
-      });
+        .then(() => {
+          return test.resolver(p2, '../dependency');
+        })
+        .then(() => {
+          var expected = getExpected();
+          expected.js = ['test/**.js', 'test/**.mock.js', '../dependency/test/**mock.js'];
+          expect(test._getOptions(p, outputDir, {})).to.deep.equal(expected);
+        });
   });
 
   it('should not resolve mocks for non-build project dependencies', () => {
@@ -81,14 +81,14 @@ describe('gcc test writer', function() {
     };
 
     return test.resolver(p, '')
-      .then(() => {
-        return test.resolver(p2, '../dependency');
-      })
-      .then(() => {
-        var expected = getExpected();
-        expected.js = ['test/**.js'],
-        expect(test._getOptions(p, outputDir, {})).to.deep.equal(expected);
-      });
+        .then(() => {
+          return test.resolver(p2, '../dependency');
+        })
+        .then(() => {
+          var expected = getExpected();
+          expected.js = ['test/**.js'],
+          expect(test._getOptions(p, outputDir, {})).to.deep.equal(expected);
+        });
   });
 
   it('should write the test args file to the output directory', () => {

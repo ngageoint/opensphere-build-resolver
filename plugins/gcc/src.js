@@ -11,7 +11,7 @@ var shortcuts = {
   'google-closure-library': function(pack, projectDir) {
     srcPaths.push('!' + path.resolve(projectDir, 'third_party', '**test.js'));
     srcPaths.push('!' + path.resolve(projectDir, 'closure', 'goog',
-          '**test.js'));
+        '**test.js'));
     srcPaths.push(path.resolve(projectDir, 'third_party', '**.js'));
     srcPaths.push(path.resolve(projectDir, 'closure', 'goog', '**.js'));
     return Promise.resolve();
@@ -83,9 +83,9 @@ const getSourcePaths = function(pack, dir) {
   }
 
   return fs.readdirAsync(dir)
-    .filter(function(file) {
-      return file in likelySrcDirs;
-    });
+      .filter(function(file) {
+        return file in likelySrcDirs;
+      });
 };
 
 const resolveSrc = function(pack, projectDir) {
@@ -97,42 +97,42 @@ const resolveSrc = function(pack, projectDir) {
   }
 
   return getSourcePaths(pack, projectDir)
-    .map(function(filename) {
-      filename = path.resolve(projectDir, filename);
+      .map(function(filename) {
+        filename = path.resolve(projectDir, filename);
 
-      // find all JS files with goog.provide's
-      return utils.findLines(/^goog\.provide\(/, filename, /\.js$/).then(function(list) {
-        var srcSet = list.reduce(function(p, c) {
-          var itemPath = path.dirname(c.file) + path.sep;
+        // find all JS files with goog.provide's
+        return utils.findLines(/^goog\.provide\(/, filename, /\.js$/).then(function(list) {
+          var srcSet = list.reduce(function(p, c) {
+            var itemPath = path.dirname(c.file) + path.sep;
 
-          // see if a parent path is already in the set
-          var keys = Object.keys(p);
-          var found = false;
-          for (var i = 0, n = keys.length; i < n; i++) {
-            var key = keys[i];
-            if (itemPath.indexOf(key) === 0) {
-              found = true;
-            } else if (key.indexOf(itemPath) === 0) {
+            // see if a parent path is already in the set
+            var keys = Object.keys(p);
+            var found = false;
+            for (var i = 0, n = keys.length; i < n; i++) {
+              var key = keys[i];
+              if (itemPath.indexOf(key) === 0) {
+                found = true;
+              } else if (key.indexOf(itemPath) === 0) {
               // our current filename is shorter, so replace the key
-              delete p[key];
-              p[itemPath] = true;
-              found = true;
+                delete p[key];
+                p[itemPath] = true;
+                found = true;
+              }
             }
-          }
 
-          // otherwise add it
-          if (!found) {
-            p[itemPath] = true;
-          }
+            // otherwise add it
+            if (!found) {
+              p[itemPath] = true;
+            }
 
-          return p;
-        }, {});
+            return p;
+          }, {});
 
-        srcPaths = srcPaths.concat(Object.keys(srcSet).map(function(p) {
-          return path.resolve(p, '**.js');
-        }));
+          srcPaths = srcPaths.concat(Object.keys(srcSet).map(function(p) {
+            return path.resolve(p, '**.js');
+          }));
+        });
       });
-    });
 };
 
 /**
@@ -148,41 +148,41 @@ const createRequireAll = function(basePackage, dir) {
 
     // start by locating all goog.provides and changing them to a list of goog.require's
     return getSourcePaths(basePackage, process.cwd())
-      .map(function(dir) {
-        dir = path.resolve(process.cwd(), dir);
+        .map(function(dir) {
+          dir = path.resolve(process.cwd(), dir);
 
-        return utils.findLines(/^goog\.provide\(/, dir, /\.js$/).then(function(list) {
-          var results = [];
+          return utils.findLines(/^goog\.provide\(/, dir, /\.js$/).then(function(list) {
+            var results = [];
 
-          list.forEach(function(item) {
-            if (item.lines) {
-              results = results.concat(item.lines.map(function(line) {
-                return line.replace('goog.provide', 'goog.require');
-              }));
-            }
+            list.forEach(function(item) {
+              if (item.lines) {
+                results = results.concat(item.lines.map(function(line) {
+                  return line.replace('goog.provide', 'goog.require');
+                }));
+              }
+            });
+            return results;
           });
-          return results;
-        });
-      })
-      .then(function(listOfLists) {
-        return listOfLists.reduce(function(p, c) {
-          return p.concat(c);
-        }, []);
-      })
-      .then(function(list) {
-        list = list.filter(function(item) {
-          return Boolean(item);
-        }).sort();
+        })
+        .then(function(listOfLists) {
+          return listOfLists.reduce(function(p, c) {
+            return p.concat(c);
+          }, []);
+        })
+        .then(function(list) {
+          list = list.filter(function(item) {
+            return Boolean(item);
+          }).sort();
 
-        return fs.readFileAsync(
-          path.resolve(__dirname, 'require-all-template.js'), 'utf8')
-          .then(function(template) {
-            console.log('Writing ' + requireAllFile +
+          return fs.readFileAsync(
+              path.resolve(__dirname, 'require-all-template.js'), 'utf8')
+              .then(function(template) {
+                console.log('Writing ' + requireAllFile +
                 ' for library compilation');
-            template = template.replace('// REPLACE', list.join('\n'));
-            return fs.writeFileAsync(requireAllFile, template);
-          });
-      });
+                template = template.replace('// REPLACE', list.join('\n'));
+                return fs.writeFileAsync(requireAllFile, template);
+              });
+        });
   }
 
   return Promise.resolve();
