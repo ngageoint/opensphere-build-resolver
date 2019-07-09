@@ -14,6 +14,9 @@ module.exports = {
     // their complements.
     "no-negated-condition": "off",
     // allow use of var
-    "no-var": "off"
+    "no-var": "off",
+    "indent": ["error", 2, {
+      "MemberExpression": 1
+    }]
   }
 };

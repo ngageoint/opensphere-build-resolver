@@ -114,5 +114,5 @@ describe('copy onboarding resolver', () => {
 
         expect(fs.readFileSync(file, 'utf-8')).to.equal(expected.join('\n'));
       });
-    });
+  });
 });

@@ -26,10 +26,11 @@ const load = function(includes, excludes) {
   excludes = excludes ? excludes.map(pluginToRegex) : excludes;
 
   var plugins = rglob.sync([
-  // built in plugins
-  path.join(__dirname, '/plugins/*/index.js'),
-  // installed sibling plugins
-  path.join('node_modules', resolverPackage.name + '-*', '/index.js')],
+    // built in plugins
+    path.join(__dirname, '/plugins/*/index.js'),
+    // installed sibling plugins
+    path.join('node_modules', resolverPackage.name + '-*', '/index.js')
+  ],
   {
     cwd: process.cwd(),
     reducer: function(options, result, file, i, files) {

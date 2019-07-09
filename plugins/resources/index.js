@@ -246,20 +246,20 @@ const writer = function(thisPackage, dir) {
   return Promise.map(fileMaps, function(fileMap) {
     return writeFiles(fileMap.obj, dir, fileMap.baseName);
   }, {concurrency: 1})
-  .then(function() {
-    const filename = path.join(dir, 'resources-copy-dirs');
-    console.log('Writing ' + filename);
-    return fs.writeFileAsync(filename, copyDirs.join('\n'));
-  })
-  .then(function() {
-    const content = copyData.map(function(data) {
-      return '"' + data.src + '" "' + data.target + '"';
-    });
+    .then(function() {
+      const filename = path.join(dir, 'resources-copy-dirs');
+      console.log('Writing ' + filename);
+      return fs.writeFileAsync(filename, copyDirs.join('\n'));
+    })
+    .then(function() {
+      const content = copyData.map(function(data) {
+        return '"' + data.src + '" "' + data.target + '"';
+      });
 
-    const filename = path.join(dir, 'resources-copy-files');
-    console.log('Writing ' + filename);
-    return fs.writeFileAsync(filename, content.join('\n'));
-  });
+      const filename = path.join(dir, 'resources-copy-files');
+      console.log('Writing ' + filename);
+      return fs.writeFileAsync(filename, content.join('\n'));
+    });
 };
 
 const clear = function() {

@@ -18,8 +18,7 @@ const resolver = function(pack, projectDir, depth) {
     }
 
     return Promise.mapSeries(list, function(item) {
-      var file = path.relative(process.cwd(), path.join(
-            projectDir, item));
+      var file = path.relative(process.cwd(), path.join(projectDir, item));
 
       var readFile = function(file) {
         return fs.readFileAsync(file, 'utf8')

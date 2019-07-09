@@ -10,8 +10,7 @@ var srcPaths = [];
 var shortcuts = {
   'google-closure-library': function(pack, projectDir) {
     srcPaths.push('!' + path.resolve(projectDir, 'third_party', '**test.js'));
-    srcPaths.push('!' + path.resolve(projectDir, 'closure', 'goog',
-          '**test.js'));
+    srcPaths.push('!' + path.resolve(projectDir, 'closure', 'goog', '**test.js'));
     srcPaths.push(path.resolve(projectDir, 'third_party', '**.js'));
     srcPaths.push(path.resolve(projectDir, 'closure', 'goog', '**.js'));
     return Promise.resolve();

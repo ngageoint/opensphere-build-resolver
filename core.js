@@ -227,8 +227,9 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
 
     if (pack) {
       pack.dependencies = Object.assign(
-          pack.dependencies || {},
-          pack.peerDependencies || {});
+        pack.dependencies || {},
+        pack.peerDependencies || {}
+      );
       break;
     }
   }
@@ -250,9 +251,9 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
   return Promise.map(plugins.resolvers, function(resolver) {
     return resolver(pack, projectDir, depth);
   })
-  .then(resolveDependencies.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, depth))
-  .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-plugin-', depth))
-  .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-config-', depth));
+    .then(resolveDependencies.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, depth))
+    .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-plugin-', depth))
+    .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-config-', depth));
 };
 
 module.exports = {
