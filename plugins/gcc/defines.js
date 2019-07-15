@@ -53,7 +53,7 @@ const resolver = function(pack, projectDir, depth) {
     if (pack.build.moduleDefines) {
       for (var key in pack.build.moduleDefines) {
         var value = pack.build.moduleDefines[key];
-        var modulePath = utils.resolveModulePath(value);
+        var modulePath = utils.resolveModulePath(value, projectDir);
         if (modulePath) {
           modules[key] = path.relative(projectDir, modulePath);
         } else {
