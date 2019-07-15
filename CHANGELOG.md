@@ -1,3 +1,10 @@
+## [5.2.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.2.0...v5.2.1) (2019-07-15)
+
+
+### Bug Fixes
+
+* **gcc:** Resolve module defines relative to the project dir. ([7d58c19](https://github.com/ngageoint/opensphere-build-resolver/commit/7d58c19))
+
 # [5.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.1.1...v5.2.0) (2019-06-19)
 
 
