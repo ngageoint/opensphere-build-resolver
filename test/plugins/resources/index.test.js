@@ -3,9 +3,12 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
-const expect = require('chai').expect;
 const resources = require('../../../plugins/resources');
 const rimraf = require('rimraf');
+
+const chai = require('chai');
+const expect = require('chai').expect;
+chai.use(require('chai-as-promised'));
 
 describe('resources resolver', () => {
   afterEach(() => {
@@ -85,6 +88,10 @@ describe('resources resolver', () => {
 
   it('should throw errors for missing items', () => {
     expect(runDir.bind(undefined, path.join(__dirname, 'should-error-on-missing-index'))).to.throw();
+  });
+
+  it('should throw errors for unmatched glob pattern', () => {
+    expect(runDir(path.join(__dirname, 'should-error-on-unmatched-glob'))).to.be.rejectedWith(Error);
   });
 
   it('should not resolve plugins of packages other than the base package', () => {
