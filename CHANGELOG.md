@@ -1,3 +1,16 @@
+# [6.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.2.1...v6.0.0) (2019-08-02)
+
+
+### Bug Fixes
+
+* **resources:** Require file patterns to match something. ([b5ebbe8](https://github.com/ngageoint/opensphere-build-resolver/commit/b5ebbe8))
+
+
+### BREAKING CHANGES
+
+* **resources:** Glob patterns specified in the resources  array
+must now match at least one file, or the resolver will error.
+
 ## [5.2.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.2.0...v5.2.1) (2019-07-15)
 
 
