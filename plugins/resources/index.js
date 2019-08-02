@@ -123,7 +123,7 @@ const resolver = function(pack, projectDir, depth) {
         try {
           var realPath = fs.realpathSync(filePath);
         } catch (e) {
-          throw new Error('resource resolver unable to find ' + filePath +
+          throw new Error('Resource resolver unable to find ' + filePath +
               '. Please ensure it exists or check your template config.');
         }
 
@@ -174,7 +174,12 @@ const resolver = function(pack, projectDir, depth) {
         // resolve the glob patterns for required resources
         filesToCopy = filesToCopy.concat(_.flatten(resource.files.map(
           function(includePattern) {
-            return glob.sync(path.join(resource.source, includePattern));
+            var globPath = path.join(resource.source, includePattern);
+            var globFiles = glob.sync(globPath);
+            if (!globFiles.length) {
+              throw new Error('Resource resolver did not match any files with pattern: ' + globPath);
+            }
+            return globFiles;
           })));
       }
 
@@ -201,7 +206,7 @@ const resolver = function(pack, projectDir, depth) {
                 target: fs.statSync(file).isDirectory() ? targetDir : target
               });
             } catch (e) {
-              throw new Error('resource resolver unable to find ' + file +
+              throw new Error('Resource resolver unable to find ' + file +
                   '. Please ensure it exists or check your template config.');
             }
 
