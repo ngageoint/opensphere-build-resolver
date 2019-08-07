@@ -2,6 +2,7 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
+const slash = require('slash');
 
 var dirs = [];
 
@@ -25,7 +26,7 @@ const writer = function(thisPackage, dir) {
   if (thisPackage.build.type === 'app') {
     dirs.sort(sort);
     var file = dirs.map(function(item) {
-      return item.path;
+      return slash(item.path);
     }).join('\n');
 
     var filename = path.join(dir, 'copy-views-args');

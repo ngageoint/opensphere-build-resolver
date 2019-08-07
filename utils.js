@@ -136,7 +136,7 @@ const getPackage = function(packageName) {
  */
 const resolveModulePath = function(modulePath, optBasedir) {
   try {
-    var parts = modulePath.split(path.sep);
+    var parts = modulePath.split(/[\\\/]/);
     if (parts && parts.length) {
       // if the package is scoped, use the first two parts of the path. ie, @scope/package.
       var packageName = parts[0].startsWith('@') ? path.join(parts.shift(), parts.shift()) : parts.shift();
@@ -145,7 +145,7 @@ const resolveModulePath = function(modulePath, optBasedir) {
       }));
 
       // join the remaining path to the resource (if any)
-      return path.join(basePath, parts.join(path.sep));
+      return path.normalize(path.join(basePath, parts.join(path.sep)));
     }
   } catch (e) {
   }

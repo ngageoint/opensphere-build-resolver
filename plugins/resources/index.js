@@ -4,6 +4,7 @@ const fs = Promise.promisifyAll(require('fs'));
 const _ = require('underscore');
 const glob = require('glob');
 const path = require('path');
+const slash = require('slash');
 const utils = require('../../utils');
 
 var debugCss = {};
@@ -227,7 +228,7 @@ const writeFiles = function(obj, dir, baseName) {
   var promises = [];
 
   for (var key in obj) {
-    var files = _.flatten(obj[key]);
+    var files = _.flatten(obj[key]).map(slash);
     var filename = dir + path.sep + baseName + key;
 
     if (files.length) {
@@ -254,11 +255,11 @@ const writer = function(thisPackage, dir) {
     .then(function() {
       const filename = path.join(dir, 'resources-copy-dirs');
       console.log('Writing ' + filename);
-      return fs.writeFileAsync(filename, copyDirs.join('\n'));
+      return fs.writeFileAsync(filename, copyDirs.map(slash).join('\n'));
     })
     .then(function() {
       const content = copyData.map(function(data) {
-        return '"' + data.src + '" "' + data.target + '"';
+        return '"' + slash(data.src) + '" "' + slash(data.target) + '"';
       });
 
       const filename = path.join(dir, 'resources-copy-files');
