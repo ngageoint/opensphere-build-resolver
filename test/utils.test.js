@@ -155,6 +155,11 @@ describe('utils', () => {
     expect(indexPath).to.equal(path.join(modulePath, 'index.js'));
   });
 
+  it('should get the path for a module with win32-like paths', ()=> {
+    var chaiPath = utils.resolveModulePath('@semantic-release\\changelog\\index.js');
+    expect(chaiPath).to.exist;
+  });
+
   it('should find matching lines in a directory', () => {
     var directory = path.join(__dirname, 'utils-find-lines');
     return utils.findLines(/^goog\.provide\(/, directory).then((matches) => {

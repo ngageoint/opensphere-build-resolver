@@ -115,4 +115,20 @@ describe('copy views resolver', () => {
         expect(fs.readFileSync(file, 'utf-8')).to.equal(expected.join('\n'));
       });
   });
+
+  it('should normalize win32 paths to forward slashes', () => {
+    var pack = {
+      name: 'thing',
+      directories: {
+        views: 'foo\\bar'
+      },
+      build: {
+        type: 'app'
+      }
+    };
+
+    run(pack).then(() => {
+      expect(fs.readFileSync(file, 'utf-8')).to.equal(path.join('foo', 'bar', '*'));
+    });
+  });
 });
