@@ -19,6 +19,10 @@ describe('resources resolver', () => {
   var outputDir = path.join(process.cwd(), '.test');
   var baseDir = path.join(__dirname, 'resources');
   var dirs = fs.readdirSync(baseDir);
+  var baseDirs = [
+    baseDir,
+    'C:' + baseDir.replace(/\//, '\\')
+  ];
 
   var check = (dir) => {
     var expectedDir = path.join(dir, 'expected');
@@ -76,49 +80,51 @@ describe('resources resolver', () => {
     }
   };
 
-  dirs.forEach((d) => {
-    it(d.replace(/-/g, ' '), () => {
-      return runDir(path.join(baseDir, d));
-    });
-  });
-
-  it('should throw errors for malformed items', () => {
-    expect(runDir.bind(undefined, path.join(__dirname, 'should-error-on-malformed-index'))).to.throw();
-  });
-
-  it('should throw errors for missing items', () => {
-    expect(runDir.bind(undefined, path.join(__dirname, 'should-error-on-missing-index'))).to.throw();
-  });
-
-  it('should throw errors for unmatched glob pattern', () => {
-    expect(runDir(path.join(__dirname, 'should-error-on-unmatched-glob'))).to.be.rejectedWith(Error);
-  });
-
-  it('should not resolve plugins of packages other than the base package', () => {
-    var base = {
-      name: 'base',
-      build: {
-        type: 'app'
-      }
-    };
-
-    var other = {
-      name: 'other-plugin-thing',
-      build: {
-        type: 'plugin',
-        index: 'thing.js'
-      }
-    };
-
-    return resources.resolver(base, path.join(baseDir, 'should-avoid-plugins-not-from-base-package'), 1)
-      .then(() => {
-        resources.resolver(other, path.join(baseDir, 'should-find-and-parse-index-files'), 2);
-      })
-      .then(() => {
-        resources.writer(base, outputDir);
-      }).then(() => {
-        var files = fs.readdirSync(outputDir);
-        expect(files.length).to.equal(0);
+  baseDirs.forEach((baseDir) => {
+    dirs.forEach((d) => {
+      it(d.replace(/-/g, ' '), () => {
+        return runDir(path.join(baseDir, d));
       });
+    });
+
+    it('should throw errors for malformed items', () => {
+      expect(runDir.bind(undefined, path.join(__dirname, 'should-error-on-malformed-index'))).to.throw();
+    });
+
+    it('should throw errors for missing items', () => {
+      expect(runDir.bind(undefined, path.join(__dirname, 'should-error-on-missing-index'))).to.throw();
+    });
+
+    it('should throw errors for unmatched glob pattern', () => {
+      expect(runDir(path.join(__dirname, 'should-error-on-unmatched-glob'))).to.be.rejectedWith(Error);
+    });
+
+    it('should not resolve plugins of packages other than the base package', () => {
+      var base = {
+        name: 'base',
+        build: {
+          type: 'app'
+        }
+      };
+
+      var other = {
+        name: 'other-plugin-thing',
+        build: {
+          type: 'plugin',
+          index: 'thing.js'
+        }
+      };
+
+      return resources.resolver(base, path.join(baseDir, 'should-avoid-plugins-not-from-base-package'), 1)
+        .then(() => {
+          resources.resolver(other, path.join(baseDir, 'should-find-and-parse-index-files'), 2);
+        })
+        .then(() => {
+          resources.writer(base, outputDir);
+        }).then(() => {
+          var files = fs.readdirSync(outputDir);
+          expect(files.length).to.equal(0);
+        });
+    });
   });
 });
