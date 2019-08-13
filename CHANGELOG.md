@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.0.0...v6.1.0) (2019-08-13)
+
+
+### Features
+
+* better windows support ([cac7761](https://github.com/ngageoint/opensphere-build-resolver/commit/cac7761))
+
 # [6.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v5.2.1...v6.0.0) (2019-08-02)
 
 
