@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const utils = require('../../utils');
+const slash = require('slash');
 
 var basePackage = null;
 var definesFound = {};
@@ -42,7 +43,7 @@ const resolver = function(pack, projectDir, depth) {
 
       // resolve the path from the project directory if not found in node_modules
       return (exclusion ? '!' : '') +
-        utils.flattenPath(path.resolve(projectDir, item));
+        slash(utils.flattenPath(path.resolve(projectDir, item)));
     };
 
     for (var key in options) {
