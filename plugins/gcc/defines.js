@@ -4,6 +4,7 @@ const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const utils = require('../../utils');
+const slash = require('slash');
 
 /**
  * @fileOverview
@@ -55,7 +56,7 @@ const resolver = function(pack, projectDir, depth) {
         var value = pack.build.moduleDefines[key];
         var modulePath = utils.resolveModulePath(value, projectDir);
         if (modulePath) {
-          modules[key] = path.relative(projectDir, modulePath);
+          modules[key] = slash(path.relative(projectDir, modulePath));
         } else {
           throw new Error('Unable to resolve module path for define ' + key + ' with path ' + value + '.');
         }
@@ -72,7 +73,7 @@ const resolver = function(pack, projectDir, depth) {
         var origPath = results[2].replace(/[\\/]+$/, '');
         var definePath = path.normalize(path.join(relPath, origPath));
 
-        defines[results[1]] = definePath + path.sep;
+        defines[results[1]] = slash(definePath + path.sep);
       }
 
       regex.lastIndex = 0;
