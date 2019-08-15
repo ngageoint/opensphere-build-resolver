@@ -1,3 +1,10 @@
+## [6.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.0...v6.1.1) (2019-08-15)
+
+
+### Bug Fixes
+
+* **gcc:** handle win32 paths for defines and options ([4a6aa29](https://github.com/ngageoint/opensphere-build-resolver/commit/4a6aa29))
+
 # [6.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.0.0...v6.1.0) (2019-08-13)
 
 
