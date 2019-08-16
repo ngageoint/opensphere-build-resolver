@@ -1,3 +1,11 @@
+## [6.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.1...v6.1.2) (2019-08-16)
+
+
+### Bug Fixes
+
+* **config:** fix slashes in debug config paths ([e67136e](https://github.com/ngageoint/opensphere-build-resolver/commit/e67136e))
+* **gcc:** fix slashes in ROOT defines ([bf5a1b1](https://github.com/ngageoint/opensphere-build-resolver/commit/bf5a1b1))
+
 ## [6.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.0...v6.1.1) (2019-08-15)
 
 
