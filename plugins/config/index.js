@@ -4,6 +4,7 @@ const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const utils = require('../../utils');
+const slash = require('slash');
 
 var configs = [];
 var basePackage = null;
@@ -105,7 +106,7 @@ const merge = function(from, to) {
 
 const writeDebug = function(pack, outputDir) {
   var overrides = configs.map(function(item) {
-    return item.path;
+    return slash(item.path);
   });
 
   var debug = {
