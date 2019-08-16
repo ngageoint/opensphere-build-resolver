@@ -114,7 +114,7 @@ const adder = function(thisPackage, options) {
       // modify ROOT defines with the value
       var list = [];
       for (var key in defines) {
-        list.push(key + '=\'' + value + path.sep + '\'');
+        list.push(key + '=\'' + slash(value + path.sep) + '\'');
       }
 
       if (list.length) {
