@@ -5,6 +5,7 @@ const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 const utils = require('./utils');
 const semver = require('semver');
+const slash = require('slash');
 var plugins = null;
 
 /**
@@ -239,8 +240,13 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
   }
 
   var projectDir = pathsToTry[i];
-  while (!projectDir.endsWith(name)) {
+  var lastDir = projectDir;
+  while (!slash(projectDir).endsWith(slash(name))) {
     projectDir = path.resolve(projectDir, '../');
+    if (lastDir === projectDir) {
+      throw new Error('Could not resolve module path for "' + name + '"');
+    }
+    lastDir = projectDir;
   }
   console.log(indent + 'Resolved ' + pack.name + '@' + pack.version + ' to ' + projectDir);
   if (!rootProjectPath) {
