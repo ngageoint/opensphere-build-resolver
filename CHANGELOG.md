@@ -1,3 +1,10 @@
+## [6.1.3](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.2...v6.1.3) (2019-11-10)
+
+
+### Bug Fixes
+
+* **core:** fix module path detection for Windows-based builds ([e6d64c0](https://github.com/ngageoint/opensphere-build-resolver/commit/e6d64c09ff3f2fc25ba15b72453eb4a3a28d5fbb))
+
 ## [6.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.1...v6.1.2) (2019-08-16)
 
 
