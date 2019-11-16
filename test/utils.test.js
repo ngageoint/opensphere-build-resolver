@@ -175,4 +175,83 @@ describe('utils', () => {
       expect(matches.reduce((total, match) => total + match.lines.length, 0)).to.equal(2);
     });
   });
+
+  it('should get the correct group for each project', function() {
+    expect(utils.getGroup(['project'])).to.equal(utils.Groups.BASE);
+    expect(utils.getGroup(['project', 'project-plugin-test'])).to.equal(utils.Groups.PLUGIN);
+    expect(utils.getGroup(['project', 'project-config-test'])).to.equal(utils.Groups.CONFIG);
+    expect(utils.getGroup(['project', 'project-plugin-test-config-test'])).to.equal(utils.Groups.CONFIG);
+  });
+
+  it('should prefer explicit priority', function() {
+    const list = [
+      {priority: -1, name: 'project', depth: 0, group: utils.Groups.BASE},
+      {priority: -2, name: 'project-plugin-foo', depth: 1, group: utils.Groups.PLUGIN},
+      {priority: -3, name: 'project-plugin-bar', depth: 1, group: utils.Groups.PLUGIN},
+      {priority: -4, name: 'project-config-test', depth: 1, group: utils.Groups.CONFIG},
+      {priority: -5, name: 'project-plugin-bar-config-test', depth: 2, group: utils.Groups.CONFIG}
+    ];
+
+    list.sort(utils.priorityGroupDepthSort);
+
+    expect(list.map((n) => n.name)).to.deep.equal([
+      'project-plugin-bar-config-test', 'project-config-test', 'project-plugin-bar',
+      'project-plugin-foo', 'project']);
+  });
+
+  describe('group and depth updater', function() {
+    it('should only handle items with the same name', function() {
+      const list = [
+        {name: 'some other name', depth: 0, group: utils.Groups.BASE}
+      ];
+
+      const updater = utils.getGroupDepthUpdater(list);
+      updater({name: 'test'}, 0, ['test']);
+
+      expect(list[0].depth).to.equal(0);
+      expect(list[0].group).to.equal(utils.Groups.BASE);
+    });
+
+    it('should not update for groups greater than the current one', function() {
+      const list = [
+        {name: 'project', depth: 0, group: utils.Groups.BASE},
+        {name: 'project-plugin-test', depth: 1, group: utils.Groups.PLUGIN},
+        {name: 'project-config-test', depth: 1, group: utils.Groups.CONFIG}
+      ];
+
+      const updater = utils.getGroupDepthUpdater(list);
+
+      updater({name: 'project'}, 2, ['project', 'project-plugin-test', 'project']);
+      expect(list[0].depth).to.equal(0);
+      expect(list[0].group).to.equal(utils.Groups.BASE);
+
+      updater({name: 'project-plugin-test'}, 2, ['project', 'project-config-test', 'project-plugin-test']);
+      expect(list[1].depth).to.equal(1);
+      expect(list[1].group).to.equal(utils.Groups.PLUGIN);
+    });
+
+    it('should upgrade groups', function() {
+      const list = [
+        {name: 'lib', depth: 3, group: utils.Groups.PLUGIN}
+      ];
+
+      const updater = utils.getGroupDepthUpdater(list);
+
+      updater({name: 'lib'}, 1, ['project', 'lib']);
+      expect(list[0].depth).to.equal(1);
+      expect(list[0].group).to.equal(utils.Groups.BASE);
+    });
+
+    it('should use the maximum depth within a group', function() {
+      const list = [
+        {name: 'lib', depth: 1, group: utils.Groups.BASE}
+      ];
+
+      const updater = utils.getGroupDepthUpdater(list);
+
+      updater({name: 'lib'}, 2, ['project', 'other-lib', 'lib']);
+      expect(list[0].depth).to.equal(2);
+      expect(list[0].group).to.equal(utils.Groups.BASE);
+    });
+  });
 });

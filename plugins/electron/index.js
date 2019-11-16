@@ -34,7 +34,7 @@ const resolvePackages = function(pack, projectDir, packages) {
   }
 };
 
-const resolvePreload = function(pack, projectDir, preload) {
+const resolvePreload = function(pack, projectDir, preload, depth, depStack) {
   if (preload) {
     if (!Array.isArray(preload)) {
       throw new Error(path.join(projectDir, 'package.json') + 'build.electron.preload must be a ' +
@@ -48,15 +48,21 @@ const resolvePreload = function(pack, projectDir, preload) {
             scriptPath);
       }
 
-      preloadScripts.push(scriptPath);
+      preloadScripts.push({
+        path: scriptPath,
+        name: pack.name,
+        priority: (pack && pack.build) ? pack.build.priority || 0 : 0,
+        group: utils.getGroup(depStack),
+        depth: depth
+      });
     });
   }
 };
 
-const resolver = function(pack, projectDir, depth) {
+const resolver = function(pack, projectDir, depth, depStack) {
   if (pack.build && pack.build.electron) {
     resolvePackages(pack, projectDir, pack.build.electron.packages);
-    resolvePreload(pack, projectDir, pack.build.electron.preload);
+    resolvePreload(pack, projectDir, pack.build.electron.preload, depth, depStack);
   }
 
   return Promise.resolve();
@@ -106,6 +112,8 @@ const writer = function(thisPackage, outputDir) {
         // get the real path to avoid symlink issues
         preloadDir = fs.realpathSync(preloadDir);
 
+        preloadScripts.sort(utils.priorityGroupDepthSort);
+
         // copy each preload script to the target directory
         return Promise.map(preloadScripts, function(script, idx, arr) {
           // increment preload file names. Electron will load everything in the directory.
@@ -113,7 +121,7 @@ const writer = function(thisPackage, outputDir) {
 
           console.log('Writing Electron preload script: ' + dest);
 
-          return fs.copyFileAsync(script, dest, fs.constants.COPYFILE_EXCL);
+          return fs.copyFileAsync(script.path, dest, fs.constants.COPYFILE_EXCL);
         });
       });
   });

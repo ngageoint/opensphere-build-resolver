@@ -21,7 +21,7 @@ var multiValueKeys = [
   'module'
 ];
 
-const resolver = function(pack, projectDir, depth) {
+const resolver = function(pack, projectDir, depth, depStack) {
   basePackage = basePackage || pack;
 
   var options = pack.build ? pack.build.gcc : null;
@@ -58,8 +58,10 @@ const resolver = function(pack, projectDir, depth) {
       }
     }
 
-    // assign a priority so options can be added in the appropriate order
-    options.priority = utils.getPackagePriority(pack, depth, basePackage);
+    options.group = utils.getGroup(depStack);
+    options.depth = depth;
+    options.priority = (pack && pack.build) ? pack.build.priority || 0 : 0;
+    options.name = pack.name;
 
     optionsFound.unshift(options);
   }
@@ -72,21 +74,14 @@ const toArray = function(item) {
   return !(item instanceof Array) ? [item] : item;
 };
 
-/**
- * Sort options objects in ascending order.
- * @param {Object} a First object
- * @param {Object} b Second object
- * @return {number} The sort order
- */
-const sort = function(a, b) {
-  return a.priority - b.priority;
-};
-
 const adder = function(pack, options) {
-  optionsFound.sort(sort);
+  optionsFound.sort(utils.priorityGroupDepthSort);
   optionsFound.reduce(function(options, curr) {
-    // remove the priority so it isn't included as an option
+    // remove the keys we added
     delete curr.priority;
+    delete curr.depth;
+    delete curr.group;
+    delete curr.name;
 
     for (var key in curr) {
       var value = curr[key];
@@ -143,11 +138,12 @@ const adder = function(pack, options) {
 
 const clear = function() {
   definesFound = {};
-  optionsFound.length = 0;
+  optionsFound = [];
 };
 
 module.exports = {
   resolver: resolver,
+  updater: utils.getGroupDepthUpdater(optionsFound),
   adder: adder,
   clear: clear
 };

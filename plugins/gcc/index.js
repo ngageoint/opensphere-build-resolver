@@ -19,9 +19,10 @@ var basePackage = null;
  * @param {Object} pack The package
  * @param {string} projectDir The package directory
  * @param {number} depth The resolved depth
+ * @param {Array<string>} depStack the ancestry stack
  * @return {Promise} A promise that resolves when resolution is complete
  */
-const resolver = function(pack, projectDir, depth) {
+const resolver = function(pack, projectDir, depth, depStack) {
   if (utils.isConfigPackage(pack)) {
     return Promise.resolve();
   }
@@ -58,12 +59,20 @@ const resolver = function(pack, projectDir, depth) {
   }
 
   return Promise.all([
-    src.resolver(pack, projectDir, depth),
-    externs.resolver(pack, projectDir, depth),
-    defines.resolver(pack, projectDir, depth),
-    options.resolver(pack, projectDir, depth),
-    tests.resolver(pack, projectDir, depth)
+    src.resolver(pack, projectDir, depth, depStack),
+    externs.resolver(pack, projectDir, depth, depStack),
+    defines.resolver(pack, projectDir, depth, depStack),
+    options.resolver(pack, projectDir, depth, depStack),
+    tests.resolver(pack, projectDir, depth, depStack)
   ]);
+};
+
+const updater = function(pack, depth, depStack) {
+  if (src.updater) src.updater(pack, depth, depStack);
+  if (externs.updater) externs.updater(pack, depth, depStack);
+  if (defines.updater) defines.updater(pack, depth, depStack);
+  if (options.updater) options.updater(pack, depth, depStack);
+  if (tests.updater) tests.updater(pack, depth, depStack);
 };
 
 const postResolver = function(pack, projectDir) {
@@ -128,6 +137,7 @@ const clear = function() {
 module.exports = {
   clear: clear,
   resolver: resolver,
+  updater: updater,
   postResolver: postResolver,
   writer: writer,
   _getOptions: getOptions

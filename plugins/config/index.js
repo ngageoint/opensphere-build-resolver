@@ -9,7 +9,14 @@ const slash = require('slash');
 var configs = [];
 var basePackage = null;
 
-const resolver = function(pack, projectDir, depth) {
+/**
+ * @param {Object} pack Package.json
+ * @param {string} projectDir
+ * @param {number} depth
+ * @param {Array<string>} depStack The ancestry stack
+ * @return {Promise}
+ */
+const resolver = function(pack, projectDir, depth, depStack) {
   basePackage = basePackage || pack;
 
   if (pack.build && pack.build.config) {
@@ -26,8 +33,11 @@ const resolver = function(pack, projectDir, depth) {
           .then(function(content) {
             configs.push({
               path: file,
-              depth: utils.getPackagePriority(pack, depth, basePackage),
-              content: JSON.parse(content)
+              group: utils.getGroup(depStack),
+              priority: (pack && pack.build) ? pack.build.priority || 0 : 0,
+              content: JSON.parse(content),
+              name: pack.name,
+              depth: depth
             });
           });
       };
@@ -51,15 +61,6 @@ const resolver = function(pack, projectDir, depth) {
   return Promise.resolve();
 };
 
-/**
- * Sort config objects in ascending order.
- * @param {Object} a First object
- * @param {Object} b Second object
- * @return {number} The sort order
- */
-const sort = function(a, b) {
-  return a.depth - b.depth;
-};
 
 /**
  * @param {?} val The value to check
@@ -132,7 +133,7 @@ const writeDist = function(outputDir) {
 
 const writer = function(thisPackage, outputDir) {
   if (configs.length) {
-    configs.sort(sort);
+    configs.sort(utils.priorityGroupDepthSort);
 
     return Promise.join(
       writeDist(outputDir),
@@ -149,5 +150,6 @@ const clear = function() {
 module.exports = {
   clear: clear,
   resolver: resolver,
+  updater: utils.getGroupDepthUpdater(configs),
   writer: writer
 };

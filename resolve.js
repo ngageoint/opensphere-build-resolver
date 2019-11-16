@@ -32,7 +32,7 @@ if (!argv.outputDir) {
 var plugins = pluginUtils.load(argv.include, argv.exclude);
 var outputDir = path.resolve(process.cwd(), argv.outputDir);
 
-core.resolvePackage(undefined, undefined, process.cwd(), 0, undefined, plugins)
+core.resolvePackage(undefined, undefined, process.cwd(), 0, undefined, undefined, plugins)
   .then(function() {
     console.log();
 

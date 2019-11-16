@@ -70,7 +70,7 @@ describe('resources resolver', () => {
     }
 
     if (pack) {
-      return resources.resolver(pack, dir, pack.depth || 0)
+      return resources.resolver(pack, dir, pack.depth || 0, [pack.name])
         .then(() => {
           return resources.writer(pack, outputDir);
         })
@@ -115,9 +115,10 @@ describe('resources resolver', () => {
         }
       };
 
-      return resources.resolver(base, path.join(baseDir, 'should-avoid-plugins-not-from-base-package'), 1)
+      return resources.resolver(base, path.join(baseDir, 'should-avoid-plugins-not-from-base-package'), 1, [base.name])
         .then(() => {
-          resources.resolver(other, path.join(baseDir, 'should-find-and-parse-index-files'), 2);
+          resources.resolver(other, path.join(baseDir, 'should-find-and-parse-index-files'), 2,
+            [base.name, other.name]);
         })
         .then(() => {
           resources.writer(base, outputDir);

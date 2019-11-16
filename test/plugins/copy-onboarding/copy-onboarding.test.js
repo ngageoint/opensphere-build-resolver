@@ -16,7 +16,7 @@ describe('copy onboarding resolver', () => {
   var outputDir = path.join(process.cwd(), '.test');
 
   var run = (pack) => {
-    return copy.resolver(pack, '.', 0).then(() => {
+    return copy.resolver(pack, '.', 0, [pack.name]).then(() => {
       return copy.writer(pack, outputDir);
     });
   };
@@ -102,8 +102,8 @@ describe('copy onboarding resolver', () => {
     };
 
     return Promise.join(
-      copy.resolver(pack1, pack1.name, 0),
-      copy.resolver(pack2, pack2.name, 1))
+      copy.resolver(pack1, pack1.name, 0, ['thing-foo']),
+      copy.resolver(pack2, pack2.name, 1, ['thing-foo', 'thing-foo-plugin-bar']))
       .then(() => {
         return copy.writer(pack1, outputDir);
       })
@@ -127,7 +127,7 @@ describe('copy onboarding resolver', () => {
       }
     };
 
-    run(pack).then(() => {
+    return run(pack).then(() => {
       expect(fs.readFileSync(file, 'utf-8')).to.equal(path.join('foo', 'bar', '*'));
     });
   });
