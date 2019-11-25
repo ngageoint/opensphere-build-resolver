@@ -218,7 +218,7 @@ const getPackagePriority = function(pack, depth, basePackage) {
     if (pack.build && pack.build.priority !== undefined) {
       priority = pack.build.priority;
     } else {
-      priority = -depth;
+      priority = -depth * 10;
 
       if (isConfigPackage(pack) ||
           (isPluginPackage(pack) && isPluginOfPackage(basePackage, pack))) {
@@ -230,6 +230,67 @@ const getPackagePriority = function(pack, depth, basePackage) {
   return priority;
 };
 
+
+const groups = {
+  BASE: 0,
+  PLUGIN: 1000,
+  CONFIG: 10000
+};
+
+
+/**
+ * @param {?Array<string>} depStack
+ * @return {number}
+ */
+const getGroup = function(depStack) {
+  if (depStack) {
+    if (depStack.some((dep) => /-config-/.test(dep))) {
+      return groups.CONFIG;
+    } else if (depStack.some((dep) => /-plugin-/.test(dep))) {
+      return groups.PLUGIN;
+    }
+  }
+  return groups.BASE;
+};
+
+
+/**
+ * Sort config objects in ascending order.
+ * @param {Object} a First object
+ * @param {Object} b Second object
+ * @return {number} The sort order
+ */
+const priorityGroupDepthSort = function(a, b) {
+  const an = a.priority || a.group - a.depth;
+  const bn = b.priority || b.group - b.depth;
+  return an - bn;
+};
+
+
+/**
+ * @param {Array<Object>} list
+ * @return {function(Object, number, Array<string>):Promise}
+ */
+const getGroupDepthUpdater = function(list) {
+  return (pack, depth, depStack) => {
+    list.forEach(function(config) {
+      if (config.name === pack.name) {
+        const newGroup = getGroup(depStack);
+
+        if (newGroup < config.group) {
+          config.group = newGroup;
+          config.depth = depth;
+        } else if (newGroup === config.group) {
+          config.depth = Math.max(depth, config.depth);
+        }
+      }
+    });
+
+    return Promise.resolve();
+  };
+};
+
+
 module.exports = {
   findLines: findLines,
   isAppPackage: isAppPackage,
@@ -237,9 +298,13 @@ module.exports = {
   isPluginPackage: isPluginPackage,
   isPluginOfPackage: isPluginOfPackage,
   flattenPath: flattenPath,
+  Groups: groups,
   getPrioritySort: getPrioritySort,
+  getGroup: getGroup,
+  getGroupDepthUpdater: getGroupDepthUpdater,
   getIndent: getIndent,
   getPackage: getPackage,
   getPackagePriority: getPackagePriority,
+  priorityGroupDepthSort: priorityGroupDepthSort,
   resolveModulePath: resolveModulePath
 };

@@ -33,9 +33,10 @@ var basePath = null;
  * @param {Array<!Object>} pack The application `package.json`
  * @param {string} projectDir The base project directory
  * @param {number} depth The depth
+ * @param {Array<string>} depStack The ancestry stack
  * @return {Promise} A promise that resolves when processing is complete
  */
-const resolver = function(pack, projectDir, depth) {
+const resolver = function(pack, projectDir, depth, depStack) {
   basePath = basePath || projectDir;
 
   // This block covers a couple of weird cases:
@@ -204,7 +205,11 @@ const resolver = function(pack, projectDir, depth) {
             try {
               copyData.push({
                 src: file,
-                target: fs.statSync(file).isDirectory() ? targetDir : target
+                target: fs.statSync(file).isDirectory() ? targetDir : target,
+                name: pack.name,
+                priority: (pack && pack.build) ? pack.build.priority || 0 : 0,
+                group: utils.getGroup(depStack),
+                depth: depth
               });
             } catch (e) {
               throw new Error('Resource resolver unable to find ' + file +
@@ -258,6 +263,8 @@ const writer = function(thisPackage, dir) {
       return fs.writeFileAsync(filename, copyDirs.map(slash).join('\n'));
     })
     .then(function() {
+      copyData.sort(utils.priorityGroupDepthSort);
+
       const content = copyData.map(function(data) {
         return '"' + slash(data.src) + '" "' + slash(data.target) + '"';
       });
@@ -282,5 +289,6 @@ const clear = function() {
 module.exports = {
   clear: clear,
   resolver: resolver,
+  updater: utils.getGroupDepthUpdater(copyData),
   writer: writer
 };

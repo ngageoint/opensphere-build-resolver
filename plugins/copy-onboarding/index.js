@@ -2,29 +2,28 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
+const utils = require('../../utils');
 const slash = require('slash');
 
 var dirs = [];
 
-var pluginRegex = /-(config|plugin)-/;
-const resolver = function(pack, projectDir, depth) {
+const resolver = function(pack, projectDir, depth, depStack) {
   if (pack.directories && pack.directories.onboarding) {
     dirs.push({
       path: path.join(projectDir, pack.directories.onboarding, '*'),
-      depth: depth - (pluginRegex.test(pack.name) ? 1 : 0)
+      name: pack.name,
+      priority: (pack && pack.build) ? pack.build.priority || 0 : 0,
+      group: utils.getGroup(depStack),
+      depth: depth
     });
   }
 
   return Promise.resolve();
 };
 
-const sort = function(a, b) {
-  return b.depth - a.depth;
-};
-
 const writer = function(thisPackage, dir) {
   if (thisPackage.build.type === 'app') {
-    dirs.sort(sort);
+    dirs.sort(utils.priorityGroupDepthSort);
     var file = dirs.map(function(item) {
       return slash(item.path);
     }).join('\n');
@@ -38,11 +37,12 @@ const writer = function(thisPackage, dir) {
 };
 
 const clear = function() {
-  dirs = [];
+  dirs.length = [];
 };
 
 module.exports = {
   clear: clear,
   resolver: resolver,
+  updater: utils.getGroupDepthUpdater(dirs),
   writer: writer
 };

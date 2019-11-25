@@ -63,6 +63,7 @@ const load = function(includes, excludes) {
   return {
     resolvers: plugins.map(mapField('resolver')).filter(filterEmpty),
     writers: plugins.map(mapField('writer')).filter(filterEmpty),
+    updaters: plugins.map(mapField('updater')).filter(filterEmpty),
     postResolvers: plugins.map(mapField('postResolver')).filter(filterEmpty)
   };
 };

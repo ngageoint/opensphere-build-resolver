@@ -15,13 +15,14 @@ var plugins = null;
  * @param {Object} pack The package.json
  * @param {string} projectDir The directory in which the current package was resolved
  * @param {number} depth The tree depth
+ * @param {Array<string>} depStack The ancestry stack
  * @return {Promise} resolving all of the dependencies
  */
-const resolveDependencies = function(rootProjectPath, alreadyResolved, pack, projectDir, depth) {
+const resolveDependencies = function(rootProjectPath, alreadyResolved, pack, projectDir, depth, depStack) {
   if (pack.dependencies) {
     var deps = Object.keys(pack.dependencies);
     if (deps && pack.build) {
-      deps = deps.filter(function(dep) {
+      deps.forEach(function(dep) {
         if (dep in alreadyResolved) {
           var resolvedVersion = alreadyResolved[dep];
           var requestedVersion = pack.dependencies[dep];
@@ -36,22 +37,18 @@ const resolveDependencies = function(rootProjectPath, alreadyResolved, pack, pro
                 pack.dependencies[dep] + ' which has already been ' +
                 'resolved as version ' + alreadyResolved[dep]);
             }
-
-            return false;
+          } else {
+            console.log('WARNING: "' + dep + '" version "' +
+                requestedVersion + '" was required by "' + pack.name + '" but ' +
+                'is not a valid semver or semver range. "' + dep + '" was ' +
+                'already resolved as version "' + resolvedVersion + '" and ' +
+                'will be kept.');
           }
-
-          console.log('WARNING: "' + dep + '" version "' +
-              requestedVersion + '" was required by "' + pack.name + '" but ' +
-              'is not a valid semver or semver range. "' + dep + '" was ' +
-              'already resolved as version "' + resolvedVersion + '" and ' +
-              'will be kept.');
         }
-
-        return true;
       });
 
       return Promise.all(deps.map(function(dep) {
-        return resolvePackage(rootProjectPath, alreadyResolved, dep, depth + 1, projectDir);
+        return resolvePackage(rootProjectPath, alreadyResolved, dep, depth + 1, depStack, projectDir);
       }));
     }
   }
@@ -67,10 +64,10 @@ const resolveDependencies = function(rootProjectPath, alreadyResolved, pack, pro
  * @param {string} projectDir The current package path
  * @param {string} prefix The prefix before the plugin package name
  * @param {number} depth The current tree depth
+ * @param {Array<string>} depStack The ancestry stack
  * @return {Promise} resolving all of the plugins
  */
-const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectDir, prefix, depth) {
-  var indent = utils.getIndent(depth);
+const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectDir, prefix, depth, depStack) {
   alreadyResolved = alreadyResolved || {};
 
   var pathsToTry = [
@@ -88,7 +85,7 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
     return Promise.resolve();
   }
 
-  console.log(indent + 'Resolving ' + pack.name + prefix + '*');
+  console.log('\n\nResolving ' + pack.name + prefix + '*');
 
   return Promise.map(pathsToTry, function(p) {
     var priorityMap = {};
@@ -107,12 +104,6 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
           pluginPack = require(pluginPackPath);
         } catch (e) {
           console.error(pluginPackPath + ' does not exist');
-          return false;
-        }
-
-        if (pluginPack.name in alreadyResolved) {
-          // don't bother with plugins already resolved
-          // this tends to occur in plugin builds
           return false;
         }
 
@@ -158,7 +149,7 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
         return files;
       })
       .map(function(file) {
-        return resolvePackage(rootProjectPath, alreadyResolved, path.resolve(p, file), depth + 1);
+        return resolvePackage(rootProjectPath, alreadyResolved, path.resolve(p, file), depth + 1, depStack);
       })
       .catch({code: 'ENOENT'}, function() {});
   });
@@ -170,22 +161,18 @@ const resolvePlugins = function(rootProjectPath, alreadyResolved, pack, projectD
  * @param {Object<string, string>} alreadyResolved Map of package names to versions
  * @param {string} name The package name to resolve
  * @param {number} depth The tree depth
+ * @param {Array<string>} depStack The ancestry stack
  * @param {string} optDependent The dependent path from which to resolve
  * @param {Object<string, Array<Function>>=} optPlugins optional set of plugin functions
  * @return {Promise} resolving all the things
  */
-const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, optDependent, optPlugins) {
-  var indent = utils.getIndent(depth);
+const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, depStack, optDependent, optPlugins) {
   optDependent = optDependent || '';
   alreadyResolved = alreadyResolved || {};
+  depStack = depStack ? depStack.slice() : [];
 
   if (optPlugins) {
     plugins = optPlugins;
-  }
-
-  if (name in alreadyResolved) {
-    console.log(indent + name + ' already resolved');
-    return Promise.resolve();
   }
 
   var filesToTry = ['package.json', 'bower.json'];
@@ -248,18 +235,29 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, o
     }
     lastDir = projectDir;
   }
-  console.log(indent + 'Resolved ' + pack.name + '@' + pack.version + ' to ' + projectDir);
+
   if (!rootProjectPath) {
     rootProjectPath = projectDir;
   }
 
+  depStack.push(pack.name);
+
+  if (name in alreadyResolved) {
+    console.log('Resolved ' + depStack.join(' > ') + '@' + pack.version + ' as already resolved. Updating...');
+    return Promise.map(plugins.updaters, function(updater) {
+      return updater(pack, depth, depStack);
+    });
+  }
+
   alreadyResolved[pack.name] = pack.version;
+  console.log('Resolved ' + depStack.join(' > ') + '@' + pack.version + ' to ' + projectDir);
+
   return Promise.map(plugins.resolvers, function(resolver) {
-    return resolver(pack, projectDir, depth);
+    return resolver(pack, projectDir, depth, depStack);
   })
-    .then(resolveDependencies.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, depth))
-    .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-plugin-', depth))
-    .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-config-', depth));
+    .then(resolveDependencies.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, depth, depStack))
+    .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-plugin-', depth, depStack))
+    .then(resolvePlugins.bind(null, rootProjectPath, alreadyResolved, pack, projectDir, '-config-', depth, depStack));
 };
 
 module.exports = {
