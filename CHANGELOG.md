@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.3...v6.2.0) (2019-11-25)
+
+
+### Features
+
+* better priority ordering for plugins ([69a3415](https://github.com/ngageoint/opensphere-build-resolver/commit/69a34154f6bd620fb7ac42c8b0c9a40de03592e8)), closes [#7](https://github.com/ngageoint/opensphere-build-resolver/issues/7) [#18](https://github.com/ngageoint/opensphere-build-resolver/issues/18)
+
 ## [6.1.3](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.2...v6.1.3) (2019-11-10)
 
 
