@@ -1,3 +1,10 @@
+## [6.2.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.2.0...v6.2.1) (2019-11-26)
+
+
+### Bug Fixes
+
+* **core:** fix typo in alreadyResolved check ([8a183f9](https://github.com/ngageoint/opensphere-build-resolver/commit/8a183f9f1bdb5e712d1fe88da4bd571474c9bcf2))
+
 # [6.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.1.3...v6.2.0) (2019-11-25)
 
 
