@@ -242,7 +242,7 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, d
 
   depStack.push(pack.name);
 
-  if (name in alreadyResolved) {
+  if (pack.name in alreadyResolved) {
     console.log('Resolved ' + depStack.join(' > ') + '@' + pack.version + ' as already resolved. Updating...');
     return Promise.map(plugins.updaters, function(updater) {
       return updater(pack, depth, depStack);
