@@ -1,3 +1,10 @@
+## [6.2.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.2.1...v6.2.2) (2020-01-14)
+
+
+### Bug Fixes
+
+* **gcc:** sort entry_point options by descending priority ([25dd17e](https://github.com/ngageoint/opensphere-build-resolver/commit/25dd17e1f85a81963a7b8941b329129b74032480))
+
 ## [6.2.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.2.0...v6.2.1) (2019-11-26)
 
 
