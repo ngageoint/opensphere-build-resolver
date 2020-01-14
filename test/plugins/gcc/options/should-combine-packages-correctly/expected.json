@@ -4,6 +4,6 @@
   "js": ["src/**.js", "src/after/**.js", "src/before/**.js"],
   "define": ["before=true", "override=after", "main=true", "after=true"],
   "externs": ["a.externs.js", "b.externs.js"],
-  "entry_point": ["before", "one", "two", "after"]
+  "entry_point": ["after", "one", "two", "before"]
 }
 
