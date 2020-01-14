@@ -106,7 +106,7 @@ const adder = function(pack, options) {
         value = toArray(value);
 
         if (currValue) {
-          if (key === 'externs') {
+          if (key === 'externs' || key === 'entry_point') {
             options[key] = value.concat(currValue);
           } else {
             options[key] = currValue.concat(value);
