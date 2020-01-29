@@ -1,3 +1,10 @@
+# [6.3.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.2.2...v6.3.0) (2020-01-29)
+
+
+### Features
+
+* **gcc:** use goog.defines that are assigned to a value ([a9a9638](https://github.com/ngageoint/opensphere-build-resolver/commit/a9a96387b33c8892a1b61526d72b1392d4219ec6))
+
 ## [6.2.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.2.1...v6.2.2) (2020-01-14)
 
 
