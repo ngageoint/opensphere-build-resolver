@@ -3,4 +3,4 @@ goog.provide('foo');
 /**
  * @define {string}
  */
-goog.define('foo.ROOT', '');
+foo.ROOT = goog.define('foo.ROOT', '');

@@ -11,7 +11,7 @@ const slash = require('slash');
  *
  * The nice thing about opensphere builds is that there is typically no need to re-run
  * the build to pick up changes to JS or HTML (just hit refresh!). To accomplish
- * this, each project has a goog.defines(<project>.ROOT, '../<project>/') call
+ * this, each project has a goog.define('<project>.ROOT', '../<project>/') call
  * that allows you to prefix paths. e.g. an Angular directive with a template:
  *
  * {
@@ -85,7 +85,7 @@ const resolver = function(pack, projectDir, depth) {
       }
     };
 
-    return utils.findLines(/^goog\.define\(/, dir, /\.js$/).then(function(list) {
+    return utils.findLines(/goog\.define\(/, dir, /\.js$/).then(function(list) {
       list.forEach(processItem);
     });
   }
@@ -161,7 +161,7 @@ const writer = function(thisPackage, outputDir) {
     Object.assign(defs, modules);
 
     // write out the debug file
-    var file = '// This file overrides goog.defines() calls for ' +
+    var file = '// This file overrides goog.define() calls for ' +
         '<project>.*.ROOT defines in the debug html\nvar ' +
         'CLOSURE_UNCOMPILED_DEFINES = ' + JSON.stringify(defs, null, 2) +
         ';';
