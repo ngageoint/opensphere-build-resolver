@@ -1,3 +1,11 @@
+## [7.0.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.0...v7.0.1) (2020-02-03)
+
+
+### Bug Fixes
+
+* **gcc:** add hide_warnings_for to gcc options for tests ([42197d9](https://github.com/ngageoint/opensphere-build-resolver/commit/42197d9f6762eb2c901b73f722f92839d9fc215b))
+* **gcc:** avoid using singleton test options instance ([0149230](https://github.com/ngageoint/opensphere-build-resolver/commit/0149230fbbab8050693f062da150f4f1b7847f23))
+
 # [7.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.3.0...v7.0.0) (2020-02-03)
 
 
