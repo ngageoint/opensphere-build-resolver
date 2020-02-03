@@ -18,7 +18,7 @@ var mocks = {};
 
 const resolver = function(pack, projectDir) {
   if (pack.build) {
-    var testDir = getTestDir();
+    var testDir = getTestDir(pack);
     mocks[pack.name] = path.resolve(projectDir, testDir, '**.mock.js');
   }
 
@@ -28,7 +28,7 @@ const resolver = function(pack, projectDir) {
 const _getOptions = function(pack, dir, options) {
   // the compiler options are not defined in camelcase
   /* eslint camelcase: "off" */
-  var opts = require('./options-test');
+  var opts = require('./options-test')();
   opts.js = options.js ? options.js.slice() : [];
   opts.output_manifest = path.join(dir, 'gcc-test-manifest');
   opts.js_output_file = path.join(dir, pack.name + '-test.min.js');
