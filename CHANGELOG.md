@@ -1,3 +1,16 @@
+# [7.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.3.0...v7.0.0) (2020-02-03)
+
+
+### Code Refactoring
+
+* **goog:** update gcc args for 20200112.0.0 ([3e88e07](https://github.com/ngageoint/opensphere-build-resolver/commit/3e88e07c3324c95662af0b1091cd94b1fd7668b1))
+
+
+### BREAKING CHANGES
+
+* **goog:** This requires Closure Compiler 20200112.0.0, which is
+included with opensphere-build-closure-helper@5.0.0.
+
 # [6.3.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v6.2.2...v6.3.0) (2020-01-29)
 
 
