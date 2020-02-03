@@ -32,6 +32,7 @@ const _getOptions = function(pack, dir, options) {
   opts.js = options.js ? options.js.slice() : [];
   opts.output_manifest = path.join(dir, 'gcc-test-manifest');
   opts.js_output_file = path.join(dir, pack.name + '-test.min.js');
+  opts.hide_warnings_for = options.hide_warnings_for ? options.hide_warnings_for.slice() : [];
 
   for (var key in mocks) {
     opts.js.push(mocks[key]);
