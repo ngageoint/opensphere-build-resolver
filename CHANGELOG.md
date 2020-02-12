@@ -1,3 +1,10 @@
+## [7.0.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.1...v7.0.2) (2020-02-12)
+
+
+### Bug Fixes
+
+* **gcc:** locate source by goog.module ([13b4cbf](https://github.com/ngageoint/opensphere-build-resolver/commit/13b4cbfce9092854608fed11da412f1a00ee6b11))
+
 ## [7.0.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.0...v7.0.1) (2020-02-03)
 
 
