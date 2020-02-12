@@ -1,0 +1,12 @@
+{
+  "name": "should-find-source-from-modules",
+  "version": "1.0.0",
+  "description": "",
+  "build": {
+    "type": "lib"
+  },
+  "directories": {
+    "src": "src"
+  },
+  "author": ""
+}

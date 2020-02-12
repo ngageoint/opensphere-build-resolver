@@ -7,6 +7,8 @@ const utils = require('../../utils');
 
 var srcPaths = [];
 
+var provideModuleRegexp = /^goog\.(module|provide)\(/;
+
 var shortcuts = {
   'google-closure-library': function(pack, projectDir) {
     srcPaths.push('!' + path.resolve(projectDir, 'third_party', '**test.js'));
@@ -99,8 +101,8 @@ const resolveSrc = function(pack, projectDir) {
     .map(function(filename) {
       filename = path.resolve(projectDir, filename);
 
-      // find all JS files with goog.provide's
-      return utils.findLines(/^goog\.provide\(/, filename, /\.js$/).then(function(list) {
+      // find all JS files with goog.provide/goog.module statements
+      return utils.findLines(provideModuleRegexp, filename, /\.js$/).then(function(list) {
         var srcSet = list.reduce(function(p, c) {
           var itemPath = path.dirname(c.file) + path.sep;
 
@@ -145,18 +147,18 @@ const createRequireAll = function(basePackage, dir) {
     var requireAllFile = dir + '/require-all.js';
     srcPaths.push(requireAllFile);
 
-    // start by locating all goog.provides and changing them to a list of goog.require's
+    // start by locating all goog.provide/goog.module statements and changing them to a list of goog.require's
     return getSourcePaths(basePackage, process.cwd())
       .map(function(dir) {
         dir = path.resolve(process.cwd(), dir);
 
-        return utils.findLines(/^goog\.provide\(/, dir, /\.js$/).then(function(list) {
+        return utils.findLines(provideModuleRegexp, dir, /\.js$/).then(function(list) {
           var results = [];
 
           list.forEach(function(item) {
             if (item.lines) {
               results = results.concat(item.lines.map(function(line) {
-                return line.replace('goog.provide', 'goog.require');
+                return line.replace(provideModuleRegexp, 'goog.require(');
               }));
             }
           });
