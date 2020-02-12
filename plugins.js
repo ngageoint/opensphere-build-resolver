@@ -17,8 +17,9 @@ const load = function(includes, excludes) {
   var resolverPackage = require(path.resolve(__dirname, 'package'));
 
   // map include and exclude names to regex patterns for paths
+  const pathSeps = '[/\\\\]';
   var pluginToRegex = function(name) {
-    var pattern = path.sep + '(plugins' + path.sep + '|' + resolverPackage.name + '-)' + name + path.sep;
+    var pattern = pathSeps + '(plugins' + pathSeps + '|' + resolverPackage.name + '-)' + name + pathSeps;
     return new RegExp(pattern);
   };
 
