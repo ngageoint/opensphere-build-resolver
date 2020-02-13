@@ -1,3 +1,10 @@
+## [7.0.3](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.2...v7.0.3) (2020-02-13)
+
+
+### Bug Fixes
+
+* **plugins:** use character class for path separators ([87eaab6](https://github.com/ngageoint/opensphere-build-resolver/commit/87eaab6faf3289781b952b5d4dd9c681a2648644)), closes [#55](https://github.com/ngageoint/opensphere-build-resolver/issues/55)
+
 ## [7.0.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.1...v7.0.2) (2020-02-12)
 
 
