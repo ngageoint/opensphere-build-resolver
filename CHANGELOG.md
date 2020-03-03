@@ -1,3 +1,10 @@
+# [7.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.3...v7.1.0) (2020-03-03)
+
+
+### Features
+
+* **gcc:** add goog.SEAL_MODULE_EXPORTS=false for tests ([4c1d8a6](https://github.com/ngageoint/opensphere-build-resolver/commit/4c1d8a69a1ba86bc2f886958bc7d6ff4f0d6cf2d))
+
 ## [7.0.3](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.2...v7.0.3) (2020-02-13)
 
 
