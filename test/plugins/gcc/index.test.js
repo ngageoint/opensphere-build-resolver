@@ -8,12 +8,15 @@ const rimraf = require('rimraf');
 const path = require('path');
 
 describe('gcc resolver', function() {
-  afterEach(() => {
+  var outputDir = path.join(process.cwd(), '.test');
+
+  const clear = () => {
     gcc.clear();
     rimraf.sync(path.join(outputDir, '*'));
-  });
+  };
 
-  var outputDir = path.join(process.cwd(), '.test');
+  beforeEach(clear);
+  afterEach(clear);
 
   var fullRun = (pack, dir, optDoWrite) => {
     process.argv.push('--defineRoots');

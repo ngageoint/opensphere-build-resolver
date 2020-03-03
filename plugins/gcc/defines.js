@@ -159,20 +159,28 @@ const writer = function(thisPackage, outputDir) {
 
     // add resolved module defines
     Object.assign(defs, modules);
+    const promises = [];
 
-    // write out the debug file
-    var file = '// This file overrides goog.define() calls for ' +
-        '<project>.*.ROOT defines in the debug html\nvar ' +
-        'CLOSURE_UNCOMPILED_DEFINES = ' + JSON.stringify(defs, null, 2) +
-        ';';
-
-    var filename = path.join(outputDir, 'gcc-defines-debug.js');
-    console.log('Writing ' + filename);
-
-    return fs.writeFileAsync(filename, file);
+    promises.push(writeFile(defs, 'gcc-defines-debug.js', outputDir));
+    defs['goog.SEAL_MODULE_EXPORTS'] = false;
+    promises.push(writeFile(defs, 'gcc-defines-test-debug.js', outputDir));
+    return Promise.all(promises);
   }
 
   return Promise.resolve();
+};
+
+const writeFile = (defs, fileName, outputDir) => {
+  // write out the debug file
+  const file = '// This file overrides goog.define() calls for ' +
+      '<project>.*.ROOT defines in the debug html\nvar ' +
+      'CLOSURE_UNCOMPILED_DEFINES = ' + JSON.stringify(defs, null, 2) +
+      ';';
+
+  const filename = path.join(outputDir, fileName);
+  console.log('Writing ' + filename);
+
+  return fs.writeFileAsync(filename, file);
 };
 
 const clear = function() {
