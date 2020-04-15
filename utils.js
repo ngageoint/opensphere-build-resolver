@@ -243,14 +243,29 @@ const groups = {
  * @return {number}
  */
 const getGroup = function(depStack) {
+  let group = groups.BASE;
+
   if (depStack) {
-    if (depStack.some((dep) => /-config-/.test(dep))) {
-      return groups.CONFIG;
-    } else if (depStack.some((dep) => /-plugin-/.test(dep))) {
-      return groups.PLUGIN;
+    let rootPackageName;
+    let pluginRegex;
+    let configRegex;
+
+    for (let i = 0, n = depStack.length; i < n; i++) {
+      if (i === 0) {
+        rootPackageName = depStack[i];
+        pluginRegex = new RegExp(`^${rootPackageName}-plugin-`);
+        configRegex = new RegExp(`^${rootPackageName}-config`);
+      } else {
+        if (pluginRegex && pluginRegex.test(depStack[i])) {
+          group = Math.max(group, groups.PLUGIN);
+        } else if (configRegex && configRegex.test(depStack[i])) {
+          group = Math.max(group, groups.CONFIG);
+        }
+      }
     }
   }
-  return groups.BASE;
+
+  return group;
 };
 
 

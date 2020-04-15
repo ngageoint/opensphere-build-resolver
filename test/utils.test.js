@@ -180,7 +180,8 @@ describe('utils', () => {
     expect(utils.getGroup(['project'])).to.equal(utils.Groups.BASE);
     expect(utils.getGroup(['project', 'project-plugin-test'])).to.equal(utils.Groups.PLUGIN);
     expect(utils.getGroup(['project', 'project-config-test'])).to.equal(utils.Groups.CONFIG);
-    expect(utils.getGroup(['project', 'project-plugin-test-config-test'])).to.equal(utils.Groups.CONFIG);
+    expect(utils.getGroup(['project', 'project-config-test', 'libproject-config-test'])).to.equal(utils.Groups.CONFIG);
+    expect(utils.getGroup(['project', 'project-plugin-test-config-test'])).to.equal(utils.Groups.PLUGIN);
   });
 
   it('should prefer explicit priority', function() {
