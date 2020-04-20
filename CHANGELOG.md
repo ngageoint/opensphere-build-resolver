@@ -1,3 +1,10 @@
+## [7.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.1.0...v7.1.1) (2020-04-20)
+
+
+### Bug Fixes
+
+* **utils:** only consider plugin/config of root package ([2dc6185](https://github.com/ngageoint/opensphere-build-resolver/commit/2dc6185b00ebe0ed6c63591f77f8d6f4e0880ddf))
+
 # [7.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.0.3...v7.1.0) (2020-03-03)
 
 
