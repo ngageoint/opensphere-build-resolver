@@ -85,12 +85,12 @@ const merge = function(from, to) {
   for (var key in from) {
     var fval = from[key];
 
-    if (key in to) {
+    if (fval === DELETE_VAL) {
+      delete to[key];
+    } else if (key in to) {
       var tval = to[key];
 
-      if (fval === DELETE_VAL) {
-        delete to[key];
-      } else if (isPrimitive(fval) || isPrimitive(tval)) {
+      if (isPrimitive(fval) || isPrimitive(tval)) {
         to[key] = from[key];
       } else {
         merge(fval, tval);
