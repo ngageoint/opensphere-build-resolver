@@ -1,3 +1,10 @@
+## [7.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.1.1...v7.1.2) (2020-04-22)
+
+
+### Bug Fixes
+
+* **config:** merge delete should always delete ([0c91d9c](https://github.com/ngageoint/opensphere-build-resolver/commit/0c91d9c8f745b4948d8c73f7c9daca791e8871a3))
+
 ## [7.1.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.1.0...v7.1.1) (2020-04-20)
 
 
