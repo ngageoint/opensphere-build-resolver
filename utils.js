@@ -34,10 +34,34 @@ const isPluginPackage = function(pack) {
 /**
  * @param {Object} basePackage The alleged base package
  * @param {Object} pluginPackage The alleged plugin package
+ * @param {Array=} optDepStack Dependancy stack to check pluginPackage is a plugin to the parent
  * @return {boolean} If the plugin package is a plugin to the
  *  base package
  */
-const isPluginOfPackage = function(basePackage, pluginPackage) {
+const isPluginOfPackage = function(basePackage, pluginPackage, optDepStack) {
+  if (optDepStack && isPluginPackage(pluginPackage)) {
+    // Grab the index of the current plugin
+    const pluginIndex = optDepStack.findIndex((item) => {
+      return item == pluginPackage.name;
+    });
+
+    // Get the parents name
+    const parentName = pluginIndex > 0 ? optDepStack[pluginIndex - 1] : '';
+    // If this is a plugin to the parent
+    if (pluginPackage.name.indexOf(parentName + '-') === 0) {
+      // If the parent IS the base package. Then this is a plugin of the package
+      if (parentName == basePackage.name) {
+        return true;
+      } else {
+        // Since this isnt a plugin to the base package, we only will accept it
+        // if the parent is a library
+        const parentPackage = getPackage(parentName);
+        return parentPackage ? parentPackage.build.type === 'lib' : false;
+      }
+    } else {
+      return false;
+    }
+  }
   return isPluginPackage(pluginPackage) &&
       pluginPackage.name.indexOf(basePackage.name + '-') === 0;
 };
