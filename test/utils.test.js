@@ -121,13 +121,14 @@ describe('utils', () => {
     };
 
     var depStack = ['parent', 'chai', 'chai-plugin'];
-    // Seems like the only place we actually get the package is with chai.
-    // Let the actual code work, rather than changing it for the test to work
     utils.getPackage('chai')['build'] = {
       'type': 'lib'
     };
+
     expect(utils.isPluginOfPackage(base, lib, depStack)).to.be.false;
     expect(utils.isPluginOfPackage(base, libPlugin, depStack)).to.be.true;
+
+    delete utils.getPackage('chai')['build'];
   });
 
   it('should get a priority sort in ascending order', () => {
