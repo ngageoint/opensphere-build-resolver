@@ -1,3 +1,10 @@
+# [7.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.1.2...v7.2.0) (2020-05-22)
+
+
+### Features
+
+* **gcc:** allow plugins to libraries to have entry_points ([018990c](https://github.com/ngageoint/opensphere-build-resolver/commit/018990cedbb82f8efedb67334346df43080e117c))
+
 ## [7.1.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.1.1...v7.1.2) (2020-04-22)
 
 
