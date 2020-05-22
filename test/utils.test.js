@@ -71,7 +71,7 @@ describe('utils', () => {
     });
   });
 
-  it('should check whether or not is a plugin of another package', () => {
+  it('should check whether or not it is a plugin of another package', () => {
     var base = {
       name: 'parent',
       build: {
@@ -96,6 +96,39 @@ describe('utils', () => {
     expect(utils.isPluginOfPackage(base, plugin)).to.be.true;
     expect(utils.isPluginOfPackage(plugin, base)).to.be.false;
     expect(utils.isPluginOfPackage(base, other)).to.be.false;
+  });
+
+  it('should check whether or not its lib is a plugin of another package', () => {
+    var base = {
+      name: 'parent',
+      build: {
+        type: 'app'
+      }
+    };
+
+    var lib = {
+      name: 'chai',
+      build: {
+        type: 'lib'
+      }
+    };
+
+    var libPlugin = {
+      name: 'chai-plugin',
+      build: {
+        type: 'plugin'
+      }
+    };
+
+    var depStack = ['parent', 'chai', 'chai-plugin'];
+    utils.getPackage('chai')['build'] = {
+      'type': 'lib'
+    };
+
+    expect(utils.isPluginOfPackage(base, lib, depStack)).to.be.false;
+    expect(utils.isPluginOfPackage(base, libPlugin, depStack)).to.be.true;
+
+    delete utils.getPackage('chai')['build'];
   });
 
   it('should get a priority sort in ascending order', () => {

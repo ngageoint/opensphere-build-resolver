@@ -49,7 +49,7 @@ const resolver = function(pack, projectDir, depth, depStack) {
   if (!basePackage) {
     basePackage = pack;
   } else if ((utils.isPluginPackage(pack) &&
-      !utils.isPluginOfPackage(basePackage, pack)) ||
+      !utils.isPluginOfPackage(basePackage, pack, depStack)) ||
       utils.isAppPackage(pack) && depth > 0) {
     if (pack.build.gcc) {
       // so remove entry_point and define config
