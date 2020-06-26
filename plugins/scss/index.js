@@ -2,6 +2,7 @@
 
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
+const fse = require('fs-extra');
 const find = require('find');
 const path = require('path');
 const concat = Promise.promisifyAll({
@@ -17,6 +18,8 @@ var directories = {};
 var scssPaths = [];
 var scssEntries = [];
 var basePackage = null;
+var themes = [];
+var fonts = [];
 
 var scssShortcuts = {
   'compass-mixins': 'compass-mixins/lib',
@@ -84,6 +87,16 @@ const resolver = function(pack, projectDir, depth) {
     });
 
     scssEntries = scssEntries.concat(value);
+  }
+
+  // Allow other packages we depend on to add themes
+  if (pack.build && pack.build.themes) {
+    themes = themes.concat(pack.build.themes);
+  }
+
+  // Allow other packages we depend on to add fonts
+  if (pack.build && pack.build.fonts) {
+    fonts = fonts.concat(pack.build.fonts);
   }
 
   return Promise.resolve();
@@ -173,13 +186,35 @@ const writer = function(thisPackage, outputDir) {
     console.log('Writing ' + file);
     promises.push(fs.writeFileAsync(file, args.join(' ')));
 
+    var themeDir = outputDir + '/themes';
+    var fontsDir = themeDir + '/fonts';
+    if (fonts && fonts.length) {
+      promises.push(mkdirp.mkdirpAsync(fontsDir)
+        .then(() => {
+          var fontPromises = [];
+          fonts.forEach(function(font) {
+            var fontFolder = path.resolve(fontsDir, font);
+            fontPromises.push(mkdirp.mkdirpAsync(fontFolder)
+              .then(() => {
+                var fontPath = utils.resolveModulePath(font);
+                console.log('Copying ' + fontPath + ' to ' + fontFolder);
+                var writePromises = [];
+                writePromises.push(fse.copy(fontPath + '/files', fontFolder + '/files'));
+                writePromises.push(fs.copyFileAsync(fontPath + '/index.css', fontFolder + '/index.css'));
+                return Promise.all(writePromises);
+              }));
+          });
+          return Promise.all(fontPromises);
+        }));
+    }
+
     return Promise.all(promises)
       .then(function() {
         // Write a file for each theme also
         if (utils.isAppPackage(thisPackage) &&
             thisPackage.build.scss &&
-            thisPackage.build.themes &&
-            thisPackage.build.themes.length) {
+            themes &&
+            themes.length) {
           // Take off the combined.scss generic file
           args.pop();
 
@@ -187,10 +222,10 @@ const writer = function(thisPackage, outputDir) {
           return mkdirp.mkdirpAsync(themeDir)
             .then(function() {
               var promises = [];
-              thisPackage.build.themes.push('default');
+              themes.push('default');
 
               // For all the themes, create a combined.scss and a node-sass-args file
-              thisPackage.build.themes.forEach(function(theme) {
+              themes.forEach(function(theme) {
                 var themeOutput = path.resolve(themeDir, theme + '.combined.scss');
                 var themeArgs = path.resolve(themeDir, theme + '.node-sass-args');
                 promises.push(fs.writeFileAsync(themeArgs, args.join(' ') + ' ' + themeOutput));
@@ -227,6 +262,8 @@ const clear = function() {
   directories = {};
   scssPaths = [];
   scssEntries = [];
+  fonts = [];
+  themes = [];
 };
 
 module.exports = {
