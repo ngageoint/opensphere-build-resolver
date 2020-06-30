@@ -1,0 +1,19 @@
+{
+  "name": "should-copy-fonts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "type": "lib",
+    "fonts": [
+      "typeface-roboto"
+    ]
+  },
+  "directories": {
+    "scss": "styles"
+  },
+  "dependencies": {
+    "typeface-roboto": "0.0.75"
+  }
+}

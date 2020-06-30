@@ -57,6 +57,14 @@ describe('scss resolver', () => {
               expect(requireAll).to.equal(expectedRequireAll);
             }
 
+            if (pack && pack.build && pack.build.fonts) {
+              pack.build.fonts.forEach((font) => {
+                var fontPath = path.join(outputDir, 'themes/fonts', font);
+
+                // theme files were written
+                expect(fs.existsSync(fontPath)).to.be.true;
+              });
+            }
             if (pack && pack.build && pack.build.themes) {
               pack.build.themes.forEach((theme) => {
                 var themeCombinedFile = path.join(outputDir, 'themes', theme + '.combined.scss');
