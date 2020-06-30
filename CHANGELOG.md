@@ -1,3 +1,10 @@
+# [7.3.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.2.0...v7.3.0) (2020-06-30)
+
+
+### Features
+
+* **theming:** allows dependancies to define themes and provide fonts ([0330a5a](https://github.com/ngageoint/opensphere-build-resolver/commit/0330a5addc029c40c96c7f0dc9f49857d5843a2b))
+
 # [7.2.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.1.2...v7.2.0) (2020-05-22)
 
 
