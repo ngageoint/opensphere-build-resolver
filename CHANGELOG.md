@@ -1,3 +1,10 @@
+## [7.3.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.3.0...v7.3.1) (2020-07-06)
+
+
+### Bug Fixes
+
+* **utils:** update depth of resolved dependencies ([c682232](https://github.com/ngageoint/opensphere-build-resolver/commit/c6822328ac91c47afa2924cbe593721b42a4af6b)), closes [#66](https://github.com/ngageoint/opensphere-build-resolver/issues/66)
+
 # [7.3.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.2.0...v7.3.0) (2020-06-30)
 
 
