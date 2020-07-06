@@ -24,7 +24,7 @@ const resolveDependencies = function(rootProjectPath, alreadyResolved, pack, pro
     if (deps && pack.build) {
       deps.forEach(function(dep) {
         if (dep in alreadyResolved) {
-          var resolvedVersion = alreadyResolved[dep];
+          var resolvedVersion = alreadyResolved[dep].version;
           var requestedVersion = pack.dependencies[dep];
 
           if (semver.valid(requestedVersion) ||
@@ -35,7 +35,7 @@ const resolveDependencies = function(rootProjectPath, alreadyResolved, pack, pro
               throw new Error('The package "' + pack.name + '" has a ' +
                 'dependency on "' + dep + '" version ' +
                 pack.dependencies[dep] + ' which has already been ' +
-                'resolved as version ' + alreadyResolved[dep]);
+                'resolved as version ' + alreadyResolved[dep].version);
             }
           } else {
             console.log('WARNING: "' + dep + '" version "' +
@@ -245,11 +245,14 @@ const resolvePackage = function(rootProjectPath, alreadyResolved, name, depth, d
   if (pack.name in alreadyResolved) {
     console.log('Resolved ' + depStack.join(' > ') + '@' + pack.version + ' as already resolved. Updating...');
     return Promise.map(plugins.updaters, function(updater) {
-      return updater(pack, depth, depStack);
+      return Promise.all([
+        updater(pack, depth, depStack),
+        utils.updateDependencies(pack.dependencies, alreadyResolved, depth, depStack, updater, [pack.name])
+      ]);
     });
   }
 
-  alreadyResolved[pack.name] = pack.version;
+  alreadyResolved[pack.name] = pack;
   console.log('Resolved ' + depStack.join(' > ') + '@' + pack.version + ' to ' + projectDir);
 
   return Promise.map(plugins.resolvers, function(resolver) {

@@ -215,6 +215,7 @@ describe('utils', () => {
     expect(utils.getGroup(['project', 'project-config-test'])).to.equal(utils.Groups.CONFIG);
     expect(utils.getGroup(['project', 'project-config-test', 'libproject-config-test'])).to.equal(utils.Groups.CONFIG);
     expect(utils.getGroup(['project', 'project-plugin-test-config-test'])).to.equal(utils.Groups.PLUGIN);
+    expect(utils.getGroup(['project', 'another-project-plugin-test'])).to.equal(utils.Groups.BASE);
   });
 
   it('should prefer explicit priority', function() {
@@ -286,6 +287,53 @@ describe('utils', () => {
       updater({name: 'lib'}, 2, ['project', 'other-lib', 'lib']);
       expect(list[0].depth).to.equal(2);
       expect(list[0].group).to.equal(utils.Groups.BASE);
+    });
+
+    it('should update depth for dependencies', function() {
+      const list = [
+        {name: 'project', depth: 0, group: utils.Groups.BASE},
+        {name: 'lib1', depth: 1, group: utils.Groups.BASE},
+        {name: 'lib2', depth: 1, group: utils.Groups.BASE}
+      ];
+
+      const updater = utils.getGroupDepthUpdater(list);
+      const depStack = ['project'];
+
+      const packApp = {
+        name: 'project',
+        build: {},
+        dependencies: {
+          'lib1': '1.0.0',
+          'lib2': '0.0.1'
+        }
+      };
+
+      const packLib1 = {
+        name: 'lib1',
+        build: {},
+        dependencies: {
+          'lib2': '0.0.1'
+        }
+      };
+
+      const packLib2 = {name: 'lib2', build: {}};
+
+      const resolved = {
+        'lib1': packLib1,
+        'lib2': packLib2
+      };
+
+      return utils.updateDependencies(packApp.dependencies, resolved, 0, depStack, updater, depStack)
+        .then(() => {
+          expect(list[0].depth).to.equal(0);
+          expect(list[0].group).to.equal(utils.Groups.BASE);
+
+          expect(list[1].depth).to.equal(1);
+          expect(list[1].group).to.equal(utils.Groups.BASE);
+
+          expect(list[2].depth).to.equal(2);
+          expect(list[2].group).to.equal(utils.Groups.BASE);
+        });
     });
   });
 });

@@ -330,6 +330,38 @@ const getGroupDepthUpdater = function(list) {
 };
 
 
+/**
+ * Update dependencies that have already been resolved.
+ *
+ * @param {Object} dependencies The package dependencies.
+ * @param {Object} resolved Map of resolved dependencies.
+ * @param {number} depth The current depth.
+ * @param {Array<string>} depStack The current dependency stack.
+ * @param {Function} updater The update function.
+ * @param {Array<string>} updated Packages that have already been updated.
+ *
+ * @return {Promise} A promise that resolves when all dependencies have been updated.
+ */
+const updateDependencies = function(dependencies, resolved, depth, depStack, updater) {
+  const promises = [];
+  if (dependencies) {
+    for (const key in dependencies) {
+      const resolvedPack = resolved[key];
+
+      // Only update a package once to avoid dependency cycles
+      if (resolvedPack && resolvedPack.build && depStack.indexOf(resolvedPack.name) === -1) {
+        const newDepth = depth + 1;
+        const newDepStack = [...depStack, resolvedPack.name];
+        promises.push(updater(resolvedPack, newDepth, newDepStack));
+        promises.push(updateDependencies(resolvedPack.dependencies, resolved, newDepth, newDepStack,
+          updater));
+      }
+    }
+  }
+  return Promise.all(promises);
+};
+
+
 module.exports = {
   findLines: findLines,
   isAppPackage: isAppPackage,
@@ -345,5 +377,6 @@ module.exports = {
   getPackage: getPackage,
   getPackagePriority: getPackagePriority,
   priorityGroupDepthSort: priorityGroupDepthSort,
-  resolveModulePath: resolveModulePath
+  resolveModulePath: resolveModulePath,
+  updateDependencies: updateDependencies
 };
