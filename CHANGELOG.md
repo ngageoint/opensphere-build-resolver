@@ -1,3 +1,10 @@
+# [7.4.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.3.1...v7.4.0) (2020-07-22)
+
+
+### Features
+
+* **gcc:** dedupe arrays in gcc options ([d6c3fae](https://github.com/ngageoint/opensphere-build-resolver/commit/d6c3fae4c5b89aec3623be7247b4936a6d69f9bc))
+
 ## [7.3.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.3.0...v7.3.1) (2020-07-06)
 
 
