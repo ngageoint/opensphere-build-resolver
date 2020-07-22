@@ -1,0 +1,15 @@
+{
+  "name": "should-combine-packages-correctly-duplicates",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "gcc": {
+      "js": "src/**.js",
+      "define": ["main=true","override=main"],
+      "externs": ["a.externs.js", "b.externs.js"],
+      "entry_point": ["one", "two"]
+    }
+  }
+}
