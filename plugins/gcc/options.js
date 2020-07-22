@@ -134,6 +134,13 @@ const adder = function(pack, options) {
       list.sort();
     }
   });
+
+  // dedupe arrays in case multiple packages provided the same values.
+  for (var key in options) {
+    if (Array.isArray(options[key])) {
+      options[key] = [...new Set(options[key])];
+    }
+  }
 };
 
 const clear = function() {
