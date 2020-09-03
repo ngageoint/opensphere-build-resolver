@@ -1,3 +1,10 @@
+# [7.5.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.4.0...v7.5.0) (2020-09-03)
+
+
+### Features
+
+* **webpack:** write files to support webpack builds ([82bf291](https://github.com/ngageoint/opensphere-build-resolver/commit/82bf291a47424a1479282bbdb5de85e89e45680c))
+
 # [7.4.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.3.1...v7.4.0) (2020-07-22)
 
 
