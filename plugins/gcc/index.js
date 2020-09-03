@@ -9,6 +9,7 @@ const builder = require('./builder-writer');
 const java = require('./java-writer');
 const json = require('./json-writer');
 const tests = require('./test-writer');
+const webpack = require('./webpack-writer');
 const path = require('path');
 const utils = require('../../utils.js');
 
@@ -122,7 +123,8 @@ const writer = function(pack, outputDir) {
     java.writer(pack, outputDir, options),
     json.writer(pack, outputDir, options),
     defines.writer(pack, outputDir, options),
-    tests.writer(pack, outputDir, options)
+    tests.writer(pack, outputDir, options),
+    webpack.writer(pack, outputDir, options)
   ]);
 };
 
