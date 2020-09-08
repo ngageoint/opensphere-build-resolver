@@ -9,15 +9,14 @@ Available Error Groups: accessControls, checkPrototypalTypes,
     checkRegExp, checkTypes, checkVars, conformanceViolations, const,
     constantProperty, deprecated, deprecatedAnnotations, duplicateMessage,
     es5Strict, externsValidation, functionParams, globalThis, invalidCasts,
-    misplacedTypeAnnotation, missingGetCssName, missingOverride,
-    missingPolyfill, missingProperties, missingProvide, missingRequire,
-    missingReturn, missingSourcesWarnings, moduleLoad, msgDescriptions,
+    misplacedTypeAnnotation, missingOverride, missingPolyfill,
+    missingProperties, missingProvide, missingRequire, missingReturn,
+    missingSourcesWarnings, moduleLoad, moduleImports, msgDescriptions,
     nonStandardJsDocs, partialAlias, polymer, reportUnknownTypes,
     strictCheckTypes, strictMissingProperties, strictModuleDepCheck,
     strictPrimitiveOperators, suspiciousCode, typeInvalidation, undefinedNames,
     undefinedVars, underscore, unknownDefines, unusedLocalVariables,
-    unusedPrivateMembers, useOfGoogBase, uselessCode,
-    untranspilableFeatures, visibility
+    unusedPrivateMembers, uselessCode, untranspilableFeatures, visibility
 
 The docs for jscomp_* state that you can use a wildcard. However, that wildcard
 also enables a lot more undocumented items.
@@ -86,7 +85,6 @@ module.exports = {
     'unknownDefines',
     'unusedLocalVariables',
     'unusedPrivateMembers',
-    'useOfGoogBase',
     'uselessCode',
     'untranspilableFeatures',
     'visibility'

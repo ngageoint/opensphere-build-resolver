@@ -36,7 +36,7 @@ describe('gcc json writer', function() {
       js: ['a.js', 'b.js'],
       jscomp_error: 'accessControls',
       jscomp_off: 'es6',
-      jscomp_warning: 'useOfGoogBase'
+      jscomp_warning: 'deprecated'
     };
 
     return json.writer(pack, outputDir, jsonOptions)

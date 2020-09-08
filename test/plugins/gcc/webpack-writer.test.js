@@ -51,7 +51,7 @@ describe('gcc webpack writer', function() {
       entry_point: ['goog:ns'],
       jscomp_error: 'accessControls',
       jscomp_off: 'es6',
-      jscomp_warning: 'useOfGoogBase'
+      jscomp_warning: 'deprecated'
     };
 
     var expectedOptions = {
@@ -59,7 +59,7 @@ describe('gcc webpack writer', function() {
       compilation_level: 'simple',
       jscomp_error: 'accessControls',
       jscomp_off: 'es6',
-      jscomp_warning: 'useOfGoogBase'
+      jscomp_warning: 'deprecated'
     };
 
     return webpack.writer(pack, outputDir, jsonOptions)
