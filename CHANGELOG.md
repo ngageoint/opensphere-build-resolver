@@ -1,3 +1,10 @@
+# [7.6.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.5.0...v7.6.0) (2020-09-08)
+
+
+### Features
+
+* **gcc:** update error groups for gcc 20200830.0.0 ([969c215](https://github.com/ngageoint/opensphere-build-resolver/commit/969c215814f980e51b26bb790df34c5fabf1a24f))
+
 # [7.5.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.4.0...v7.5.0) (2020-09-03)
 
 
