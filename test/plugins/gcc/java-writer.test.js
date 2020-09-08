@@ -36,7 +36,7 @@ describe('gcc java writer', function() {
       js: ['a.js', 'b.js'],
       jscomp_error: 'accessControls',
       jscomp_off: 'es6',
-      jscomp_warning: 'useOfGoogBase'
+      jscomp_warning: 'deprecated'
     })
       .then(() => {
         return fs.readFileAsync(file, 'utf-8');
@@ -49,7 +49,7 @@ describe('gcc java writer', function() {
         expect(content).to.contain('--js=\'b.js\'');
         expect(content).to.contain('--jscomp_error=\'accessControls\'');
         expect(content).to.contain('--jscomp_off=\'es6\'');
-        expect(content).to.contain('--jscomp_warning=\'useOfGoogBase\'');
+        expect(content).to.contain('--jscomp_warning=\'deprecated\'');
       });
   });
 });
