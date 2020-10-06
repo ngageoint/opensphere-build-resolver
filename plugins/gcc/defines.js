@@ -85,7 +85,7 @@ const resolver = function(pack, projectDir, depth) {
       }
     };
 
-    return utils.findLines(/goog\.define\(/, dir, /\.js$/).then(function(list) {
+    return utils.findLines(/goog\.define\(/, dir, '**/*.js').then(function(list) {
       list.forEach(processItem);
     });
   }

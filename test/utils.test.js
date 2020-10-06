@@ -203,7 +203,7 @@ describe('utils', () => {
 
   it('should find matching lines in a directory with a file pattern', () => {
     var directory = path.join(__dirname, 'utils-find-lines');
-    return utils.findLines(/^goog\.provide\(/, directory, /\.js$/).then((matches) => {
+    return utils.findLines(/^goog\.provide\(/, directory, '**/*.js').then((matches) => {
       expect(matches.length).to.equal(1);
       expect(matches.reduce((total, match) => total + match.lines.length, 0)).to.equal(2);
     });
