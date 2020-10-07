@@ -1,3 +1,10 @@
+## [7.6.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.6.0...v7.6.1) (2020-10-07)
+
+
+### Bug Fixes
+
+* replace find with glob to fix promise resolution ([2d33507](https://github.com/ngageoint/opensphere-build-resolver/commit/2d3350705f2276e1776abb752a1c9fdcadcd9c34))
+
 # [7.6.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.5.0...v7.6.0) (2020-09-08)
 
 
