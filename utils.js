@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
-const find = require('find');
 const fs = Promise.promisifyAll(require('fs'));
+const glob = require('glob');
 const path = require('path');
 const resolve = require('resolve');
 
@@ -206,19 +206,21 @@ const getMatchingLines = function(pattern, files) {
  * Search files in a directory and return lines matching a pattern.
  * @param {RegExp} pattern The pattern to match.
  * @param {string} directory The directory to search.
- * @param {RegExp|undefined} filePattern Pattern to filter the list of files to search.
+ * @param {string|undefined} globPattern Glob pattern to filter the list of files to search.
  * @return {Promise<Array<Object>>} A promise that resolves to the matched files.
  */
-const findLines = function(pattern, directory, filePattern) {
-  filePattern = filePattern || /./;
+const findLines = function(pattern, directory, globPattern) {
+  globPattern = globPattern || '**/*';
 
   return new Promise(function(resolve, reject) {
-    // recursively find all files in the directory matching the file pattern
-    find.file(filePattern, directory, function(files) {
-      return getMatchingLines(pattern, files).then(resolve);
-    }).error(function(err) {
-      // directory not found
-      resolve([]);
+    // find all files in the directory matching the glob pattern
+    glob(path.join(directory, globPattern), function(err, files) {
+      if (!err) {
+        getMatchingLines(pattern, files).then(resolve);
+      } else {
+        // directory not found
+        resolve([]);
+      }
     });
   });
 };

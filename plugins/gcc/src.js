@@ -102,7 +102,7 @@ const resolveSrc = function(pack, projectDir) {
       filename = path.resolve(projectDir, filename);
 
       // find all JS files with goog.provide/goog.module statements
-      return utils.findLines(provideModuleRegexp, filename, /\.js$/).then(function(list) {
+      return utils.findLines(provideModuleRegexp, filename, '**/*.js').then(function(list) {
         var srcSet = list.reduce(function(p, c) {
           var itemPath = path.dirname(c.file) + path.sep;
 
@@ -152,7 +152,7 @@ const createRequireAll = function(basePackage, dir) {
       .map(function(dir) {
         dir = path.resolve(process.cwd(), dir);
 
-        return utils.findLines(provideModuleRegexp, dir, /\.js$/).then(function(list) {
+        return utils.findLines(provideModuleRegexp, dir, '**/*.js').then(function(list) {
           var results = [];
 
           list.forEach(function(item) {

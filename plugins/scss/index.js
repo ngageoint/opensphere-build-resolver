@@ -3,7 +3,7 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const fse = require('fs-extra');
-const find = require('find');
+const glob = require('glob');
 const path = require('path');
 const concat = Promise.promisifyAll({
   concat: require('concat-files')
@@ -126,7 +126,12 @@ const addScssRequires = function(pack, dir) {
     var scssDir = path.resolve(base, pack.directories.scss);
 
     return new Promise(function(resolve, reject) {
-      find.file(/\.scss$/, scssDir, function(files) {
+      glob(path.join(scssDir, '**/*.scss'), function(err, files) {
+        if (err) {
+          reject(new Error(`Unable to resolve SCSS requires at ${scssDir}.`));
+          return;
+        }
+
         files = files.map(function(file) {
           return file.replace(scssDir + path.sep, '')
             .replace(/_(.*)\.scss$/, '$1');
