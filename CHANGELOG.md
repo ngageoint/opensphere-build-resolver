@@ -1,3 +1,10 @@
+## [7.6.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.6.1...v7.6.2) (2020-10-08)
+
+
+### Bug Fixes
+
+* **utils:** normalize glob paths to system path separator ([76a5de9](https://github.com/ngageoint/opensphere-build-resolver/commit/76a5de97daec049d2d44e685cbc096eaa74dc630))
+
 ## [7.6.1](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.6.0...v7.6.1) (2020-10-07)
 
 
