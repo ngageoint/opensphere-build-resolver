@@ -216,7 +216,8 @@ const findLines = function(pattern, directory, globPattern) {
     // find all files in the directory matching the glob pattern
     glob(path.join(directory, globPattern), function(err, files) {
       if (!err) {
-        getMatchingLines(pattern, files).then(resolve);
+        // glob will always use backslashes, so map the files to use the system path separator
+        getMatchingLines(pattern, files.map((f) => path.resolve(f))).then(resolve);
       } else {
         // directory not found
         resolve([]);
