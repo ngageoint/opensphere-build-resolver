@@ -1,3 +1,10 @@
+# [7.7.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.6.2...v7.7.0) (2021-01-12)
+
+
+### Features
+
+* **es6:** detect es6 modules using goog.declareModuleId ([3b8443f](https://github.com/ngageoint/opensphere-build-resolver/commit/3b8443f8612e67943c58058a59d843db7274cb14))
+
 ## [7.6.2](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.6.1...v7.6.2) (2020-10-08)
 
 
