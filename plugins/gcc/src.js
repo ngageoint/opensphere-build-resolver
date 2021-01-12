@@ -7,7 +7,7 @@ const utils = require('../../utils');
 
 var srcPaths = [];
 
-var provideModuleRegexp = /^goog\.(module|provide)\(/;
+var provideModuleRegexp = /^goog\.(declareModuleId|module|provide)\(/;
 
 var shortcuts = {
   'google-closure-library': function(pack, projectDir) {
