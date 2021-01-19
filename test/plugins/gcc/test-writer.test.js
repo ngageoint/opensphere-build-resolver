@@ -9,6 +9,7 @@ const path = require('path');
 
 describe('gcc test writer', function() {
   var projectDir = process.cwd();
+  var baseDir = path.join(__dirname, 'test-writer');
   var outputDir = path.join(process.cwd(), '.test');
   var file = path.join(outputDir, 'gcc-test-args');
 
@@ -125,5 +126,45 @@ describe('gcc test writer', function() {
     return test.writer(pack, outputDir, {}).then(() => {
       return expect(fs.existsSync(file)).to.be.true;
     });
+  });
+
+  it('should not create a index-test.js file if the test directory does not exist', function() {
+    var dir = path.join(baseDir, 'should-not-create-test-index-without-test-dir');
+    var pack = require(dir + '/package');
+    var lastDir = process.cwd();
+    process.chdir(dir);
+
+    return test.postResolver(pack, outputDir)
+      .then(() => {
+        process.chdir(lastDir);
+        expect(fs.existsSync(path.join(outputDir, 'index-test.js'))).to.be.false;
+      });
+  });
+
+  it('should create a index-test.js file if the test directory exists', function() {
+    var dir = path.join(baseDir, 'should-create-test-index-with-test-dir');
+    var pack = require(dir + '/package');
+    var lastDir = process.cwd();
+    process.chdir(dir);
+
+    return test.postResolver(pack, outputDir)
+      .then(() => {
+        process.chdir(lastDir);
+
+        var file = path.join(outputDir, 'index-test.js');
+        expect(fs.existsSync(file)).to.be.true;
+
+        return fs.readFileAsync(file, 'utf-8');
+      })
+      .then((content) => {
+        // all files are required and sorted
+        const requireLines = content.split('\n').filter((line) => line.startsWith('goog.require'));
+        expect(requireLines.length).to.equal(5);
+        expect(requireLines[0]).to.equal('goog.require(\'dep1\');');
+        expect(requireLines[1]).to.equal('goog.require(\'dep2\');');
+        expect(requireLines[2]).to.equal('goog.require(\'dep3\');');
+        expect(requireLines[3]).to.equal('goog.require(\'dep4\');');
+        expect(requireLines[4]).to.equal('goog.require(\'dep5\');');
+      });
   });
 });

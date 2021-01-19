@@ -81,7 +81,10 @@ const postResolver = function(pack, projectDir) {
     return Promise.resolve();
   }
 
-  return src.postResolver(pack, projectDir);
+  return Promise.all([
+    src.postResolver(pack, projectDir),
+    tests.postResolver(pack, projectDir)
+  ]);
 };
 
 const getOptions = function(pack, outputDir) {

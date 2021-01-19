@@ -3,6 +3,9 @@
 const java = require('./java-writer');
 const path = require('path');
 const fs = require('fs');
+const utils = require('../../utils');
+
+const requireRegexp = /^goog\.require\(/;
 
 const getTestDir = function(pack) {
   var testDir = 'test';
@@ -20,6 +23,48 @@ const resolver = function(pack, projectDir) {
   if (pack.build) {
     var testDir = getTestDir(pack);
     mocks[pack.name] = path.resolve(projectDir, testDir, '**.mock.js');
+  }
+
+  return Promise.resolve();
+};
+
+/**
+ * Create an index file for test dependencies to be built by webpack.
+ * @param {Object} basePackage package.json for the root/base package
+ * @param {string} dir The output directory
+ * @return {Promise} A promise that resolves when the test index file is created
+ */
+const createTestIndex = function(basePackage, dir) {
+  const testDir = path.resolve(process.cwd(), getTestDir(basePackage));
+  if (fs.existsSync(testDir)) {
+    const testIndex = path.join(dir, 'index-test.js');
+
+    // find all goog.require statements in tests
+    return utils.findLines(requireRegexp, testDir, '**/*.test.js')
+      .then(function(list) {
+        // create a set of unique goog.require statements
+        const results = new Set();
+
+        list.forEach((item) => {
+          if (item.lines) {
+            item.lines.forEach((line) => results.add(line));
+          }
+        });
+
+        // resolve them as an array
+        return [...results];
+      })
+      .then(function(list) {
+        list.sort();
+
+        // write the list of requires to a file to serve as the webpack entry
+        return fs.readFileAsync(path.resolve(__dirname, 'require-all-template.js'), 'utf8')
+          .then(function(template) {
+            console.log(`Writing ${testIndex} for test library compilation`);
+            template = template.replace('// REPLACE', list.join('\n'));
+            return fs.writeFileAsync(testIndex, template);
+          });
+      });
   }
 
   return Promise.resolve();
@@ -61,6 +106,7 @@ const clear = function() {
 module.exports = {
   clear: clear,
   resolver: resolver,
+  postResolver: createTestIndex,
   writer: writer,
   _getOptions: _getOptions
 };
