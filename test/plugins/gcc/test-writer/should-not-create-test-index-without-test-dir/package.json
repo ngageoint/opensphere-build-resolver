@@ -1,0 +1,15 @@
+{
+  "name": "should-not-create-test-index-without-test-dir",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "directories": {
+    "src": "foo",
+    "lib": "bar",
+    "test": "test"
+  },
+  "build": {
+    "type": "lib"
+  }
+}
