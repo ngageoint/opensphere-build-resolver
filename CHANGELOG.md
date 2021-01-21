@@ -1,3 +1,10 @@
+# [7.8.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.7.0...v7.8.0) (2021-01-21)
+
+
+### Features
+
+* **gcc:** write webpack entry point for test dependencies ([704b29c](https://github.com/ngageoint/opensphere-build-resolver/commit/704b29ca4df717651324bef5896fbe9a89762b90))
+
 # [7.7.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.6.2...v7.7.0) (2021-01-12)
 
 
