@@ -11,8 +11,7 @@
     "test": "mkdirp .test && npm run test:run && rimraf .test",
     "lint": "eslint '**/*.js'",
     "package:update": "if git diff --name-only ORIG_HEAD HEAD | grep --quiet package.json; then echo 'UPDATE: package.json changed, consider running yarn in your workspace root'; fi",
-    "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once"
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "opensphere",
@@ -73,7 +72,7 @@
     ]
   },
   "dependencies": {
-    "bluebird": "^3.4.6",
+    "bluebird": "^3.7.2",
     "clone": "^2.1.2",
     "concat-files": "^0.1.0",
     "fs-extra": "^9.0.1",
@@ -91,24 +90,22 @@
     "yargs": "^11.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.0.0",
-    "@commitlint/config-conventional": "^8.1.0",
-    "@commitlint/travis-cli": "^8.1.0",
-    "@semantic-release/changelog": "^3.0.2",
-    "@semantic-release/commit-analyzer": "^6.1.0",
-    "@semantic-release/git": "^7.0.8",
-    "@semantic-release/github": "^5.2.10",
-    "@semantic-release/npm": "^5.1.4",
-    "@semantic-release/release-notes-generator": "^7.1.4",
-    "chai": "^4.2.0",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.2.0",
+    "@semantic-release/npm": "^7.0.10",
+    "@semantic-release/release-notes-generator": "^9.0.1",
+    "chai": "^4.3.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^6.0.1",
-    "eslint-config-google": "^0.13.0",
+    "eslint": "^7.20.0",
+    "eslint-config-google": "^0.14.0",
     "husky": "^3.0.2",
-    "mocha": "^6.1.4",
-    "nyc": "^14.1.1",
-    "semantic-release": "^15.13.3",
-    "travis-deploy-once": "^5.0.2",
+    "mocha": "^8.3.0",
+    "nyc": "^15.1.0",
+    "semantic-release": "^17.3.9",
     "typeface-roboto": "0.0.75"
   },
   "husky": {
