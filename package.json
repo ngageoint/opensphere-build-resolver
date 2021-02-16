@@ -107,7 +107,7 @@
     "husky": "^3.0.2",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^17.2.3",
     "travis-deploy-once": "^5.0.2",
     "typeface-roboto": "0.0.75"
   },
