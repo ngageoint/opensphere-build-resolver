@@ -86,7 +86,8 @@ describe('gcc webpack writer', function() {
     };
 
     var expectedOptions = {
-      compilation_level: 'advanced'
+      compilation_level: 'advanced',
+      output_manifest: 'test'
     };
 
     return webpack.writer(pack, outputDir, jsonOptions)

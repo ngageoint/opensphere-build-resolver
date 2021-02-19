@@ -16,7 +16,6 @@ const closureWebpackInternalProps = [
   'js_output_file',
   'module',
   'module_resolution',
-  'output_manifest',
   'output_wrapper'
 ];
 
