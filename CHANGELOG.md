@@ -1,3 +1,10 @@
+# [7.9.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.8.0...v7.9.0) (2021-02-22)
+
+
+### Features
+
+* **webpack:** generate output manifest in webpack build ([a80fcff](https://github.com/ngageoint/opensphere-build-resolver/commit/a80fcff8658c2ca03cd0bab7167beabd8d4a46a5))
+
 # [7.8.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.7.0...v7.8.0) (2021-01-21)
 
 
