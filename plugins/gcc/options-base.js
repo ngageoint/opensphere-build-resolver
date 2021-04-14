@@ -35,10 +35,6 @@ module.exports = {
     'goog.DEBUG=false',
     'goog.debug.LOGGING_ENABLED=true'
   ],
-  // TODO: use new type inference algorithm
-  // see https://github.com/google/closure-compiler/wiki/Using-NTI-(new-type-inference)
-  // new_type_inf: true,
-
   // TODO: switch to this one
   // jscomp_error: '*',
   jscomp_error: [
@@ -59,12 +55,10 @@ module.exports = {
     'globalThis',
     'invalidCasts',
     'misplacedTypeAnnotation',
-    'missingGetCssName',
     'missingOverride',
     'missingPolyfill',
     'missingProperties',
     'missingProvide',
-    'missingRequire',
     'missingReturn',
     'missingSourcesWarnings',
     'moduleLoad',
@@ -94,6 +88,11 @@ module.exports = {
   ],
   // TODO: can we get rid of these too?
   jscomp_off: [
+    // TODO: this is temporarily disabled while migrating to ES modules because it produces errors when a namespace
+    // is globally referenced or implicitly required. enable this as needed when fixing errors, and move back to
+    // jscomp_error when ready.
+    'missingRequire',
+
     'reportUnknownTypes',
     'strictCheckTypes',
     'strictMissingProperties'
