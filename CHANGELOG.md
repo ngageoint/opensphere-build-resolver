@@ -1,3 +1,18 @@
+# [8.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.9.0...v8.0.0) (2021-04-21)
+
+
+### Features
+
+* **gcc:** update gcc options for compiler 20210406 ([e28abda](https://github.com/ngageoint/opensphere-build-resolver/commit/e28abda91595c230a5c8cd2951b912983d566ad6))
+
+
+### BREAKING CHANGES
+
+* **gcc:** The `missingRequire` compiler option was disabled because it
+introduces an abundance of errors when upgrading the compiler. This may cause
+projects that have not upgraded to miss errors, so they should be aware of this
+when upgrading.
+
 # [7.9.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.8.0...v7.9.0) (2021-02-22)
 
 
