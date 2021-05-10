@@ -8,9 +8,7 @@ const path = require('path');
 const concat = Promise.promisifyAll({
   concat: require('concat-files')
 });
-const mkdirp = Promise.promisifyAll({
-  mkdirp: require('mkdirp')
-});
+const mkdirp = require('mkdirp');
 
 const utils = require('../../utils');
 
@@ -194,12 +192,12 @@ const writer = function(thisPackage, outputDir) {
     var themeDir = outputDir + '/themes';
     var fontsDir = themeDir + '/fonts';
     if (fonts && fonts.length) {
-      promises.push(mkdirp.mkdirpAsync(fontsDir)
+      promises.push(mkdirp(fontsDir)
         .then(() => {
           var fontPromises = [];
           fonts.forEach(function(font) {
             var fontFolder = path.resolve(fontsDir, font);
-            fontPromises.push(mkdirp.mkdirpAsync(fontFolder)
+            fontPromises.push(mkdirp(fontFolder)
               .then(() => {
                 var fontPath = utils.resolveModulePath(font);
                 console.log('Copying ' + fontPath + ' to ' + fontFolder);
@@ -224,7 +222,7 @@ const writer = function(thisPackage, outputDir) {
           args.pop();
 
           var themeDir = outputDir + '/themes';
-          return mkdirp.mkdirpAsync(themeDir)
+          return mkdirp(themeDir)
             .then(function() {
               var promises = [];
               themes.push('default');
