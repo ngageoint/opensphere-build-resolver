@@ -2,9 +2,7 @@
 
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
-const mkdirp = Promise.promisifyAll({
-  mkdirp: require('mkdirp')
-});
+const mkdirp = require('mkdirp');
 const path = require('path');
 const rimraf = Promise.promisify(require('rimraf'));
 const utils = require('../../utils');
@@ -83,7 +81,7 @@ const writer = function(thisPackage, outputDir) {
 
   // recreate the preload script directory. scripts will be copied each time the resolver runs.
   return rimraf(preloadDir).then(function() {
-    return mkdirp.mkdirpAsync(preloadDir)
+    return mkdirp(preloadDir)
       .then(function() {
         console.log('Writing ' + file);
 
