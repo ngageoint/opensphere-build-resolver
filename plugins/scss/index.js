@@ -156,9 +156,12 @@ const addScssRequires = function(pack, dir) {
 
 const writer = function(thisPackage, outputDir) {
   if (scssPaths.length || scssEntries.length) {
-    var options = {
-      'include-path': scssPaths
-    };
+    var options = {};
+    if (thisPackage.build.scssCompiler === 'sass') {
+      options['load-path'] = scssPaths
+    } else {
+      options['include-path'] = scssPaths
+    }
 
     var args = [];
 
