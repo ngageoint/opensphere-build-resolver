@@ -1,0 +1,15 @@
+{
+  "name": "should-not-use-sass-when-node-sass",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "scssPaths": ["some-scss-lib/scss"]
+  },
+  "dependencies": {
+    "node-sass": "^4.12.0",
+    "some-scss-lib": "1.0.0",
+    "sass": "^1.34.1"
+  }
+}

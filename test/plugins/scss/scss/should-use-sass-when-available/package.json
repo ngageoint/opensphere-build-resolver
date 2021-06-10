@@ -1,0 +1,14 @@
+{
+  "name": "should-use-sass-when-available",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "scssPaths": ["some-scss-lib/scss"]
+  },
+  "dependencies": {
+    "some-scss-lib": "1.0.0",
+    "sass": "^1.34.1"
+  }
+}
