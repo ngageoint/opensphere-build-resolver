@@ -1,3 +1,11 @@
+# [8.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v8.0.0...v8.1.0) (2021-06-14)
+
+
+### Features
+
+* **sass:** add autodetection and tests ([287586c](https://github.com/ngageoint/opensphere-build-resolver/commit/287586cc77ed0d136ea774f77f4a261aefc86711))
+* **sass:** allow sass to be used as a scss compiler ([b342bc3](https://github.com/ngageoint/opensphere-build-resolver/commit/b342bc3c67766a85aeb0d8325533e5b68e640365))
+
 # [8.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v7.9.0...v8.0.0) (2021-04-21)
 
 
