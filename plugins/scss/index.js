@@ -156,9 +156,16 @@ const addScssRequires = function(pack, dir) {
 
 const writer = function(thisPackage, outputDir) {
   if (scssPaths.length || scssEntries.length) {
-    var options = {
-      'include-path': scssPaths
-    };
+    var options = {};
+    if ((thisPackage.build && thisPackage.build.scssCompiler === 'sass') ||
+        ((thisPackage.dependencies && thisPackage.dependencies['sass']) ||
+        (thisPackage.devDependencies && thisPackage.devDependencies['sass'])) &&
+        !((thisPackage.dependencies && thisPackage.dependencies['node-sass']) ||
+        (thisPackage.devDependencies && thisPackage.devDependencies['node-sass']))) {
+      options['load-path'] = scssPaths;
+    } else {
+      options['include-path'] = scssPaths;
+    }
 
     var args = [];
 

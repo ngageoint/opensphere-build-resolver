@@ -1,0 +1,16 @@
+{
+  "name": "should-use-sass-when-build-scss-compiler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "build": {
+    "scssCompiler": "sass",
+    "scssPaths": ["some-scss-lib/scss"]
+  },
+  "dependencies": {
+    "node-sass": "^4.12.0",
+    "some-scss-lib": "1.0.0",
+    "sass": "^1.34.1"
+  }
+}

@@ -1,9 +1,9 @@
 # opensphere-build-resolver
 
-Resolves sources and other input for the Google Closure Compiler, sass for node-sass, template views for angular, and other items through a project's dependency tree.
+Resolves sources and other input for the Google Closure Compiler, scss for sass/node-sass, template views for angular, and other items through a project's dependency tree.
 
 ## Problem
-You want to use npm to manage your project and its dependencies, but you need to resolve source, css, sass, templates, or other resources from those dependencies and pass them as arguments on the command line to tools like the google-closure-compiler, node-sass, and others.
+You want to use npm to manage your project and its dependencies, but you need to resolve source, css, scss, templates, or other resources from those dependencies and pass them as arguments on the command line to tools like the google-closure-compiler, sass/node-sass, and others.
 
 ## Solution
 This.
