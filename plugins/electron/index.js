@@ -12,6 +12,9 @@ var electronDeps = {};
 var preloadScripts = [];
 var preloadRequires = [];
 
+// Plugins may override electron dependencies. This list should be added to devDependencies in the app package.
+const electronDevDeps = ['electron', 'electron-builder'];
+
 const resolvePackages = function(pack, projectDir, packages) {
   if (packages) {
     if (!Array.isArray(packages)) {
@@ -96,6 +99,14 @@ const writer = function(thisPackage, outputDir) {
             delete devDeps[dep];
           }
         }
+
+        // electron dependencies contributed by config/plugin projects should be added to devDependencies
+        Object.keys(electronDeps).forEach((dep) => {
+          if (electronDevDeps.includes(dep)) {
+            appPack.devDependencies[dep] = electronDeps[dep];
+            delete electronDeps[dep];
+          }
+        });
 
         // ditch other deps
         delete appPack.peerDependencies;
