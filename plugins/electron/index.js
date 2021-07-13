@@ -10,6 +10,10 @@ const clone = require('clone');
 
 var electronDeps = {};
 var preloadScripts = [];
+var preloadRequires = [];
+
+// Plugins may override electron dependencies. This list should be added to devDependencies in the app package.
+const electronDevDeps = ['electron', 'electron-builder'];
 
 const resolvePackages = function(pack, projectDir, packages) {
   if (packages) {
@@ -96,6 +100,14 @@ const writer = function(thisPackage, outputDir) {
           }
         }
 
+        // electron dependencies contributed by config/plugin projects should be added to devDependencies
+        Object.keys(electronDeps).forEach((dep) => {
+          if (electronDevDeps.includes(dep)) {
+            appPack.devDependencies[dep] = electronDeps[dep];
+            delete electronDeps[dep];
+          }
+        });
+
         // ditch other deps
         delete appPack.peerDependencies;
         delete appPack.optionalDependencies;
@@ -115,12 +127,20 @@ const writer = function(thisPackage, outputDir) {
         // copy each preload script to the target directory
         return Promise.map(preloadScripts, function(script, idx, arr) {
           // increment preload file names. Electron will load everything in the directory.
-          var dest = path.join(preloadDir, 'preload' + idx + '.js');
+          var destFile = 'preload' + idx + '.js';
+          var dest = path.join(preloadDir, destFile);
+          preloadRequires.push(destFile);
 
           console.log('Writing Electron preload script: ' + dest);
 
           return fs.copyFileAsync(script.path, dest, fs.constants.COPYFILE_EXCL);
         });
+      })
+      .then(function() {
+        // write the master preload script that should be loaded via webPreferences.preload
+        var preloadSrc = preloadRequires.map((r) => `require('./${r}');`).join('\n');
+        var preloadFile = path.join(preloadDir, 'preload.js');
+        return fs.writeFileAsync(preloadFile, preloadSrc);
       });
   });
 };
@@ -128,6 +148,7 @@ const writer = function(thisPackage, outputDir) {
 const clear = function() {
   electronDeps = {};
   preloadScripts = [];
+  preloadRequires = [];
 };
 
 module.exports = {
