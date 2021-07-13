@@ -1,3 +1,18 @@
+# [9.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v8.1.0...v9.0.0) (2021-07-13)
+
+
+### Features
+
+* **electron:** allow config/plugin projects to set electron versions ([4146f2d](https://github.com/ngageoint/opensphere-build-resolver/commit/4146f2d6a0a0cc778e929a77c2a3cf720f990fe4))
+* **electron:** generate a single electron preload script ([b18f0b1](https://github.com/ngageoint/opensphere-build-resolver/commit/b18f0b1ddc2264d47da74350ce8fd7210135876f))
+
+
+### BREAKING CHANGES
+
+* **electron:** Electron apps using the generated preload scripts should now
+load preload.js using webPreferences.preload. This script will load any other
+scripts detected in the workspace.
+
 # [8.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v8.0.0...v8.1.0) (2021-06-14)
 
 
