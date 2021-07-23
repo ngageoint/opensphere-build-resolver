@@ -1,3 +1,10 @@
+# [9.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v9.0.0...v9.1.0) (2021-07-23)
+
+
+### Features
+
+* **ol:** sort ol.ext entry point to the top if present ([d486529](https://github.com/ngageoint/opensphere-build-resolver/commit/d486529fdf28294af13207464b43832df867443c))
+
 # [9.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v8.1.0...v9.0.0) (2021-07-13)
 
 
