@@ -20,6 +20,21 @@ const closureWebpackInternalProps = [
 ];
 
 /**
+ * Entry point for the ol.ext provide. This file fixes a compiler issue and needs to be loaded first if present.
+ * @type {string}
+ */
+const olExtEntryPoint = 'goog:ol.ext';
+
+/**
+ * Sort entry points. Brings the ol.ext entry point to the top of the list, and leaves remaining entry points in their
+ * original order.
+ * @param {string} a First entry point.
+ * @param {string} b Second entry point.
+ * @return {number} The sort order.
+ */
+const sortEntryPoints = (a, b) => a === olExtEntryPoint ? -1 : b === olExtEntryPoint ? 1 : 0;
+
+/**
  * Write support files for webpack.
  * @param {Object} basePackage The base package.
  * @param {string} dir The output directory.
@@ -40,6 +55,7 @@ const writer = function(basePackage, dir, options) {
   if (entryPoints && entryPoints.length) {
     const entryPoints = Array.isArray(options.entry_point) ? options.entry_point : [options.entry_point];
     const indexContent = entryPoints
+      .sort(sortEntryPoints)
       .map((ep) => `goog.require('${ep.replace(/^goog:/, '')}');`)
       .join('\n');
 
