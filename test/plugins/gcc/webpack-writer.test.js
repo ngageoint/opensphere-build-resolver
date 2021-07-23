@@ -114,4 +114,20 @@ describe('gcc webpack writer', function() {
         expect(content).to.equal(expectedContent);
       });
   });
+
+  it('should sort ol.ext as the first entry point', function() {
+    var jsonOptions = {
+      entry_point: ['goog:ns1', 'goog:ol.ext', 'goog:ns2']
+    };
+
+    var expectedContent = `goog.require('ol.ext');\ngoog.require('ns1');\ngoog.require('ns2');`;
+
+    return webpack.writer(pack, outputDir, jsonOptions)
+      .then(() => {
+        return fs.readFileAsync(indexFile, 'utf-8');
+      })
+      .then((content) => {
+        expect(content).to.equal(expectedContent);
+      });
+  });
 });
