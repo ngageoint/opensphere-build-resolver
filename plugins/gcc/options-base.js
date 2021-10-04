@@ -14,9 +14,9 @@ Available Error Groups: accessControls, checkPrototypalTypes,
     missingSourcesWarnings, moduleLoad, moduleImports, msgDescriptions,
     nonStandardJsDocs, partialAlias, polymer, reportUnknownTypes,
     strictCheckTypes, strictMissingProperties, strictModuleDepCheck,
-    strictPrimitiveOperators, suspiciousCode, typeInvalidation, undefinedNames,
-    undefinedVars, underscore, unknownDefines, unusedLocalVariables,
-    unusedPrivateMembers, uselessCode, untranspilableFeatures, visibility
+    strictPrimitiveOperators, suspiciousCode, typeInvalidation, undefinedVars,
+    underscore, unknownDefines, unusedLocalVariables, unusedPrivateMembers,
+    uselessCode, untranspilableFeatures, visibility
 
 The docs for jscomp_* state that you can use a wildcard. However, that wildcard
 also enables a lot more undocumented items.
@@ -35,8 +35,6 @@ module.exports = {
     'goog.DEBUG=false',
     'goog.debug.LOGGING_ENABLED=true'
   ],
-  // TODO: switch to this one
-  // jscomp_error: '*',
   jscomp_error: [
     'accessControls',
     'checkPrototypalTypes',
@@ -46,7 +44,6 @@ module.exports = {
     'conformanceViolations',
     'const',
     'constantProperty',
-    // 'deprecated',
     'deprecatedAnnotations',
     'duplicateMessage',
     'es5Strict',
@@ -59,6 +56,7 @@ module.exports = {
     'missingPolyfill',
     'missingProperties',
     'missingProvide',
+    // 'missingRequire',
     'missingReturn',
     'missingSourcesWarnings',
     'moduleLoad',
@@ -68,12 +66,11 @@ module.exports = {
     'polymer',
     // 'reportUnknownTypes',
     // 'strictCheckTypes',
-    // 'strictMissingProperties',
+    'strictMissingProperties',
     'strictModuleDepCheck',
     'strictPrimitiveOperators',
     'suspiciousCode',
     'typeInvalidation',
-    'undefinedNames',
     'undefinedVars',
     'underscore',
     'unknownDefines',
@@ -84,17 +81,18 @@ module.exports = {
     'visibility'
   ],
   jscomp_warning: [
+    // Warn on deprecated API's to provide time to migrate them without breaking builds.
     'deprecated'
   ],
-  // TODO: can we get rid of these too?
   jscomp_off: [
-    // TODO: this is temporarily disabled while migrating to ES modules because it produces errors when a namespace
-    // is globally referenced or implicitly required. enable this as needed when fixing errors, and move back to
-    // jscomp_error when ready.
+    // OpenLayers typedefs defined in the ol.typedefs module trigger this error group, due to global references being
+    // disallowed. Enabling this rule will require refactoring those to actual externs.
     'missingRequire',
 
+    // Reports an error when the compiler cannot determine the type of something.
     'reportUnknownTypes',
-    'strictCheckTypes',
-    'strictMissingProperties'
+    // Reports an error when a type cannot be explicitly guaranteed. Errors are typically due to floated vars or cases
+    // where a primitive can be null/undefined.
+    'strictCheckTypes'
   ]
 };
