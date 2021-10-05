@@ -1,3 +1,18 @@
+# [10.0.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v9.1.0...v10.0.0) (2021-10-05)
+
+
+### Features
+
+* **gcc:** update options for gcc 20210907.0.0 ([aa747e7](https://github.com/ngageoint/opensphere-build-resolver/commit/aa747e75088b45fba58da2a8b738f97ee9621f19))
+
+
+### BREAKING CHANGES
+
+* **gcc:** The strictMissingProperties group has been enabled as an error.
+This did not produce additional compiler errors in OpenSphere but may impact
+other projects. This option enables specific type checking when referencing a
+property that does not exist on a specific type (but may exist on subclasses).
+
 # [9.1.0](https://github.com/ngageoint/opensphere-build-resolver/compare/v9.0.0...v9.1.0) (2021-07-23)
 
 
